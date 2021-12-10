@@ -1,43 +1,24 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "react-native/react-native": true
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "react-native/react-native": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
-    ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "react-native"
-    ],
-    "rules": {
-        "indent": [
-            "error",
-            "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "double"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "react-native/no-unused-styles": 2, // disallow unused styles
-        "react-native/no-inline-styles": 2, // disallow styles declared within the component itself
-        "react-native/no-color-literals": 2 // enforces variable names to be used for storing colors
-    }
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-native"],
+  "rules": {
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "react-native/no-unused-styles": 2, // disallow unused styles
+    "react-native/no-inline-styles": 2, // disallow styles declared within the component itself
+    "react-native/no-color-literals": 2 // enforces variable names to be used for storing colors
+  }
 }
