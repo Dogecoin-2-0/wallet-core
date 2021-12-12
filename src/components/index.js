@@ -1,3 +1,5 @@
+import Button from "./Button";
+import ToggleSwitch from "./Switch";
 import TouchableOpacity from "./TouchableOpacity";
 
-export { TouchableOpacity };
+export { Button, ToggleSwitch, TouchableOpacity };
