@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 
-const Button = styled.button`
-    border-radius: ${props => props.borderRadius},
-    border: 2px solid ${props => props.color},
-    background: ${props => props.backgroundColor},
-    color: ${props => props.color},
-    margin-vertical: ${props => props.marginVertical};
+const Button = styled.Button`
+    border-radius: ${props => props.borderRadius || "20px"},
+    border: 2px solid ${props => props.color || "#DBA134"},
+    background: ${props => props.backgroundColor || "transparent"},
+    color: ${props => props.color || "#FFFFFF"},
+    margin-vertical: ${props => props.marginVertical || "12px"};
 `;
 
 export default Button;
