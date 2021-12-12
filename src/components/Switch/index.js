@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import styled from "styled-components/native";
 
 const Switch = styled.Switch`
-  background-color: ${props => props.backgroundColor || "#cccccc"};
+  background-color: ${props => props.ios_backgroundColor || "#cccccc"};
 `;
 
 const ToggleSwitch = ({ value, onValueChange, trackColor, iosBackgroundColor, thumbColor }) => (
