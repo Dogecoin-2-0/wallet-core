@@ -7,9 +7,7 @@ export default function AppPasswordInput({ label, placeholder, icon, ...otherPro
   return (
     <View>
       <AppTextInput label={label} icon={"eye"} placeholder="******" secureTextEntry />
-      <AppText> Password Strength: Good</AppText>
+      <AppText grey> Password Strength: </AppText>
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

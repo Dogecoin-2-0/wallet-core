@@ -18,7 +18,7 @@ export default function AppTextInput({ label, icon, iconAction, placeholder, ...
 
 const styles = StyleSheet.create({
   container: {
-    margin: 5
+    marginVertical: 10
   },
 
   inputContainer: {
