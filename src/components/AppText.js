@@ -2,10 +2,20 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import colors from "../constants/colors";
 
-export default function AppText({ children, style, grey, bold, medium, center, size, color }) {
+export default function AppText({ children, style, grey, bold, medium, center, size, yellow, small }) {
   return (
     <View>
-      <Text style={[styles.text, grey && styles.grey, bold && styles.bold, medium && styles.medium, style]}>
+      <Text
+        style={[
+          styles.text,
+          grey && styles.grey,
+          bold && styles.bold,
+          medium && styles.medium,
+          yellow && styles.yellow,
+          small && styles.small,
+          style
+        ]}
+      >
         {children}
       </Text>
     </View>
@@ -28,5 +38,11 @@ const styles = StyleSheet.create({
 
   medium: {
     fontSize: 18
+  },
+  small: {
+    fontSize: 12
+  },
+  yellow: {
+    color: colors.yellow
   }
 });

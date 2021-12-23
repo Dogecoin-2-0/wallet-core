@@ -4,6 +4,7 @@ import ProgressBar from "../../components/ProgressBar";
 import Icon from "../../components/Icon";
 import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
+import AppTextInput from "../../components/forms/AppTextInput";
 
 export default function CreateWallet() {
   const step = 1;
@@ -12,11 +13,17 @@ export default function CreateWallet() {
       <View style={styles.row}>
         <Icon name="close" size={20} />
         <ProgressBar step={step} />
-        <AppText style={{ textAlign: "center" }}> {step} / 3</AppText>
+        <AppText yellow small>
+          {step} / 3
+        </AppText>
       </View>
       <View style={styles.formArea}>
-        <AppText bold medium> Create Password</AppText>
+        <AppText bold medium>
+          Create Password
+        </AppText>
         <AppText grey> This password will unlock your Air wallet only on this service.</AppText>
+
+        <AppTextInput label="New password" icon="eye" placeholder="********" />
       </View>
     </Screen>
   );
@@ -26,7 +33,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 20
   },
   formArea: {
     marginTop: 40
