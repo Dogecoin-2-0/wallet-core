@@ -11,11 +11,13 @@
     "format": "prettier --write **/**/*.{js,json} && eslint --fix"
   },
   "dependencies": {
+    "@expo-google-fonts/red-hat-display": "^0.2.0",
     "bip39": "^3.0.4",
     "crypto-random-string": "^4.0.0",
     "ethers": "^5.5.2",
     "expo": "~43.0.2",
     "expo-app-loading": "~1.2.1",
+    "expo-font": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "node-libs-browser": "^2.2.1",
     "react": "17.0.1",

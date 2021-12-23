@@ -1455,6 +1455,11 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
+"@expo-google-fonts/red-hat-display@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/red-hat-display/-/red-hat-display-0.2.0.tgz#8796d7e8f5245a9108caf9fdc532e6ff8ad372c8"
+  integrity sha512-qaYdx9KLwVX3AWuI+vYVXz2t4Cvn0R3oMBvlKfz3WfoGkCFrG/faSx2lPQXW8CfBrpOi3YJI+U0cQOAO2BNS1w==
+
 "@expo/config-plugins@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-3.1.0.tgz#0752ff33c5eab21cf42034a44e79df97f0f867f8"
