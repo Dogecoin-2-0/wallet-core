@@ -4,7 +4,12 @@ import * as constants from "../constants";
 export const generateFromMnemonic = argMnemonic => {
   let mnemonic;
 
-  if (argMnemonic || argMnemonic !== null || typeof argMnemonic !== "undefined") mnemonic = argMnemonic;
+  if (
+    (argMnemonic || argMnemonic !== null || typeof argMnemonic !== "undefined") &&
+    typeof argMnemonic === "string" &&
+    argMnemonic.split(" ").length === 12
+  )
+    mnemonic = argMnemonic;
   else mnemonic = utils.entropyToMnemonic(utils.randomBytes(16));
 
   return mnemonic;
