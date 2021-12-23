@@ -1,23 +1,22 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Switch, Text, View } from "react-native";
 import ProgressBar from "../../components/ProgressBar";
 import Icon from "../../components/Icon";
 import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
 import AppTextInput from "../../components/forms/AppTextInput";
 import AppPasswordInput from "../../components/forms/AppPasswordInput";
+import OnboardingProgress from "../../components/OnboardingProgress";
+import colors from "../../constants/colors";
 
 export default function CreateWallet() {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const step = 1;
+
   return (
     <Screen>
-      <View style={styles.row}>
-        <Icon name="close" size={20} />
-        <ProgressBar step={step} />
-        <AppText yellow small>
-          {step} / 3
-        </AppText>
-      </View>
+      <OnboardingProgress step={1} />
       <View style={styles.formArea}>
         <AppText bold medium>
           Create Password
@@ -26,19 +25,29 @@ export default function CreateWallet() {
 
         <AppPasswordInput label="New password" icon="eye" placeholder="********" />
         <AppPasswordInput label="Confirm Password" icon="eye" placeholder="********" />
+
+        <View style={styles.faceIdPromptContainer}>
+          <AppText medium> Sign In with Face ID? </AppText>
+          <Switch
+            trackColor={{ false: colors.grey, true: colors.yellow }}
+            thumbColor={isEnabled ? "white" : colors.grey}
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
+        </View>
       </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 20
-  },
   formArea: {
     marginTop: 40
+  },
+  faceIdPromptContainer: {
+    marginVertical: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   }
 });
