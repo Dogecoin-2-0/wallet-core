@@ -5,6 +5,7 @@ import Icon from "../../components/Icon";
 import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
 import AppTextInput from "../../components/forms/AppTextInput";
+import AppPasswordInput from "../../components/forms/AppPasswordInput";
 
 export default function CreateWallet() {
   const step = 1;
@@ -23,7 +24,7 @@ export default function CreateWallet() {
         </AppText>
         <AppText grey> This password will unlock your Air wallet only on this service.</AppText>
 
-        <AppTextInput label="New password" icon="eye" placeholder="********" />
+        <AppPasswordInput label="New password" icon="eye" placeholder="********" />
       </View>
     </Screen>
   );

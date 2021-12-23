@@ -9,7 +9,7 @@ export default function AppTextInput({ label, icon, iconAction, placeholder, ...
     <View style={styles.container}>
       <AppText grey> {label} </AppText>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder={placeholder} otherProps />
+        <TextInput style={styles.input} placeholder={placeholder} {...otherProps} />
         {icon && <Icon name={icon} />}
       </View>
     </View>
