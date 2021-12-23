@@ -5,7 +5,7 @@ import colors from "../constants/colors";
 export default function AppText({ children, style, grey, bold, center, size, color }) {
   return (
     <View>
-      <Text style={[styles.text, grey && styles.grey]}>{children}</Text>
+      <Text style={[styles.text, grey && styles.grey, bold && styles.bold, style]}>{children}</Text>
     </View>
   );
 }
@@ -19,5 +19,8 @@ const styles = StyleSheet.create({
   },
   grey: {
     color: colors.grey
+  },
+  bold: {
+    fontFamily: "RedHatDisplay_700Bold"
   }
 });
