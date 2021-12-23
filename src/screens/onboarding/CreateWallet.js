@@ -15,7 +15,7 @@ export default function CreateWallet() {
         <AppText style={{ textAlign: "center" }}> {step} / 3</AppText>
       </View>
       <View style={styles.formArea}>
-        <AppText bold> Create Password</AppText>
+        <AppText bold medium> Create Password</AppText>
         <AppText grey> This password will unlock your Air wallet only on this service.</AppText>
       </View>
     </Screen>
