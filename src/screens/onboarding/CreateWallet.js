@@ -23,8 +23,8 @@ export default function CreateWallet() {
         </AppText>
         <AppText grey> This password will unlock your Air wallet only on this service.</AppText>
 
-        <AppPasswordInput label="New password" icon="eye" placeholder="********" />
-        <AppPasswordInput label="Confirm Password" icon="eye" placeholder="********" />
+        <AppPasswordInput label="New password" icon="eye" placeholder="****************" />
+        <AppPasswordInput label="Confirm Password" icon="eye" placeholder="****************" />
 
         <View style={styles.faceIdPromptContainer}>
           <AppText medium> Sign In with Face ID? </AppText>

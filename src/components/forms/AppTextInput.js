@@ -23,8 +23,9 @@ const styles = StyleSheet.create({
 
   inputContainer: {
     backgroundColor: "#fff5ff",
+    borderRadius: 5,
     paddingHorizontal: 5,
-    paddingVertical: 12,
+    paddingVertical: 12.5,
     flexDirection: "row",
     justifyContent: "space-between",
     fontSize: 25
