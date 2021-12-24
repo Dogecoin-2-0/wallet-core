@@ -9,11 +9,16 @@ import AppPasswordInput from "../../components/forms/AppPasswordInput";
 import OnboardingProgress from "../../components/OnboardingProgress";
 import colors from "../../constants/colors";
 import AppButton from "../../components/AppButton";
+import CheckBox from "../../components/forms/CheckBox";
 
 export default function CreateWallet() {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const step = 1;
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const toggleCheckBox = () => setIsChecked(!isChecked);
 
   return (
     <Screen>
@@ -29,15 +34,25 @@ export default function CreateWallet() {
 
         <View style={styles.faceIdPromptContainer}>
           <AppText medium> Sign In with Face ID? </AppText>
+
           <Switch
             trackColor={{ false: colors.grey, true: colors.yellow }}
             thumbColor={isEnabled ? "white" : colors.grey}
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
-              </View> 
-              
-              <AppButton title = "Create Password "/>
+        </View>
+
+        <View style={styles.faceIdPromptContainer}>
+          <CheckBox checked={isChecked} onPress={toggleCheckBox} />
+          <AppText style={{ fontSize: 14, padding: 25 }}>
+            I under stand that Air cannot recover this password for me. Learn more{" "}
+          </AppText>
+        </View>
+
+        <View style={{ marginTop: 200 }}>
+          <AppButton title="Create Password" />
+        </View>
       </View>
     </Screen>
   );
