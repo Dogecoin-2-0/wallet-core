@@ -1,30 +1,42 @@
 /* eslint-disable react-native/no-color-literals */
-import "./global";
-import "react-native-get-random-values";
+
 import React from "react";
-import styled from "styled-components/native";
-import { StyleSheet } from "react-native";
-import { SeedScreen } from "./src/screens";
-import BlockchainList from "./src/blockchains/list";
+import { StyleSheet, Text, View } from "react-native";
+import "./global";
+import CreateWallet from "./src/screens/onboarding/CreateWallet";
 
-const View = styled.View`
-  background-color: ${props => props.backgroundColor || "#fafafa"};
-`;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
+import AppLoading from "expo-app-loading";
+import {
+  useFonts,
+  RedHatDisplay_400Regular,
+  RedHatDisplay_400Regular_Italic,
+  RedHatDisplay_500Medium,
+  RedHatDisplay_700Bold,
+  RedHatDisplay_700Bold_Italic
+} from "@expo-google-fonts/red-hat-display";
+import WalletSetup from "./src/screens/onboarding/WalletSetup";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <SeedScreen
-        title="Write Down Your Seed Phrase"
-        description="This is your seed phrase. Write it down on a paper and keep it in a safe place. You'll be asked to re-enter this phrase (in order) on the next step."
-      />
-      <BlockchainList />
-    </View>
-  );
+  let [fontsLoaded] = useFonts({
+    RedHatDisplay_400Regular,
+    RedHatDisplay_400Regular_Italic,
+    RedHatDisplay_500Medium,
+    RedHatDisplay_700Bold,
+    RedHatDisplay_700Bold_Italic
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <View style={styles.container}>
+        {/* <CreateWallet /> */}
+        {/* <StatusBar */}
+        <WalletSetup />
+      </View>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  container: {}
+});

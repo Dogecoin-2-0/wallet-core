@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "dogecoin2.0-core-wallet",
-    "slug": "dogecoin2.0-core-wallet",
+    "name": "dogecoin2dot0-core-wallet",
+    "slug": "dogecoin2point0-core-wallet",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
