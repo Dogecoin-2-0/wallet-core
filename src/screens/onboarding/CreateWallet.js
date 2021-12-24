@@ -8,6 +8,7 @@ import AppTextInput from "../../components/forms/AppTextInput";
 import AppPasswordInput from "../../components/forms/AppPasswordInput";
 import OnboardingProgress from "../../components/OnboardingProgress";
 import colors from "../../constants/colors";
+import AppButton from "../../components/AppButton";
 
 export default function CreateWallet() {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -34,7 +35,9 @@ export default function CreateWallet() {
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
-        </View>
+              </View> 
+              
+              <AppButton title = "Create Password "/>
       </View>
     </Screen>
   );
