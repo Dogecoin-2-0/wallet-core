@@ -1,30 +1,45 @@
 /* eslint-disable react-native/no-color-literals */
-import "./global";
-import "react-native-get-random-values";
+
 import React from "react";
-import styled from "styled-components/native";
-import { StyleSheet } from "react-native";
-import { SeedScreen } from "./src/screens";
-import BlockchainList from "./src/blockchains/list";
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import "./global";
+import CreateWallet from "./src/screens/onboarding/CreateWallet";
 
-const View = styled.View`
-  background-color: ${props => props.backgroundColor || "#fafafa"};
-`;
+import AppLoading from "expo-app-loading";
+import {
+  useFonts,
+  RedHatDisplay_400Regular,
+  RedHatDisplay_400Regular_Italic,
+  RedHatDisplay_500Medium,
+  RedHatDisplay_700Bold,
+  RedHatDisplay_700Bold_Italic
+} from "@expo-google-fonts/red-hat-display";
+import WalletSetup from "./src/screens/onboarding/WalletSetup";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
+const { Screen, Navigator } = createNativeStackNavigator();
 
 export default function App() {
-  return (
+  let [fontsLoaded] = useFonts({
+    RedHatDisplay_400Regular,
+    RedHatDisplay_400Regular_Italic,
+    RedHatDisplay_500Medium,
+    RedHatDisplay_700Bold,
+    RedHatDisplay_700Bold_Italic
+  });
+  return !fontsLoaded ? (
+    <AppLoading />
+  ) : (
     <View style={styles.container}>
-      <SeedScreen
-        title="Write Down Your Seed Phrase"
-        description="This is your seed phrase. Write it down on a paper and keep it in a safe place. You'll be asked to re-enter this phrase (in order) on the next step."
-      />
-      <BlockchainList />
+      <Navigator initialRouteName="walletSetup">
+        <Screen name="walletSetup" component={WalletSetup} />
+        <Screen name="createWallet" component={CreateWallet} />
+      </Navigator>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {}
+});
