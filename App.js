@@ -18,7 +18,7 @@ import {
 } from "@expo-google-fonts/red-hat-display";
 import WalletSetup from "./src/screens/onboarding/WalletSetup";
 
-const { Screen, Navigator } = createNativeStackNavigator();
+const { Screen, Navigator, Group } = createNativeStackNavigator();
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -31,12 +31,14 @@ export default function App() {
   return !fontsLoaded ? (
     <AppLoading />
   ) : (
-    <View style={styles.container}>
+    <NavigationContainer>
       <Navigator initialRouteName="walletSetup">
-        <Screen name="walletSetup" component={WalletSetup} />
-        <Screen name="createWallet" component={CreateWallet} />
+        <Group screenOptions={{ headerShadowVisible: false, title: null }}>
+          <Screen name="walletSetup" component={WalletSetup} options={{ headerShown: false }} />
+          <Screen name="createWallet" component={CreateWallet} />
+        </Group>
       </Navigator>
-    </View>
+    </NavigationContainer>
   );
 }
 
