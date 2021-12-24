@@ -11,33 +11,19 @@
     "format": "prettier --write **/**/*.{js,json} && eslint --fix"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@expo-google-fonts/red-hat-display": "^0.2.0",
-=======
-    "@react-native-cryptocurrencies/bip39": "^3.1.5",
->>>>>>> development
     "bip39": "^3.0.4",
     "ethereumjs-tx": "^2.1.2",
     "ethers": "^5.5.2",
     "expo": "~43.0.2",
-<<<<<<< HEAD
     "expo-app-loading": "~1.2.1",
     "expo-font": "~10.0.3",
-=======
-    "expo-random": "^12.1.1",
->>>>>>> development
     "expo-status-bar": "~1.1.0",
     "lodash": "^4.17.21",
     "node-libs-browser": "^2.2.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
-<<<<<<< HEAD
-=======
-    "react-native-bip39": "^2.3.0",
-    "react-native-get-random-values": "^1.7.2",
-    "react-native-web": "0.17.1",
->>>>>>> development
     "styled-components": "^5.3.3",
     "web3": "^1.6.1"
   },
