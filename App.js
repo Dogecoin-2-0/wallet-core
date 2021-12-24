@@ -31,7 +31,6 @@ export default function App() {
       <View style={styles.container}>
         {/* <CreateWallet /> */}
         {/* <StatusBar */}
-
         <WalletSetup />
       </View>
     );

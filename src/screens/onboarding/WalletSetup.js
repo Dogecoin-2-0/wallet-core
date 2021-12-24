@@ -4,12 +4,10 @@ import { ImageBackground, StyleSheet, View, SafeAreaView, Image, StatusBar } fro
 import AppButton from "../../components/AppButton";
 
 import AppText from "../../components/AppText";
-import colors from "../../constants/colors";
 
 export default function WalletSetup() {
   return (
     <View style={{ flex: 0 }}>
-      <StatusBar style="auto" />
       <ImageBackground source={require("../../../assets/wallet-setupbg.jpg")} style={styles.background}>
         <SafeAreaView style={styles.container}>
           <Image source={require("../../../assets/walletSetupLogo.png")} style={styles.logoArea} />
