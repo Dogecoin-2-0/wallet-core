@@ -6,7 +6,9 @@ import AppText from "./AppText";
 export default function AppButton({ title, outline, onPress }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <AppText bold> {title} </AppText>
+      <AppText bold underlined white>
+        {title}
+      </AppText>
     </TouchableOpacity>
   );
 }
