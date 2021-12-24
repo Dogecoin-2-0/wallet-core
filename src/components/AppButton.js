@@ -3,12 +3,18 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import colors from "../constants/colors";
 import AppText from "./AppText";
 
-export default function AppButton({ title, outline, onPress }) {
+export default function AppButton({ title, outlined, onPress }) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <AppText bold underlined white>
-        {title}
-      </AppText>
+    <TouchableOpacity onPress={onPress} style={[styles.container, outlined && styles.outlined]}>
+      {!outlined ? (
+        <AppText bold underlined white>
+          {title}
+        </AppText>
+      ) : (
+        <AppText bold underlined yellow>
+          {title}
+        </AppText>
+      )}
     </TouchableOpacity>
   );
 }
@@ -21,6 +27,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 24,
-    alignSelf: "center"
+    alignSelf: "center",
+    marginVertical: 10
+  },
+
+  outlined: {
+    backgroundColor: "transparent",
+    borderColor: colors.yellow,
+    borderWidth: 1
   }
 });

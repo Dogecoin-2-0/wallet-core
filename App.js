@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-color-literals */
-import { StatusBar } from "expo-status-bar";
+
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import "./global";
@@ -14,6 +14,7 @@ import {
   RedHatDisplay_700Bold,
   RedHatDisplay_700Bold_Italic
 } from "@expo-google-fonts/red-hat-display";
+import WalletSetup from "./src/screens/onboarding/WalletSetup";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -28,7 +29,10 @@ export default function App() {
   } else {
     return (
       <View style={styles.container}>
-        <CreateWallet />
+        {/* <CreateWallet /> */}
+        {/* <StatusBar */}
+
+        <WalletSetup />
       </View>
     );
   }

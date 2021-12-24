@@ -13,7 +13,8 @@ export default function AppText({
   center,
   size,
   yellow,
-  small
+  small,
+  extraBig
 }) {
   return (
     <View>
@@ -24,6 +25,7 @@ export default function AppText({
           bold && styles.bold,
           underlined && styles.underlined,
           medium && styles.medium,
+          extraBig && styles.extraBig,
           yellow && styles.yellow,
           small && styles.small,
           white && styles.white,
@@ -58,6 +60,10 @@ const styles = StyleSheet.create({
   },
   medium: {
     fontSize: 18
+  },
+  extraBig: {
+    fontSize: 48,
+    marginVertical: 10
   },
   small: {
     fontSize: 12
