@@ -1,4 +1,3 @@
-// import styled from "styled-components/native";
 // import { View } from "react-native";
 import React from "react";
 import { Container, Text } from "../../styles";
