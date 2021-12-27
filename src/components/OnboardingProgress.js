@@ -4,9 +4,7 @@ import AppText from "./AppText";
 import Icon from "./Icon";
 import ProgressBar from "./ProgressBar";
 
-export default function OnboardingProgress({step}) {
-
-
+export default function OnboardingProgress({ step }) {
   return (
     <View style={styles.row}>
       <Icon name="close" size={20} />

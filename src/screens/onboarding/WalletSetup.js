@@ -5,7 +5,7 @@ import AppButton from "../../components/AppButton";
 
 import AppText from "../../components/AppText";
 
-export default function WalletSetup() {
+export default function WalletSetup({ navigation }) {
   return (
     <View style={{ flex: 0 }}>
       <ImageBackground source={require("../../../assets/wallet-setupbg.jpg")} style={styles.background}>
@@ -18,7 +18,7 @@ export default function WalletSetup() {
 
           <View style={{ marginTop: 50 }}>
             <AppButton title="Import Using Seed Phrase" outlined />
-            <AppButton title="Create Password" />
+            <AppButton title="Create New Wallet" onPress={() => navigation.navigate("createWallet")} />
           </View>
         </SafeAreaView>
       </ImageBackground>
