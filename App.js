@@ -18,6 +18,7 @@ import {
 } from "@expo-google-fonts/red-hat-display";
 import WalletSetup from "./src/screens/onboarding/WalletSetup";
 import SecureWallet from "./src/screens/onboarding/SecureWallet";
+import SeedScreenInfo from "./src/screens/onboarding/SeedScreenInfo";
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ export default function App() {
           <Screen name="walletSetup" component={WalletSetup} />
           <Screen name="createWallet" component={CreateWallet} />
           <Screen name="secureWallet" component={SecureWallet} />
+          <Screen name="seedScreenInfo" component={SeedScreenInfo} />
         </Group>
       </Navigator>
     </NavigationContainer>

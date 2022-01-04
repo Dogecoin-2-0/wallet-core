@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   small: {
-    fontSize: 12
+    fontSize: 14
   },
   yellow: {
     color: colors.yellow

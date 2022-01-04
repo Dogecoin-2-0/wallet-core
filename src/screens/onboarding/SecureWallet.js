@@ -1,25 +1,13 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, Switch, Text, View } from "react-native";
-import ProgressBar from "../../components/ProgressBar";
-import Icon from "../../components/Icon";
 import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
-import AppTextInput from "../../components/forms/AppTextInput";
-import AppPasswordInput from "../../components/forms/AppPasswordInput";
+
 import OnboardingProgress from "../../components/OnboardingProgress";
 import colors from "../../constants/colors";
 import AppButton from "../../components/AppButton";
-import CheckBox from "../../components/forms/CheckBox";
-import { verifyMessage } from "ethers/lib/utils";
 
-export default function SecureWallet() {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const step = 1;
-
-  const [isChecked, setIsChecked] = useState(false);
-
-  const toggleCheckBox = () => setIsChecked(!isChecked);
+export default function SecureWallet({ navigation }) {
   return (
     <Screen>
       <OnboardingProgress step={2} />
@@ -42,7 +30,7 @@ export default function SecureWallet() {
           Remind me Later
         </AppText>
         <View style={{ marginTop: 10 }}>
-          <AppButton title="Start" />
+          <AppButton title="Start" onPress={() => navigation.navigate("seedScreenInfo")} />
         </View>
       </View>
     </Screen>
