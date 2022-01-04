@@ -8,6 +8,7 @@ import AppText from "../../components/AppText";
 import OnboardingProgress from "../../components/OnboardingProgress";
 import colors from "../../constants/colors";
 import AppButton from "../../components/AppButton";
+import SecurityLevel from "../../components/onboarding/SecurityLevel";
 
 export default function SeedScreenInfo() {
   return (
@@ -20,8 +21,8 @@ export default function SeedScreenInfo() {
       </View>
       <AppText>Secure your wallet's seed phrase</AppText>
       <View style={styles.row}>
-        <Icon name={"question-mark"} size={20} color={"blue"} />
-        <AppText small underlined style={{ color: "blue", marginHorizontal: 20, marginVertical: 20 }}>
+        <Icon name={"help-circle-outline"} size={20} color="#4C70D0" />
+        <AppText small underlined style={{ color: "#4C70D0", marginHorizontal: 20, marginVertical: 20 }}>
           Why it's Important?
         </AppText>
       </View>
@@ -29,11 +30,15 @@ export default function SeedScreenInfo() {
       <AppText grey> Write down your seed phraase on a piece of paper and store in a safe place</AppText>
 
       <View style={styles.row}>
-        <AppText small> Security Level: </AppText>
+        <AppText small grey>
+          {" "}
+          Security Level:{" "}
+        </AppText>
         <AppText small style={{ color: "blue" }}>
-          Very Strong
+          Very strong
         </AppText>
       </View>
+      <SecurityLevel />
 
       <View>
         <AppText grey small>
@@ -51,13 +56,22 @@ export default function SeedScreenInfo() {
           {" "}
           - Someone else finds it{" "}
         </AppText>
-
-        <AppText grey small>
+        <AppText grey small style={{ marginVertical: 10 }}>
           {" "}
           Other options: Doesn't have to be on paper!
         </AppText>
+        <AppText grey small>
+          - Store in a bank vault
+        </AppText>
+        <AppText grey small>
+          - Store in a safe
+        </AppText>
+        <AppText small grey>
+          {" "}
+          - Store in Multiple Secret places
+        </AppText>
       </View>
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginTop: 100 }}>
         <AppButton title="Start" />
       </View>
     </Screen>
