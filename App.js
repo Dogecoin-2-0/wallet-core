@@ -17,6 +17,7 @@ import {
   RedHatDisplay_700Bold_Italic
 } from "@expo-google-fonts/red-hat-display";
 import WalletSetup from "./src/screens/onboarding/WalletSetup";
+import SecureWallet from "./src/screens/onboarding/SecureWallet";
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -36,6 +37,7 @@ export default function App() {
         <Group screenOptions={{ headerShown: false }}>
           <Screen name="walletSetup" component={WalletSetup} />
           <Screen name="createWallet" component={CreateWallet} />
+          <Screen name="secureWallet" component={SecureWallet} />
         </Group>
       </Navigator>
     </NavigationContainer>
