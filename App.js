@@ -19,6 +19,7 @@ import {
 import WalletSetup from "./src/screens/onboarding/WalletSetup";
 import SecureWallet from "./src/screens/onboarding/SecureWallet";
 import SeedScreenInfo from "./src/screens/onboarding/SeedScreenInfo";
+import RevealSeedPhrase from "./src/screens/onboarding/RevealSeedPhrase";
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ export default function App() {
           <Screen name="createWallet" component={CreateWallet} />
           <Screen name="secureWallet" component={SecureWallet} />
           <Screen name="seedScreenInfo" component={SeedScreenInfo} />
+          <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
         </Group>
       </Navigator>
     </NavigationContainer>

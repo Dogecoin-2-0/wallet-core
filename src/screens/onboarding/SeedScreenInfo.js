@@ -12,7 +12,7 @@ import AppButton from "../../components/AppButton";
 import SecurityLevel from "../../components/onboarding/SecurityLevel";
 import BottomSheet from "../../components/extras/BottomSheet";
 
-export default function SeedScreenInfo() {
+export default function SeedScreenInfo({ navigation }) {
   const modalRef = useRef(null);
 
   const onOpen = () => {
@@ -92,7 +92,7 @@ It’s the only way to recover your wallet if you get locked out of the app or g
           </AppText>
         </View>
         <View style={{ marginTop: 100 }}>
-          <AppButton title="Start" />
+          <AppButton title="Start" onPress={() => navigation.navigate("revealSeedPhrase")} />
         </View>
       </Screen>
     </PortalProvider>
