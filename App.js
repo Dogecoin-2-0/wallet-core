@@ -33,8 +33,8 @@ export default function App() {
   ) : (
     <NavigationContainer>
       <Navigator initialRouteName="walletSetup">
-        <Group screenOptions={{ headerShadowVisible: false, title: null }}>
-          <Screen name="walletSetup" component={WalletSetup} options={{ headerShown: false }} />
+        <Group screenOptions={{ headerShown: false }}>
+          <Screen name="walletSetup" component={WalletSetup} />
           <Screen name="createWallet" component={CreateWallet} />
         </Group>
       </Navigator>
