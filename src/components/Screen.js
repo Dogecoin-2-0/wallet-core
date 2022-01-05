@@ -12,6 +12,7 @@ export default function Screen({ children }) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    flex: 1
   }
 });
