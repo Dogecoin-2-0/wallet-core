@@ -6,26 +6,23 @@ import SeedPhraseWraper from "../../components/onboarding/SeedPhraseWraper";
 import OnboardingProgress from "../../components/OnboardingProgress";
 import Screen from "../../components/Screen";
 
-export default function RevealSeedPhrase({ navigation }) {
+export default function ConfirmSeedPhrase() {
   return (
     <Screen>
       <View style={{ flex: 1 }}>
         <OnboardingProgress step={2} />
         <AppText bold medium style={{ marginVertical: 10 }}>
-          Write down your seed phrase
+          Confirm Seed Phrase
         </AppText>
 
-        <AppText grey>
-          This is your seed phrase. Write it down on a paper and keep it in a safe place. You'll be asked to re-enter
-          this phrase (in order) on the next step.
-        </AppText>
+        <AppText grey>Select each word in the order it was presented to you</AppText>
       </View>
 
       <View style={{ flex: 2 }}>
         <SeedPhraseWraper />
       </View>
       <View style={{ flex: 1, flexDirection: "column", justifyContent: "flex-end", marginVertical: 10 }}>
-        <AppButton title="Continue" onPress={() => navigation.navigate("confirmSeedPhrase")} />
+        <AppButton title="Continue" />
       </View>
     </Screen>
   );
