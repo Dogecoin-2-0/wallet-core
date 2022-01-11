@@ -7,6 +7,8 @@ import './global';
 import CreateWallet from './src/screens/onboarding/CreateWallet';
 
 import AppLoading from 'expo-app-loading';
+import store from './src/redux/store';
+import { Provider } from 'react-redux';
 import {
   useFonts,
   RedHatDisplay_400Regular,
@@ -24,7 +26,7 @@ import ConfirmSeedPhrase from './src/screens/onboarding/ConfirmSeedPhrase';
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
 export default function App() {
-  let [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     RedHatDisplay_400Regular,
     RedHatDisplay_400Regular_Italic,
     RedHatDisplay_500Medium,
@@ -34,17 +36,19 @@ export default function App() {
   return !fontsLoaded ? (
     <AppLoading />
   ) : (
-    <NavigationContainer>
-      <Navigator initialRouteName="walletSetup">
-        <Group screenOptions={{ headerShown: false }}>
-          <Screen name="walletSetup" component={WalletSetup} />
-          <Screen name="createWallet" component={CreateWallet} />
-          <Screen name="secureWallet" component={SecureWallet} />
-          <Screen name="seedScreenInfo" component={SeedScreenInfo} />
-          <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
-          <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
-        </Group>
-      </Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Navigator initialRouteName="walletSetup">
+          <Group screenOptions={{ headerShown: false }}>
+            <Screen name="walletSetup" component={WalletSetup} />
+            <Screen name="createWallet" component={CreateWallet} />
+            <Screen name="secureWallet" component={SecureWallet} />
+            <Screen name="seedScreenInfo" component={SeedScreenInfo} />
+            <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
+            <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
+          </Group>
+        </Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }

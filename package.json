@@ -16,6 +16,7 @@
     "@react-native-cryptocurrencies/bip39": "^3.1.5",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "@reduxjs/toolkit": "^1.7.1",
     "bip39": "^3.0.4",
     "ethereumjs-tx": "^2.1.2",
     "ethers": "^5.5.2",
@@ -33,6 +34,7 @@
     "react-native-modalize": "^2.0.13",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
+    "react-redux": "^7.2.6",
     "styled-components": "^5.3.3",
     "web3": "^1.6.1"
   },

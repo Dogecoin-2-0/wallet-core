@@ -1,19 +1,22 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { initPhrase } from '../../redux/phraseSlice';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { utils } from 'ethers';
 import _ from 'lodash';
 import AppText from '../AppText';
+import propTypes from 'prop-types';
 
 const width = Dimensions.get('screen').width / 4;
 
-export default function SeedPhraseWraper() {
-  const [phrase, setPhrase] = useState('');
+function SeedPhraseWraper({ isInit }) {
+  const { phrase } = useSelector(state => state.phraseReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const randBytes = utils.randomBytes(16);
-    const mnemonic = utils.entropyToMnemonic(randBytes);
-    setPhrase(mnemonic);
+    if (isInit) {
+      dispatch(initPhrase());
+    }
   });
   // const text = "Your seed phrase is:";
   return (
@@ -45,3 +48,13 @@ const styles = StyleSheet.create({
     marginVertical: 30
   }
 });
+
+SeedPhraseWraper.propTypes = {
+  isInit: propTypes.bool
+};
+
+SeedPhraseWraper.defaultPropTypes = {
+  isInit: false
+};
+
+export default SeedPhraseWraper;
