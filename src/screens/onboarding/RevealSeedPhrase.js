@@ -23,7 +23,7 @@ export default function RevealSeedPhrase({ navigation }) {
       </View>
 
       <View style={{ flex: 2 }}>
-        <SeedPhraseWraper />
+        <SeedPhraseWraper isInit={true} />
       </View>
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', marginVertical: 10 }}>
         <AppButton title="Continue" onPress={() => navigation.navigate('confirmSeedPhrase')} />
