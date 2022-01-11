@@ -10,7 +10,7 @@ export default function AppText({
   underlined,
   medium,
   white,
-  center,
+  centered,
   size,
   yellow,
   small,
@@ -25,6 +25,7 @@ export default function AppText({
           bold && styles.bold,
           underlined && styles.underlined,
           medium && styles.medium,
+          centered && styles.centered,
           extraBig && styles.extraBig,
           yellow && styles.yellow,
           small && styles.small,
@@ -58,6 +59,9 @@ const styles = StyleSheet.create({
   underlined: {
     textDecorationLine: "underline"
   },
+  centered: {
+    textAlign: "center"
+  },
   medium: {
     fontSize: 18
   },
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   small: {
-    fontSize: 12
+    fontSize: 14
   },
   yellow: {
     color: colors.yellow

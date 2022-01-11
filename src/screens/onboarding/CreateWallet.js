@@ -11,7 +11,7 @@ import colors from "../../constants/colors";
 import AppButton from "../../components/AppButton";
 import CheckBox from "../../components/forms/CheckBox";
 
-export default function CreateWallet() {
+export default function CreateWallet({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const step = 1;
@@ -51,7 +51,7 @@ export default function CreateWallet() {
         </View>
 
         <View style={{ marginTop: 200 }}>
-          <AppButton title="Create Password" />
+          <AppButton title="Create Password" onPress={() => navigation.navigate("secureWallet")} />
         </View>
       </View>
     </Screen>
