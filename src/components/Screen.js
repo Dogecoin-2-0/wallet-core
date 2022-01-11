@@ -1,9 +1,9 @@
-import React from "react";
-import { StyleSheet, SafeAreaView, View } from "react-native";
+import React from 'react';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
 
 export default function Screen({ children }) {
   return (
-    <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
       <View style={styles.container}>{children}</View>
     </SafeAreaView>
   );
@@ -12,7 +12,7 @@ export default function Screen({ children }) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flex: 1
   }
 });

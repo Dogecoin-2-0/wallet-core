@@ -1,8 +1,8 @@
-import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
-import colors from "../constants/colors";
+import React from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import colors from '../constants/colors';
 
-const screenWidth = Dimensions.get("window").width;
+const screenWidth = Dimensions.get('window').width;
 
 export default function ProgressBar({ step }) {
   return (

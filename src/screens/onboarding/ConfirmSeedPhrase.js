@@ -1,10 +1,11 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import AppButton from "../../components/AppButton";
-import AppText from "../../components/AppText";
-import SeedPhraseWraper from "../../components/onboarding/SeedPhraseWraper";
-import OnboardingProgress from "../../components/OnboardingProgress";
-import Screen from "../../components/Screen";
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import AppButton from '../../components/AppButton';
+import AppText from '../../components/AppText';
+import SeedPhraseWraper from '../../components/onboarding/SeedPhraseWraper';
+import OnboardingProgress from '../../components/OnboardingProgress';
+import Screen from '../../components/Screen';
 
 export default function ConfirmSeedPhrase() {
   return (
@@ -21,11 +22,11 @@ export default function ConfirmSeedPhrase() {
       <View style={{ flex: 2 }}>
         <SeedPhraseWraper />
       </View>
-      <View style={{ flex: 1, flexDirection: "column", justifyContent: "flex-end", marginVertical: 10 }}>
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', marginVertical: 10 }}>
         <AppButton title="Continue" />
       </View>
     </Screen>
   );
 }
 
-const styles = StyleSheet.create({});
+// const styles = StyleSheet.create({});

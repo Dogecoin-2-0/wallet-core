@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { StyleSheet, Switch, Text, View } from "react-native";
-import ProgressBar from "../../components/ProgressBar";
-import Icon from "../../components/Icon";
-import Screen from "../../components/Screen";
-import AppText from "../../components/AppText";
-import AppTextInput from "../../components/forms/AppTextInput";
-import AppPasswordInput from "../../components/forms/AppPasswordInput";
-import OnboardingProgress from "../../components/OnboardingProgress";
-import colors from "../../constants/colors";
-import AppButton from "../../components/AppButton";
-import CheckBox from "../../components/forms/CheckBox";
+import React, { useState } from 'react';
+import { StyleSheet, Switch, Text, View } from 'react-native';
+import ProgressBar from '../../components/ProgressBar';
+import Icon from '../../components/Icon';
+import Screen from '../../components/Screen';
+import AppText from '../../components/AppText';
+import AppTextInput from '../../components/forms/AppTextInput';
+import AppPasswordInput from '../../components/forms/AppPasswordInput';
+import OnboardingProgress from '../../components/OnboardingProgress';
+import colors from '../../constants/colors';
+import AppButton from '../../components/AppButton';
+import CheckBox from '../../components/forms/CheckBox';
 
 export default function CreateWallet({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -22,7 +22,7 @@ export default function CreateWallet({ navigation }) {
 
   return (
     <Screen>
-      <OnboardingProgress step={1} />
+      <OnboardingProgress step={step} />
       <View style={styles.formArea}>
         <AppText bold medium>
           Create Password
@@ -37,7 +37,7 @@ export default function CreateWallet({ navigation }) {
 
           <Switch
             trackColor={{ false: colors.grey, true: colors.yellow }}
-            thumbColor={isEnabled ? "white" : colors.grey}
+            thumbColor={isEnabled ? 'white' : colors.grey}
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
@@ -46,12 +46,12 @@ export default function CreateWallet({ navigation }) {
         <View style={styles.faceIdPromptContainer}>
           <CheckBox checked={isChecked} onPress={toggleCheckBox} />
           <AppText style={{ fontSize: 14, padding: 25 }}>
-            I under stand that Air cannot recover this password for me. Learn more{" "}
+            I under stand that Air cannot recover this password for me. Learn more{' '}
           </AppText>
         </View>
 
         <View style={{ marginTop: 200 }}>
-          <AppButton title="Create Password" onPress={() => navigation.navigate("secureWallet")} />
+          <AppButton title="Create Password" onPress={() => navigation.navigate('secureWallet')} />
         </View>
       </View>
     </Screen>
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   },
   faceIdPromptContainer: {
     marginVertical: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 });

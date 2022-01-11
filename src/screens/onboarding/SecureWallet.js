@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, Switch, Text, View } from "react-native";
-import Screen from "../../components/Screen";
-import AppText from "../../components/AppText";
+import React, { useState } from 'react';
+import { Image, StyleSheet, Switch, Text, View } from 'react-native';
+import Screen from '../../components/Screen';
+import AppText from '../../components/AppText';
 
-import OnboardingProgress from "../../components/OnboardingProgress";
-import colors from "../../constants/colors";
-import AppButton from "../../components/AppButton";
+import OnboardingProgress from '../../components/OnboardingProgress';
+import colors from '../../constants/colors';
+import AppButton from '../../components/AppButton';
 
 export default function SecureWallet({ navigation }) {
   return (
@@ -16,11 +16,11 @@ export default function SecureWallet({ navigation }) {
           Secure your wallet
         </AppText>
 
-        <Image source={require("../../../assets/doge2locked.png")} style={styles.lockedImage} />
+        <Image source={require('../../../assets/doge2locked.png')} style={styles.lockedImage} />
         <View>
           <AppText grey>
             Don't risk losing your funds. protect your wallet by saving your seed phrase in a place you trust. It's the
-            only way to recover your wallet if you get locked out of the app or get a new device.{" "}
+            only way to recover your wallet if you get locked out of the app or get a new device.{' '}
           </AppText>
         </View>
 
@@ -30,7 +30,7 @@ export default function SecureWallet({ navigation }) {
           Remind me Later
         </AppText>
         <View style={{ marginTop: 10 }}>
-          <AppButton title="Start" onPress={() => navigation.navigate("seedScreenInfo")} />
+          <AppButton title="Start" onPress={() => navigation.navigate('seedScreenInfo')} />
         </View>
       </View>
     </Screen>
@@ -44,14 +44,14 @@ const styles = StyleSheet.create({
   lockedImage: {
     width: 217,
     height: 217,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginVertical: 50
   },
 
   faceIdPromptContainer: {
     marginVertical: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 });
