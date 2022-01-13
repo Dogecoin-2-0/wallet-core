@@ -1,10 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { StyleSheet, Switch, Text, View } from 'react-native';
-import ProgressBar from '../../components/ProgressBar';
-import Icon from '../../components/Icon';
+import { StyleSheet, Switch, View } from 'react-native';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
-import AppTextInput from '../../components/forms/AppTextInput';
 import AppPasswordInput from '../../components/forms/AppPasswordInput';
 import OnboardingProgress from '../../components/OnboardingProgress';
 import colors from '../../constants/colors';
@@ -46,11 +44,11 @@ export default function CreateWallet({ navigation }) {
         <View style={styles.faceIdPromptContainer}>
           <CheckBox checked={isChecked} onPress={toggleCheckBox} />
           <AppText style={{ fontSize: 14, padding: 25 }}>
-            I under stand that Air cannot recover this password for me. Learn more{' '}
+            I understand that the Doge2 Foundation cannot recover this password for me. Learn more{' '}
           </AppText>
         </View>
 
-        <View style={{ marginTop: 200 }}>
+        <View style={{ marginTop: 10 }}>
           <AppButton title="Create Password" onPress={() => navigation.navigate('secureWallet')} />
         </View>
       </View>

@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-color-literals */
-
+import './global';
+import 'react-native-get-random-values'; // This should be imported first to provide `crypto.getRandomValues` to components that depend on it
+import '@ethersproject/shims'; // Polyfill for ethers.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import './global';
 import CreateWallet from './src/screens/onboarding/CreateWallet';
 
 import AppLoading from 'expo-app-loading';
