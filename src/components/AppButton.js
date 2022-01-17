@@ -1,7 +1,7 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import colors from "../constants/colors";
-import AppText from "./AppText";
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import colors from '../constants/colors';
+import AppText from './AppText';
 
 export default function AppButton({ title, outlined, onPress }) {
   return (
@@ -21,18 +21,18 @@ export default function AppButton({ title, outlined, onPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: '100%',
     backgroundColor: colors.yellow,
     height: 50,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 24,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginVertical: 10
   },
 
   outlined: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     borderColor: colors.yellow,
     borderWidth: 1
   }

@@ -1,9 +1,9 @@
-import React from "react";
-import propTypes from "prop-types";
-import styled from "styled-components/native";
+import React from 'react';
+import propTypes from 'prop-types';
+import styled from 'styled-components/native';
 
 const Switch = styled.Switch`
-  background-color: ${props => props.ios_backgroundColor || "#cccccc"};
+  background-color: ${props => props.ios_backgroundColor || '#cccccc'};
 `;
 
 const ToggleSwitch = ({ value, onValueChange, trackColor, iosBackgroundColor, thumbColor }) => (
@@ -19,9 +19,9 @@ const ToggleSwitch = ({ value, onValueChange, trackColor, iosBackgroundColor, th
 ToggleSwitch.defaultPropTypes = {
   value: false,
   onValueChange: val => console.log(val),
-  trackColor: { true: "#dba134", false: "#cccccc" },
-  iosBackgroundColor: "#cccccc",
-  thumbColor: "#ffffff"
+  trackColor: { true: '#dba134', false: '#cccccc' },
+  iosBackgroundColor: '#cccccc',
+  thumbColor: '#ffffff'
 };
 
 ToggleSwitch.propTypes = {

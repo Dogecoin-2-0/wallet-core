@@ -1,8 +1,8 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import AppText from "./AppText";
-import Icon from "./Icon";
-import ProgressBar from "./ProgressBar";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import AppText from './AppText';
+import Icon from './Icon';
+import ProgressBar from './ProgressBar';
 
 export default function OnboardingProgress({ step }) {
   return (
@@ -18,9 +18,9 @@ export default function OnboardingProgress({ step }) {
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 20
   }
 });

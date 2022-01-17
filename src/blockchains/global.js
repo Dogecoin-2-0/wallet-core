@@ -1,17 +1,17 @@
-import React from "react";
-import { StyleSheet, View, Image } from "react-native";
-import styled from "styled-components/native";
-import propTypes from "prop-types";
-import { TouchableOpacity } from "../components";
-import { fetchBlockchainInfo } from "../utils";
+import React from 'react';
+import { StyleSheet, View, Image } from 'react-native';
+import styled from 'styled-components/native';
+import propTypes from 'prop-types';
+import { TouchableOpacity } from '../components';
+import { fetchBlockchainInfo } from '../utils';
 
 const styles = StyleSheet.create({
   separator: {
     flex: 1
   },
   image: {
-    width: "30px",
-    height: "30px"
+    width: '30px',
+    height: '30px'
   }
 });
 
