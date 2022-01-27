@@ -7,7 +7,7 @@ import _ from 'lodash';
 import AppText from '../AppText';
 import propTypes from 'prop-types';
 
-const width = Dimensions.get('screen').width / 4.3;
+const width = Dimensions.get('screen').width / 4.2;
 
 function SeedPhraseWraper({ isInit }) {
   const { phrase, referencePhrase } = useSelector(state => state.phraseReducer);
