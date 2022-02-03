@@ -4,6 +4,7 @@ import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
 import colors from '../../constants/colors';
+import Actions from '../../components/home/Actions';
 
 export default function Home() {
   return (
@@ -31,6 +32,8 @@ export default function Home() {
           </AppText>
         </View>
       </View>
+
+      <Actions />
     </Screen>
   );
 }
