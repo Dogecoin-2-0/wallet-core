@@ -6,7 +6,7 @@ import AppTextInput from './AppTextInput';
 export default function AppPasswordInput({ label, placeholder, noPassword, icon, ...otherProps }) {
   return (
     <View>
-      <AppTextInput label={label} icon={'eye'} placeholder="******" secureTextEntry />
+      <AppTextInput label={label} icon={'eye-outline'} placeholder="******" secureTextEntry />
       {!noPassword && <AppText grey> Password Strength: </AppText>}
     </View>
   );
