@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, Switch, Text, View } from 'react-native';
+
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 
@@ -8,6 +9,9 @@ import colors from '../../constants/colors';
 import AppButton from '../../components/AppButton';
 
 export default function SecureWallet({ navigation }) {
+
+
+
   return (
     <Screen>
       <OnboardingProgress step={2} />
@@ -32,7 +36,10 @@ export default function SecureWallet({ navigation }) {
         <View style={{ marginTop: 10 }}>
           <AppButton title="Start" onPress={() => navigation.navigate('seedScreenInfo')} />
         </View>
-      </View>
+      </View> 
+
+     
+
     </Screen>
   );
 }

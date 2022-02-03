@@ -40,7 +40,7 @@ export default function App() {
   ) : (
     <Provider store={store}>
       <NavigationContainer>
-        <Navigator initialRouteName="onboardingDone">
+        <Navigator initialRouteName="walletSetup">
           <Group screenOptions={{ headerShown: false }}>
             <Screen name="walletSetup" component={WalletSetup} />
             <Screen name="createWallet" component={CreateWallet} />
