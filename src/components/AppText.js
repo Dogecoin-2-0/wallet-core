@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
   bold: {
     fontFamily: 'RedHatDisplay_700Bold'
   },
-
   underlined: {
     textDecorationLine: 'underline'
   },
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   small: {
-    fontSize: 14
+    fontSize: 12
   },
   yellow: {
     color: colors.yellow
