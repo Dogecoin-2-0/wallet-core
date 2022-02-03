@@ -10,13 +10,14 @@ export default function AppText({
   underlined,
   medium,
   white,
+  green,
   centered,
   size,
   yellow,
   blue,
   small,
-  
-  extraBig
+  big,
+  extraBig,
 }) {
   return (
     <View>
@@ -33,6 +34,8 @@ export default function AppText({
           small && styles.small,
           white && styles.white,
           blue && styles.blue,
+          big && styles.big,
+          green && styles.green,
           style
         ]}
       >
@@ -51,6 +54,9 @@ const styles = StyleSheet.create({
   },
   grey: {
     color: colors.grey
+  },
+  green: { 
+    color: colors.green,
   },
   white: {
     color: colors.white
@@ -79,5 +85,8 @@ const styles = StyleSheet.create({
   },
   blue: {
     color: colors.blue
+  },
+  big: {
+    fontSize: 30
   }
 });
