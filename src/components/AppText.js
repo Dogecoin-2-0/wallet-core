@@ -13,7 +13,9 @@ export default function AppText({
   centered,
   size,
   yellow,
+  blue,
   small,
+  
   extraBig
 }) {
   return (
@@ -30,6 +32,7 @@ export default function AppText({
           yellow && styles.yellow,
           small && styles.small,
           white && styles.white,
+          blue && styles.blue,
           style
         ]}
       >
@@ -74,5 +77,8 @@ const styles = StyleSheet.create({
   },
   yellow: {
     color: colors.yellow
+  },
+  blue: {
+    color: colors.blue
   }
 });
