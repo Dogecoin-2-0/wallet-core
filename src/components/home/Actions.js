@@ -18,7 +18,7 @@ const actions = [
   {
     name: 'Buy',
     icon: require(`../../../assets/actions/buy.png`),
-    backgroundColor: '#E8FAE0'
+    backgroundColor: '#FEF0D7'
   }
 ];
 export default function Actions() {
