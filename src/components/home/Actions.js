@@ -26,9 +26,9 @@ export default function Actions() {
     <View style={styles.container}>
       {actions.map((action, index) => (
         <TouchableOpacity key={index} style={[styles.actionContainer]}>
-          <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}>
-            <Image source={action.icon} style={styles.action} />
-          </View>
+          {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
+          <Image source={action.icon} style={styles.action} />
+          {/* </View> */}
           <AppText bold style={{ overflow: 'hidden' }} centered>
             {action.name}
           </AppText>
@@ -44,13 +44,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginVertical: 20
   },
-  actionContainer: {
-    borderRadius: 100,
-    height: 60,
-    width: 60,
-    justifyContent: 'center',
-    alignContent: 'center'
-  },
+  // actionContainer: {
+  //   borderRadius: 100,
+  //   height: 60,
+  //   width: 60,
+  //   justifyContent: 'center',
+  //   alignContent: 'center'
+  // },
   action: {
     alignSelf: 'center'
   }
