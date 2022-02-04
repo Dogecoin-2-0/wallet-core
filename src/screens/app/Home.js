@@ -38,6 +38,8 @@ export default function Home() {
       <Actions />
       <TokenCollectiblesSwap />
       <TokenCard />
+      <TokenCard />
+      <TokenCard />
     </Screen>
   );
 }
