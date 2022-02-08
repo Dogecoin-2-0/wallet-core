@@ -9,6 +9,7 @@ import TokenCollectiblesSwap from '../../components/home/TokenCollectiblesSwap';
 import TokenCard from '../../components/home/TokenCard';
 import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
+import AccountSwitcher from '../../components/home/AccountSwitcher';
 
 export default function Home() {
   const modalRef = useRef(null);
@@ -22,15 +23,7 @@ export default function Home() {
   };
   return (
     <PortalProvider>
-      <ReusableBottomSheet
-        title="Account"
-        modalRef={modalRef}
-        children={
-          <View>
-            <AppText> My love</AppText>
-          </View>
-        }
-      />
+      <ReusableBottomSheet title="Account" modalRef={modalRef} children={<AccountSwitcher />} />
       <Screen>
         <View style={styles.row}>
           <View style={styles.username}>
