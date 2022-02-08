@@ -36,7 +36,6 @@ export default function AccountSwitcher() {
             style={[styles.row, styles.container]}
             onPress={() => {
               setSelectedAccount(account.id);
-              console.log(account.id);
             }}
           >
             <View style={styles.row}>
