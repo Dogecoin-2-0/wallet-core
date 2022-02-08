@@ -1,8 +1,11 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import AppText from '../AppText';
 import AppButton from '../AppButton';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { Icon } from '..';
+import colors from '../../constants/colors';
+import { Pressable } from 'react-native';
 
 export default function AccountSwitcher() {
   const accounts = [
@@ -21,26 +24,30 @@ export default function AccountSwitcher() {
       username: 'Nei Momo',
       avatarUrl: require('../../../assets/avatar.png')
     }
-    // {
-    //   id: 4,
-    //   username: 'Nei Mana',
-    //   avatarUrl: require('../../../assets/avatar.png')
-    // }
   ];
+  const [selectedAccount, setSelectedAccount] = useState(accounts[0].id);
   return (
     <View>
-      <ScrollView>
-        {accounts.map(account => {
-          return (
-            <TouchableOpacity key={account.username}>
-              <View style={styles.row}>
-                <Image source={account.avatarUrl} style={styles.avatar} />
-                <AppText> {account.username}</AppText>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
+      {/* <ScrollView> */}
+      {accounts.map(account => {
+        return (
+          <Pressable
+            key={account.username}
+            style={[styles.row, styles.container]}
+            onPress={() => {
+              setSelectedAccount(account.id);
+              console.log(account.id);
+            }}
+          >
+            <View style={styles.row}>
+              <Image source={account.avatarUrl} style={styles.avatar} />
+              <AppText> {account.username}</AppText>
+            </View>
+            {selectedAccount == account.id && <Icon name="check" color={colors.green} />}
+          </Pressable>
+        );
+      })}
+      {/* </ScrollView> */}
 
       <AppButton title="Create New Account" outlined />
       <AppButton title="Import Account" />
@@ -51,7 +58,7 @@ export default function AccountSwitcher() {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   avatar: {
@@ -59,5 +66,8 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     margin: 10
+  },
+  container: {
+    padding: 5
   }
 });
