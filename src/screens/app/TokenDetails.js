@@ -8,9 +8,11 @@ import TransactionCard from '../../components/wallet/TransactionCard';
 export default function TokenDetails() {
   return (
     <PortalProvider>
-      <Screen >
+      <Screen>
         <AppText bold> BNB</AppText>
 
+        <TransactionCard />
+        <TransactionCard />
         <TransactionCard />
       </Screen>
     </PortalProvider>
