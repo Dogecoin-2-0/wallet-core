@@ -11,13 +11,14 @@ export default function AppText({
   medium,
   white,
   green,
+  red,
   centered,
   size,
   yellow,
   blue,
   small,
   big,
-  extraBig,
+  extraBig
 }) {
   return (
     <View>
@@ -36,6 +37,7 @@ export default function AppText({
           blue && styles.blue,
           big && styles.big,
           green && styles.green,
+          red && styles.red,
           style
         ]}
       >
@@ -55,11 +57,14 @@ const styles = StyleSheet.create({
   grey: {
     color: colors.grey
   },
-  green: { 
-    color: colors.green,
+  green: {
+    color: colors.green
   },
   white: {
     color: colors.white
+  },
+  red: {
+    color: colors.red
   },
   bold: {
     fontFamily: 'RedHatDisplay_700Bold'

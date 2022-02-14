@@ -3,25 +3,26 @@ import React from 'react';
 import AppText from '../AppText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../constants/colors';
+import { iteratee } from 'lodash';
 
-export default function TransactionCard() {
+export default function TransactionCard({ price, amount, date, type, status }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity>
-        <AppText grey> Mar 4 at 10:04 AM</AppText>
+        <AppText grey> {date}</AppText>
         <View style={styles.row}>
           <View style={styles.row}>
             <Image source={require('../../../assets/actions/clock-loading.png')} style={styles.icon} />
             <View>
-              <AppText medium>Recieved BNB</AppText>
-              <AppText yellow bold>
-                Pending
+              <AppText medium>{type}</AppText>
+              <AppText yellow={status === 'Pending'} green={status === 'Confirmed'} red={status === 'Failed'} bold>
+                {status}
               </AppText>
             </View>
           </View>
           <View>
-            <AppText medium>2.078 BNB</AppText>
-            <AppText grey>$647.22</AppText>
+            <AppText medium>{amount}</AppText>
+            <AppText grey>{price}</AppText>
           </View>
         </View>
       </TouchableOpacity>
