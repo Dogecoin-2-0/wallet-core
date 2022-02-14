@@ -67,15 +67,7 @@ export default function TokenDetails() {
         <FlatList
           data={transactions}
           keyExtractor={item => item.date}
-          renderItem={({ item }) => (
-            <TransactionCard
-              amount={item.amount}
-              price={item.price}
-              type={item.type}
-              status={item.status}
-              date={item.date}
-            />
-          )}
+          renderItem={({ item }) => <TransactionCard {...item} />}
           ListHeaderComponent={renderHeader}
           showsVerticalScrollIndicator={false}
         />
