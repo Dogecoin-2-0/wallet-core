@@ -4,6 +4,9 @@ import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import TransactionCard from '../../components/wallet/TransactionCard';
+import { Icon } from '../../components';
+import colors from '../../constants/colors';
+import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 
 const transactions = [
   {
@@ -59,7 +62,22 @@ const transactions = [
 
 export default function TokenDetails() {
   const renderHeader = () => {
-    return <AppText bold> BNB</AppText>;
+    return (
+      <>
+        <TokenDetailHeader name="BNB" />
+
+        <AppText big> 11.4188 BNB</AppText>
+        <View style={styles.rowArea}>
+          <AppText grey>$ 8,391.14</AppText>
+          <View style={[styles.rowArea, { marginHorizontal: 25 }]}>
+            <Icon name="arrow-top-right" color={colors.green} size={20} />
+            <AppText grey green>
+              {'9.97'}%
+            </AppText>
+          </View>
+        </View>
+      </>
+    );
   };
   return (
     <PortalProvider>
@@ -76,4 +94,9 @@ export default function TokenDetails() {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  rowArea: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  }
+});
