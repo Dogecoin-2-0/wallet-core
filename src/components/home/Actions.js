@@ -1,23 +1,23 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { Image, StyleSheet, View } from 'react-native';
 import React from 'react';
 import AppText from '../AppText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from '../Icon';
 
 const actions = [
   {
     name: 'Send',
     backgroundColor: '#E8FAE0',
-    icon: require(`../../../assets/actions/send.png`)
+    icon: require('../../../assets/actions/send.png')
   },
   {
     name: 'Receive',
-    icon: require(`../../../assets/actions/receive.png`),
+    icon: require('../../../assets/actions/receive.png'),
     backgroundColor: '#DCE8FC'
   },
   {
     name: 'Buy',
-    icon: require(`../../../assets/actions/buy.png`),
+    icon: require('../../../assets/actions/buy.png'),
     backgroundColor: '#FEF0D7'
   }
 ];

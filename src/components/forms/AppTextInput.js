@@ -7,14 +7,11 @@ import Icon from '../Icon';
 export default function AppTextInput({ label, icon, icons, iconAction, placeholder, ...otherProps }) {
   return (
     <View style={styles.container}>
-     {label &&  <AppText grey> {label} </AppText>}
+      {label && <AppText grey> {label} </AppText>}
       <View style={styles.inputContainer}>
         <TextInput style={styles.input} placeholder={placeholder} {...otherProps} />
         {icons && icons.map((icon, index) => <Icon key={index} name={icon} />)}
-        {icon && <Icon name={icon} />} 
-        
-
-
+        {icon && <Icon name={icon} />}
       </View>
     </View>
   );

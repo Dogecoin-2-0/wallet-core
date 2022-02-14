@@ -1,8 +1,7 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
 import AppText from '../AppText';
 import AppButton from '../AppButton';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 import { Pressable } from 'react-native';

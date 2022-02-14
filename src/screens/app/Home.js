@@ -1,9 +1,9 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+/* eslint-disable react/no-children-prop */
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import React, { useRef } from 'react';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
-import colors from '../../constants/colors';
 import Actions from '../../components/home/Actions';
 import TokenCollectiblesSwap from '../../components/home/TokenCollectiblesSwap';
 import TokenCard from '../../components/home/TokenCard';
@@ -12,7 +12,7 @@ import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const modalRef = useRef(null);
 
   const onOpen = () => {
@@ -41,9 +41,10 @@ export default function Home() {
         <TokenPrice />
         <Actions />
         <TokenCollectiblesSwap />
-        <TokenCard />
-        <TokenCard />
-        <TokenCard />
+        <TokenCard id="ethereum" onPress={info => navigation.navigate('tokenDetails', info)} />
+        <TokenCard id="binance" onPress={info => navigation.navigate('tokenDetails', info)} />
+        <TokenCard id="polygon" onPress={info => navigation.navigate('tokenDetails', info)} />
+        <TokenCard id="avalanche" onPress={info => navigation.navigate('tokenDetails', info)} />
       </Screen>
     </PortalProvider>
   );
