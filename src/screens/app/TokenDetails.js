@@ -7,6 +7,7 @@ import TransactionCard from '../../components/wallet/TransactionCard';
 import { Icon } from '../../components';
 import colors from '../../constants/colors';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
+import TokenPrice from '../../components/wallet/TokenPrice';
 
 const transactions = [
   {
@@ -65,17 +66,7 @@ export default function TokenDetails() {
     return (
       <>
         <TokenDetailHeader name="BNB" />
-
-        <AppText big> 11.4188 BNB</AppText>
-        <View style={styles.rowArea}>
-          <AppText grey>$ 8,391.14</AppText>
-          <View style={[styles.rowArea, { marginHorizontal: 25 }]}>
-            <Icon name="arrow-top-right" color={colors.green} size={20} />
-            <AppText grey green>
-              {'9.97'}%
-            </AppText>
-          </View>
-        </View>
+        <TokenPrice />
       </>
     );
   };
@@ -93,10 +84,3 @@ export default function TokenDetails() {
     </PortalProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  rowArea: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  }
-});

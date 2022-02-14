@@ -42,7 +42,7 @@ export default function App() {
   ) : (
     <Provider store={store}>
       <NavigationContainer>
-        <Navigator initialRouteName="tokenDetails">
+        <Navigator initialRouteName="home">
           <Group screenOptions={{ headerShown: false }}>
             <Screen name="walletSetup" component={WalletSetup} />
             <Screen name="createWallet" component={CreateWallet} />

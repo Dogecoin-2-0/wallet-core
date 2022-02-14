@@ -10,6 +10,7 @@ import TokenCard from '../../components/home/TokenCard';
 import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
+import TokenPrice from '../../components/wallet/TokenPrice';
 
 export default function Home() {
   const modalRef = useRef(null);
@@ -37,17 +38,7 @@ export default function Home() {
           </View>
           <Image source={require('../../../assets/dogeroundedLogo.png')} style={styles.logo} />
         </View>
-        <AppText big>4.8729 ETH</AppText>
-
-        <View style={styles.usd}>
-          <AppText grey>$ 8,391.14</AppText>
-          <View style={[styles.rowArea, { marginHorizontal: 25 }]}>
-            <Icon name="arrow-top-right" color={colors.green} size={20} />
-            <AppText grey green>
-              {'9.97'}%
-            </AppText>
-          </View>
-        </View>
+        <TokenPrice />
 
         <Actions />
         <TokenCollectiblesSwap />
