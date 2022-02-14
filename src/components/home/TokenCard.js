@@ -14,6 +14,7 @@ function TokenCard({ id, onPress }) {
     const i = await fetchBlockchainInfo(id);
     setInfo(i);
   }, []);
+
   return (
     <TouchableOpacity style={styles.container} onPress={() => onPress(info)}>
       <View style={styles.avatar}>
