@@ -23,6 +23,9 @@ import SecureWallet from './src/screens/onboarding/SecureWallet';
 import SeedScreenInfo from './src/screens/onboarding/SeedScreenInfo';
 import RevealSeedPhrase from './src/screens/onboarding/RevealSeedPhrase';
 import ConfirmSeedPhrase from './src/screens/onboarding/ConfirmSeedPhrase';
+import DoneWithSeedPhrase from './src/screens/onboarding/DoneWithSeedPhrase';
+import Home from './src/screens/app/Home';
+import TokenDetails from './src/screens/app/TokenDetails';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -39,7 +42,7 @@ export default function App() {
   ) : (
     <Provider store={store}>
       <NavigationContainer>
-        <Navigator initialRouteName="walletSetup">
+        <Navigator initialRouteName="home">
           <Group screenOptions={{ headerShown: false }}>
             <Screen name="walletSetup" component={WalletSetup} />
             <Screen name="createWallet" component={CreateWallet} />
@@ -47,6 +50,10 @@ export default function App() {
             <Screen name="seedScreenInfo" component={SeedScreenInfo} />
             <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
             <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
+            <Screen name="onboardingDone" component={DoneWithSeedPhrase} />
+
+            <Screen name="home" component={Home} />
+            <Screen name="tokenDetails" component={TokenDetails} />
           </Group>
         </Navigator>
       </NavigationContainer>

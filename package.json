@@ -36,6 +36,7 @@
     "react-native-modalize": "^2.0.13",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
+    "react-native-svg": "12.1.1",
     "react-redux": "^7.2.6",
     "styled-components": "^5.3.3",
     "web3": "^1.6.1"
@@ -51,7 +52,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-react": "^7.27.1",
-    "eslint-plugin-react-native": "^3.11.0"
+    "eslint-plugin-react-native": "^3.11.0",
+    "react-native-svg-transformer": "^1.0.0"
   },
   "private": true
 }

@@ -10,10 +10,14 @@ export default function AppText({
   underlined,
   medium,
   white,
+  green,
+  red,
   centered,
   size,
   yellow,
+  blue,
   small,
+  big,
   extraBig
 }) {
   return (
@@ -30,6 +34,10 @@ export default function AppText({
           yellow && styles.yellow,
           small && styles.small,
           white && styles.white,
+          blue && styles.blue,
+          big && styles.big,
+          green && styles.green,
+          red && styles.red,
           style
         ]}
       >
@@ -49,13 +57,18 @@ const styles = StyleSheet.create({
   grey: {
     color: colors.grey
   },
+  green: {
+    color: colors.green
+  },
   white: {
     color: colors.white
+  },
+  red: {
+    color: colors.red
   },
   bold: {
     fontFamily: 'RedHatDisplay_700Bold'
   },
-
   underlined: {
     textDecorationLine: 'underline'
   },
@@ -70,9 +83,15 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   small: {
-    fontSize: 14
+    fontSize: 12
   },
   yellow: {
     color: colors.yellow
+  },
+  blue: {
+    color: colors.blue
+  },
+  big: {
+    fontSize: 30
   }
 });

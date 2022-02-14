@@ -4,13 +4,17 @@ import colors from '../../constants/colors';
 import AppText from '../AppText';
 import Icon from '../Icon';
 
-export default function AppTextInput({ label, icon, iconAction, placeholder, ...otherProps }) {
+export default function AppTextInput({ label, icon, icons, iconAction, placeholder, ...otherProps }) {
   return (
     <View style={styles.container}>
-      <AppText grey> {label} </AppText>
+     {label &&  <AppText grey> {label} </AppText>}
       <View style={styles.inputContainer}>
         <TextInput style={styles.input} placeholder={placeholder} {...otherProps} />
-        {icon && <Icon name={icon} />}
+        {icons && icons.map((icon, index) => <Icon key={index} name={icon} />)}
+        {icon && <Icon name={icon} />} 
+        
+
+
       </View>
     </View>
   );
@@ -32,6 +36,6 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 16,
-    width: '90%'
+    width: '75%'
   }
 });
