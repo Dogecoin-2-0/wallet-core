@@ -39,7 +39,6 @@ export default function Home() {
           <Image source={require('../../../assets/dogeroundedLogo.png')} style={styles.logo} />
         </View>
         <TokenPrice />
-
         <Actions />
         <TokenCollectiblesSwap />
         <TokenCard />

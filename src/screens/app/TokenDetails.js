@@ -8,6 +8,7 @@ import { Icon } from '../../components';
 import colors from '../../constants/colors';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import TokenPrice from '../../components/wallet/TokenPrice';
+import Actions from '../../components/home/Actions';
 
 const transactions = [
   {
@@ -66,7 +67,9 @@ export default function TokenDetails() {
     return (
       <>
         <TokenDetailHeader name="BNB" />
+
         <TokenPrice />
+        <Actions />
       </>
     );
   };
