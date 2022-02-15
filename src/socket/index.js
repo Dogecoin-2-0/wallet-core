@@ -1,5 +1,5 @@
-import { io } from 'socket.io-client';
+import io from 'socket.io-client';
 
 export function instantiateSocket() {
-  return io('http://34.111.135.151/');
+  return io('http://34.122.201.86:3600');
 }

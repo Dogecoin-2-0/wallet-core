@@ -31,10 +31,10 @@ import { instantiateSocket } from './src/socket';
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
 function InstantiatingComponent() {
+  const socket = instantiateSocket();
   useEffect(() => {
-    const socket = instantiateSocket();
     socket.on('connect', () => {
-      console.log('Socket connected');
+      console.log('Socket connected ', socket.id);
     });
     socket.on('price', data => {
       console.log(data);

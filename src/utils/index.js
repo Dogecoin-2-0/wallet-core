@@ -1,6 +1,10 @@
 import { utils } from 'ethers';
 import * as constants from '../constants';
 
+export const generateMnemonic = () => {
+  return utils.entropyToMnemonic(utils.randomBytes(16));
+};
+
 export const generateFromMnemonic = argMnemonic => {
   let mnemonic;
 
@@ -10,7 +14,7 @@ export const generateFromMnemonic = argMnemonic => {
     argMnemonic.split(' ').length === 12
   )
     mnemonic = argMnemonic;
-  else mnemonic = utils.entropyToMnemonic(utils.randomBytes(16));
+  else mnemonic = generateMnemonic();
 
   return mnemonic;
 };
