@@ -5,10 +5,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../constants/colors';
 import { iteratee } from 'lodash';
 
-export default function TransactionCard({ price, amount, date, type, status }) {
+export default function TransactionCard({ price, amount, date, type, status, onPress }) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
         <AppText grey> {date}</AppText>
         <View style={styles.row}>
           <View style={styles.row}>

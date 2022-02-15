@@ -1,11 +1,14 @@
 import { FlatList } from 'react-native';
-import React from 'react';
+import React, { useRef } from 'react';
 import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
 import TransactionCard from '../../components/wallet/TransactionCard';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import Actions from '../../components/home/Actions';
+import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
+import AccountSwitcher from '../../components/home/AccountSwitcher';
+import TransactionDetailPopup from '../../components/wallet/TransactionDetailPopup';
 
 const transactions = [
   {
@@ -60,11 +63,19 @@ const transactions = [
 ];
 
 export default function TokenDetails({ navigation }) {
+  const modalRef = useRef(null);
+
+  const onOpen = () => {
+    modalRef.current?.open();
+  };
+
+  const onClose = () => {
+    modalRef.current?.close();
+  };
   const renderHeader = () => {
     return (
       <>
         <TokenDetailHeader name="BNB" goBack={() => navigation.goBack()} />
-
         <TokenPrice />
         <Actions />
       </>
@@ -72,11 +83,12 @@ export default function TokenDetails({ navigation }) {
   };
   return (
     <PortalProvider>
+      <ReusableBottomSheet title="Recieved BNB" modalRef={modalRef} children={<TransactionDetailPopup />} />
       <Screen>
         <FlatList
           data={transactions}
           keyExtractor={item => item.date}
-          renderItem={({ item }) => <TransactionCard {...item} />}
+          renderItem={({ item }) => <TransactionCard onPress={onOpen} {...item} />}
           ListHeaderComponent={renderHeader}
           showsVerticalScrollIndicator={false}
         />

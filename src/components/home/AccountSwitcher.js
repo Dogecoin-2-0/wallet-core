@@ -1,11 +1,9 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
-import AppText from '../AppText';
+import { Image, StyleSheet, View, TouchableOpacity, FlatList, Pressable } from 'react-native';
+import React, { useRef, useState } from 'react';
 import AppButton from '../AppButton';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import AppText from '../AppText';
 import { Icon } from '..';
 import colors from '../../constants/colors';
-import { Pressable } from 'react-native';
 
 export default function AccountSwitcher() {
   const accounts = [
