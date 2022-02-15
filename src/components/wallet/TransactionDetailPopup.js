@@ -7,11 +7,20 @@ import colors from '../../constants/colors';
 import { Pressable } from 'react-native';
 
 export default function TransactionDetailPopup() {
+  // states
+  const status = 'failed';
+
   return (
     <View style={styles.container}>
       <View style={styles.status}>
-        <Image source={require('../../../assets/confirmed-icon.png')} />
-        <AppText bold> Confirmed</AppText>
+        <Image
+          source={
+            status === 'failed'
+              ? require('../../../assets/failed-icon.png')
+              : require('../../../assets/confirmed-icon.png')
+          }
+        />
+        <AppText bold> {status === 'failed' ? 'Failed' : 'Confirmed'}</AppText>
       </View>
       <View style={styles.row}>
         <AppText> Amount</AppText>
@@ -57,6 +66,7 @@ export default function TransactionDetailPopup() {
 const styles = StyleSheet.create({
   status: {
     alignItems: 'center'
+    // justifyContent: 'center'
   },
   row: {
     flexDirection: 'row',

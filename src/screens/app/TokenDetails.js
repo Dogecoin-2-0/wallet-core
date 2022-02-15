@@ -83,7 +83,12 @@ export default function TokenDetails({ route }) {
   };
   return (
     <PortalProvider>
-      <ReusableBottomSheet title="Recieved BNB" modalRef={modalRef} children={<TransactionDetailPopup />} />
+      <ReusableBottomSheet
+        height={550}
+        title="Recieved BNB"
+        modalRef={modalRef}
+        children={<TransactionDetailPopup />}
+      />
       <Screen>
         <FlatList
           data={transactions}
