@@ -1,6 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import { Image, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
 import React, { useRef, useState, useEffect } from 'react';
+import Swal from 'react-native-sweet-alert';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
@@ -12,6 +13,7 @@ import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import { fetchChainList, fetchTokensList } from '../../utils';
+import colors from '../../constants/colors';
 
 export default function Home({ navigation }) {
   const modalRef = useRef(null);
@@ -28,12 +30,23 @@ export default function Home({ navigation }) {
   };
 
   useEffect(async () => {
-    const l = await fetchChainList();
-    const erc20L = await fetchTokensList('ethereum');
-    const bep20L = await fetchTokensList('binance');
-    setList(l);
-    setERC20List(erc20L);
-    setBEP20List(bep20L);
+    try {
+      const l = await fetchChainList();
+      const erc20L = await fetchTokensList('ethereum');
+      const bep20L = await fetchTokensList('binance');
+      setList(l);
+      setERC20List(erc20L);
+      setBEP20List(bep20L);
+    } catch (error) {
+      Swal.showAlertWithOptions({
+        title: 'Error',
+        subTitle: error.message,
+        confirmButtonTitle: 'Ok',
+        confirmButtonColor: colors.red,
+        style: 'error',
+        cancellable: true
+      });
+    }
   }, []);
 
   return (

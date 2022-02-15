@@ -2,38 +2,57 @@
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import { Icon } from '..';
 import AppText from '../AppText';
 import colors from '../../constants/colors';
-import Icon from '../Icon';
+import ReusableAlert from '../extras/ReusableAlert';
 import { fetchBlockchainInfo, fetchTokenInfo } from '../../utils';
 
 function TokenCard({ id, network, onPress }) {
   const [info, setInfo] = useState({});
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(async () => {
-    const i = network === 'self' ? await fetchBlockchainInfo(id) : await fetchTokenInfo(network, id);
-    setInfo(i);
+    try {
+      const i = network === 'self' ? await fetchBlockchainInfo(id) : await fetchTokenInfo(network, id);
+      setInfo(i);
+    } catch (error) {
+      setAlertMessage(error.message);
+      setAlertVisible(true);
+    }
   }, []);
 
   return (
-    <TouchableOpacity style={styles.container} onPress={() => onPress(info)}>
-      <View style={styles.avatar}>
-        <Image source={{ uri: info.image }} style={{ height: '100%', width: '100%' }} />
-      </View>
-      <View>
-        <View style={styles.row}>
-          <AppText medium> {info.name} </AppText>
-          <AppText medium> 2.5123 {info.symbol} </AppText>
+    <View>
+      <TouchableOpacity style={styles.container} onPress={() => onPress(info)}>
+        <View style={styles.avatar}>
+          <Image source={{ uri: info.image }} style={{ height: '100%', width: '100%' }} />
         </View>
-        <View style={styles.row}>
-          <AppText grey> $1,722 </AppText>
+        <View>
           <View style={styles.row}>
-            <Icon name="arrow-top-right" color={colors.green} size={20} />
-            <AppText green> 4.06% </AppText>
+            <AppText medium> {info.name} </AppText>
+            <AppText medium> 2.5123 {info.symbol} </AppText>
+          </View>
+          <View style={styles.row}>
+            <AppText grey> $1,722 </AppText>
+            <View style={styles.row}>
+              <Icon name="arrow-top-right" color={colors.green} size={20} />
+              <AppText green> 4.06% </AppText>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+      <ReusableAlert
+        isSuccessful={false}
+        visible={alertVisible}
+        message={alertMessage}
+        close={() => {
+          setAlertVisible(false);
+          setAlertMessage('');
+        }}
+      />
+    </View>
   );
 }
 
