@@ -2,16 +2,20 @@
 import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Icon } from '..';
 import AppText from '../AppText';
 import colors from '../../constants/colors';
 import ReusableAlert from '../extras/ReusableAlert';
 import { fetchBlockchainInfo, fetchTokenInfo } from '../../utils';
+import { assetPriceKeyMap } from '../../constants/maps';
 
 function TokenCard({ id, network, onPress }) {
   const [info, setInfo] = useState({});
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const { price } = useSelector(state => state.priceReducer);
+  const [priceParsed, setPriceParsed] = useState({});
 
   useEffect(async () => {
     try {
@@ -22,6 +26,10 @@ function TokenCard({ id, network, onPress }) {
       setAlertVisible(true);
     }
   }, []);
+
+  useEffect(() => {
+    setPriceParsed(JSON.parse(price));
+  }, [price]);
 
   return (
     <View>
@@ -35,10 +43,69 @@ function TokenCard({ id, network, onPress }) {
             <AppText medium> 2.5123 {info.symbol} </AppText>
           </View>
           <View style={styles.row}>
-            <AppText grey> $1,722 </AppText>
+            <AppText grey>
+              {' '}
+              $
+              {network === 'self'
+                ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                  ? parseFloat(priceParsed[assetPriceKeyMap[id]].price).toPrecision(4)
+                  : 0
+                : priceParsed[id]
+                ? parseFloat(priceParsed[id].price).toPrecision(4)
+                : 0}{' '}
+            </AppText>
             <View style={styles.row}>
-              <Icon name="arrow-top-right" color={colors.green} size={20} />
-              <AppText green> 4.06% </AppText>
+              <Icon
+                name={
+                  network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                    ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
+                      ? 'arrow-top-right'
+                      : 'arrow-bottom-left'
+                    : priceParsed[id]
+                    ? priceParsed[id]._type === 'INCREASE'
+                      ? 'arrow-top-right'
+                      : 'arrow-bottom-left'
+                    : 'arrow-top-right'
+                }
+                color={
+                  network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                    ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
+                      ? colors.green
+                      : colors.red
+                    : priceParsed[id]
+                    ? priceParsed[id]._type === 'INCREASE'
+                      ? colors.green
+                      : colors.red
+                    : colors.green
+                }
+                size={20}
+              />
+              <AppText
+                green={
+                  network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                    ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
+                    : priceParsed[id]
+                    ? priceParsed[id]._type === 'INCREASE'
+                    : true
+                }
+                red={
+                  network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                    ? priceParsed[assetPriceKeyMap[id]]._type === 'DECREASE'
+                    : priceParsed[id]
+                    ? priceParsed[id]._type === 'DECREASE'
+                    : false
+                }
+              >
+                {' '}
+                {network === 'self'
+                  ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                    ? parseFloat(priceParsed[assetPriceKeyMap[id]]._percentage).toPrecision(2)
+                    : 0
+                  : priceParsed[id]
+                  ? parseFloat(priceParsed[id]._percentage).toPrecision(2)
+                  : 0}{' '}
+                {'%'}
+              </AppText>
             </View>
           </View>
         </View>

@@ -4,7 +4,6 @@ import React, { useRef } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { PortalProvider } from '@gorhom/portal';
-import ProgressBar from '../../components/ProgressBar';
 import Icon from '../../components/Icon';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';

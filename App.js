@@ -3,6 +3,8 @@ import './global';
 import 'react-native-get-random-values'; // This should be imported first to provide `crypto.getRandomValues` to components that depend on it
 import '@ethersproject/shims'; // Polyfill for ethers.js
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { updatePrice } from './src/redux/priceSlice';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CreateWallet from './src/screens/onboarding/CreateWallet';
@@ -31,13 +33,14 @@ import { instantiateSocket } from './src/socket';
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
 function InstantiatingComponent() {
+  const dispatch = useDispatch();
   const socket = instantiateSocket();
   useEffect(() => {
     socket.on('connect', () => {
-      console.log('Socket connected ', socket.id);
+      console.log('Socket connected: ', socket.id);
     });
     socket.on('price', data => {
-      console.log(data);
+      dispatch(updatePrice(data));
     });
   }, []);
 
