@@ -1,5 +1,5 @@
 import { FlatList } from 'react-native';
-import React, { useRef } from 'react';
+import React from 'react';
 import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
 import TransactionCard from '../../components/wallet/TransactionCard';
@@ -62,21 +62,13 @@ const transactions = [
   }
 ];
 
-export default function TokenDetails({ navigation }) {
-  const modalRef = useRef(null);
-
-  const onOpen = () => {
-    modalRef.current?.open();
-  };
-
-  const onClose = () => {
-    modalRef.current?.close();
-  };
+export default function TokenDetails({ route }) {
   const renderHeader = () => {
     return (
       <>
-        <TokenDetailHeader name="BNB" goBack={() => navigation.goBack()} />
-        <TokenPrice />
+        <TokenDetailHeader name={route.params?.name} image={route.params?.image} />
+
+        <TokenPrice symbol={route.params?.symbol} />
         <Actions />
       </>
     );

@@ -1,7 +1,7 @@
-import { Image, StyleSheet, View, TouchableOpacity, FlatList, Pressable } from 'react-native';
-import React, { useRef, useState } from 'react';
-import AppButton from '../AppButton';
+import { Image, StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
 import AppText from '../AppText';
+import AppButton from '../AppButton';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 
