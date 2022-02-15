@@ -1,5 +1,5 @@
-import { FlatList } from 'react-native';
-import React from 'react';
+import { FlatList, TouchableOpacity } from 'react-native';
+import React, { useRef } from 'react';
 import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
 import TransactionCard from '../../components/wallet/TransactionCard';
@@ -63,6 +63,14 @@ const transactions = [
 ];
 
 export default function TokenDetails({ route }) {
+  const modalRef = useRef(null);
+  const onOpen = () => {
+    modalRef.current?.open();
+  };
+
+  const onClose = () => {
+    modalRef.current?.close();
+  };
   const renderHeader = () => {
     return (
       <>

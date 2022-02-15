@@ -1,9 +1,9 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import AppText from '../AppText';
 import { Icon } from '..';
 
-export default function TokenDetailHeader({ name, image }) {
+export default function TokenDetailHeader({ name, image, goBack }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={goBack}>

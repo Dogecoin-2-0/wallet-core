@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import AppText from '../AppText';
 import AppButton from '../AppButton';
@@ -38,9 +38,15 @@ export default function TransactionDetailPopup() {
         </AppText>
         <AppText> bc1qsh...uyupm</AppText>
       </View>
+      <View style={styles.row}>
+        <AppText small grey>
+          Nonce
+        </AppText>
+        <AppText> #0</AppText>
+      </View>
 
-      <TouchableOpacity>
-        <AppText underlined bold yellow>
+      <TouchableOpacity onPress={() => alert('view on main net')} style={styles.cta}>
+        <AppText underlined bold yellow centered>
           View On Mainnet
         </AppText>
       </TouchableOpacity>
@@ -56,5 +62,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10
+  },
+
+  cta: {
+    marginVertical: 30
   }
 });
