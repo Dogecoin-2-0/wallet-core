@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 15,
     backgroundColor: colors.white,
-    borderRadius: 10
+    borderRadius: 10,
+    marginVertical: 10
   },
   avatar: {
     marginHorizontal: 10
