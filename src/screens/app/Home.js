@@ -1,6 +1,6 @@
 /* eslint-disable react/no-children-prop */
-import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
-import React, { useRef } from 'react';
+import { Image, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
@@ -11,9 +11,13 @@ import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
+import { fetchChainList, fetchTokensList } from '../../utils';
 
 export default function Home({ navigation }) {
   const modalRef = useRef(null);
+  const [list, setList] = useState([]);
+  const [erc20TokensList, setERC20List] = useState([]);
+  const [bep20TokenList, setBEP20List] = useState([]);
 
   const onOpen = () => {
     modalRef.current?.open();
@@ -22,6 +26,16 @@ export default function Home({ navigation }) {
   const onClose = () => {
     modalRef.current?.close();
   };
+
+  useEffect(async () => {
+    const l = await fetchChainList();
+    const erc20L = await fetchTokensList('ethereum');
+    const bep20L = await fetchTokensList('binance');
+    setList(l);
+    setERC20List(erc20L);
+    setBEP20List(bep20L);
+  }, []);
+
   return (
     <PortalProvider>
       <ReusableBottomSheet title="Account" modalRef={modalRef} children={<AccountSwitcher />} />
@@ -41,10 +55,18 @@ export default function Home({ navigation }) {
         <TokenPrice />
         <Actions />
         <TokenCollectiblesSwap />
-        <TokenCard id="ethereum" onPress={info => navigation.navigate('tokenDetails', info)} />
-        <TokenCard id="binance" onPress={info => navigation.navigate('tokenDetails', info)} />
-        <TokenCard id="polygon" onPress={info => navigation.navigate('tokenDetails', info)} />
-        <TokenCard id="avalanche" onPress={info => navigation.navigate('tokenDetails', info)} />
+        <FlatList
+          data={[...list, ...erc20TokensList, ...bep20TokenList]}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <TokenCard
+              id={item.id}
+              network={item.network}
+              onPress={info => navigation.navigate('tokenDetails', info)}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
       </Screen>
     </PortalProvider>
   );

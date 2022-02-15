@@ -1307,9 +1307,24 @@
     "@ethersproject/properties" "^5.0.3"
     "@ethersproject/strings" "^5.0.4"
 
-"@ethersproject/abi@5.5.0", "@ethersproject/abi@^5.5.0":
+"@ethersproject/abi@5.5.0":
   version "5.5.0"
   resolved "https://registry.npmjs.org/@ethersproject/abi/-/abi-5.5.0.tgz"
+  integrity sha512-loW7I4AohP5KycATvc0MgujU6JyCHPqHdeoo9z3Nr9xEiNioxa65ccdm1+fsoJhkuhdRtfcL8cfyGamz2AxZ5w==
+  dependencies:
+    "@ethersproject/address" "^5.5.0"
+    "@ethersproject/bignumber" "^5.5.0"
+    "@ethersproject/bytes" "^5.5.0"
+    "@ethersproject/constants" "^5.5.0"
+    "@ethersproject/hash" "^5.5.0"
+    "@ethersproject/keccak256" "^5.5.0"
+    "@ethersproject/logger" "^5.5.0"
+    "@ethersproject/properties" "^5.5.0"
+    "@ethersproject/strings" "^5.5.0"
+
+"@ethersproject/abi@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@ethersproject/abi/-/abi-5.5.0.tgz#fb52820e22e50b854ff15ce1647cc508d6660613"
   integrity sha512-loW7I4AohP5KycATvc0MgujU6JyCHPqHdeoo9z3Nr9xEiNioxa65ccdm1+fsoJhkuhdRtfcL8cfyGamz2AxZ5w==
   dependencies:
     "@ethersproject/address" "^5.5.0"
@@ -5506,6 +5521,11 @@ hermes-profile-transformer@^0.0.6:
   dependencies:
     source-map "^0.7.3"
 
+hex-color-regex@~1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.0.3.tgz#2175693bc292fe06711b04faee9004790926f9b0"
+  integrity sha1-IXVpO8KS/gZxGwT67pAEeQkm+bA=
+
 hex-lite@^1.5.0:
   version "1.5.0"
   resolved "https://registry.npmjs.org/hex-lite/-/hex-lite-1.5.0.tgz"
@@ -5859,6 +5879,13 @@ is-hex-prefixed@1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/is-hex-prefixed/-/is-hex-prefixed-1.0.0.tgz"
   integrity sha1-fY035q135dEnFIkTxXPggtd39VQ=
+
+is-hexcolor@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-hexcolor/-/is-hexcolor-1.0.0.tgz#495fee1a12baaf009c102a799bdec3193211274a"
+  integrity sha1-SV/uGhK6rwCcECp5m97DGTIRJ0o=
+  dependencies:
+    hex-color-regex "~1.0.2"
 
 is-negative-zero@^2.0.1:
   version "2.0.1"
@@ -8076,6 +8103,13 @@ react-native-svg@12.1.1:
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
+
+react-native-sweet-alert@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-sweet-alert/-/react-native-sweet-alert-3.5.0.tgz#e763df5a3603c20886eb6dcdc7396025c234fc96"
+  integrity sha512-h2W7zM+s7C/Ub4dvHK1mSSB3lQbwpYhbwkS3JOPKTY+w23t8rNTOFxUBNeA9K5F98fzz0fPqj6VX2gsuPD1h1A==
+  dependencies:
+    is-hexcolor "^1.0.0"
 
 react-native@0.64.3:
   version "0.64.3"

@@ -5,13 +5,13 @@ import React, { useState, useEffect } from 'react';
 import AppText from '../AppText';
 import colors from '../../constants/colors';
 import Icon from '../Icon';
-import { fetchBlockchainInfo } from '../../utils';
+import { fetchBlockchainInfo, fetchTokenInfo } from '../../utils';
 
-function TokenCard({ id, onPress }) {
+function TokenCard({ id, network, onPress }) {
   const [info, setInfo] = useState({});
 
   useEffect(async () => {
-    const i = await fetchBlockchainInfo(id);
+    const i = network === 'self' ? await fetchBlockchainInfo(id) : await fetchTokenInfo(network, id);
     setInfo(i);
   }, []);
 
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     paddingLeft: 2,
     paddingRight: 2
   },
