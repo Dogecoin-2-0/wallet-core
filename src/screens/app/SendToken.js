@@ -19,7 +19,12 @@ export default function SendToken() {
   };
   return (
     <PortalProvider>
-      <ReusableBottomSheet title="Account" modalRef={accountSwitcherRef} children={<AccountSwitcher />} />
+      <ReusableBottomSheet
+        title="Account"
+        // height={400}
+        modalRef={accountSwitcherRef}
+        children={<AccountSwitcher />}
+      />
       <Screen>
         <AppText bold padded>
           From

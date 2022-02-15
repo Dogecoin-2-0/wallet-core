@@ -5,7 +5,7 @@ import AppButton from '../AppButton';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 
-export default function AccountSwitcher() {
+export default function AccountSwitcher({ showButtons = true }) {
   const accounts = [
     {
       id: 1,
@@ -46,8 +46,12 @@ export default function AccountSwitcher() {
       })}
       {/* </ScrollView> */}
 
-      <AppButton title="Create New Account" outlined />
-      <AppButton title="Import Account" />
+      {showButtons && (
+        <>
+          <AppButton title="Create New Account" outlined />
+          <AppButton title="Import Account" />
+        </>
+      )}
     </View>
   );
 }
