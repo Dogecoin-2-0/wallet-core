@@ -59,11 +59,11 @@ const transactions = [
   }
 ];
 
-export default function TokenDetails() {
+export default function TokenDetails({ navigation }) {
   const renderHeader = () => {
     return (
       <>
-        <TokenDetailHeader name="BNB" />
+        <TokenDetailHeader name="BNB" goBack={() => navigation.goBack()} />
 
         <TokenPrice />
         <Actions />
