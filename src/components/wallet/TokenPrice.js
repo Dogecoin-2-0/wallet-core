@@ -8,9 +8,9 @@ import colors from '../../constants/colors';
 export default function TokenPrice({ symbol }) {
   return (
     <View style={styles.container}>
-      <AppText big>11.4188 {symbol ? symbol : 'BNB'}</AppText>
+      <AppText big>55,611.4188 {symbol ? symbol : 'BNB'}</AppText>
       <View style={styles.rowArea}>
-        <AppText grey>$ 8,391.14</AppText>
+        <AppText grey>$ 55,611.41</AppText>
         <View style={[styles.rowArea, { marginHorizontal: 25 }]}>
           <Icon name="arrow-top-right" color={colors.green} size={20} />
           <AppText grey green>

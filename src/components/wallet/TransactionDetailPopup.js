@@ -7,7 +7,8 @@ import colors from '../../constants/colors';
 import { Pressable } from 'react-native';
 
 export default function TransactionDetailPopup() {
-  // states
+  // transaction status
+  // change to 'confirmed' to see the ui of a successful transaction
   const status = 'failed';
 
   return (
@@ -54,11 +55,21 @@ export default function TransactionDetailPopup() {
         <AppText> #0</AppText>
       </View>
 
-      <TouchableOpacity onPress={() => alert('view on main net')} style={styles.cta}>
-        <AppText underlined bold yellow centered>
-          View On Mainnet
-        </AppText>
-      </TouchableOpacity>
+      {status != 'failed' ? (
+        <TouchableOpacity onPress={() => alert('view on main net')} style={styles.cta}>
+          <AppText underlined bold yellow centered>
+            View On Mainnet
+          </AppText>
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.row}>
+          <AppText>Total Amount</AppText>
+          <View>
+            <AppText bold> 1.34272 BNB</AppText>
+            <AppText grey>$3296.35</AppText>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
