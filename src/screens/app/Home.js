@@ -1,9 +1,10 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useRef } from 'react';
+/* eslint-disable react/no-children-prop */
+import { Image, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import Swal from 'react-native-sweet-alert';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
-import colors from '../../constants/colors';
 import Actions from '../../components/home/Actions';
 import TokenCollectiblesSwap from '../../components/home/TokenCollectiblesSwap';
 import TokenCard from '../../components/home/TokenCard';
@@ -11,9 +12,14 @@ import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
+import { fetchChainList, fetchTokensList } from '../../utils';
+import colors from '../../constants/colors';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const modalRef = useRef(null);
+  const [list, setList] = useState([]);
+  const [erc20TokensList, setERC20List] = useState([]);
+  const [bep20TokenList, setBEP20List] = useState([]);
 
   const onOpen = () => {
     modalRef.current?.open();
@@ -22,6 +28,27 @@ export default function Home() {
   const onClose = () => {
     modalRef.current?.close();
   };
+
+  useEffect(async () => {
+    try {
+      const l = await fetchChainList();
+      const erc20L = await fetchTokensList('ethereum');
+      const bep20L = await fetchTokensList('binance');
+      setList(l);
+      setERC20List(erc20L);
+      setBEP20List(bep20L);
+    } catch (error) {
+      Swal.showAlertWithOptions({
+        title: 'Error',
+        subTitle: error.message,
+        confirmButtonTitle: 'Ok',
+        confirmButtonColor: colors.red,
+        style: 'error',
+        cancellable: true
+      });
+    }
+  }, []);
+
   return (
     <PortalProvider>
       <ReusableBottomSheet title="Account" modalRef={modalRef} children={<AccountSwitcher />} />
@@ -41,9 +68,18 @@ export default function Home() {
         <TokenPrice />
         <Actions />
         <TokenCollectiblesSwap />
-        <TokenCard />
-        <TokenCard />
-        <TokenCard />
+        <FlatList
+          data={[...list, ...erc20TokensList, ...bep20TokenList]}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <TokenCard
+              id={item.id}
+              network={item.network}
+              onPress={info => navigation.navigate('tokenDetails', info)}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
       </Screen>
     </PortalProvider>
   );

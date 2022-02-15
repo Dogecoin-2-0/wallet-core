@@ -2,7 +2,7 @@
 import './global';
 import 'react-native-get-random-values'; // This should be imported first to provide `crypto.getRandomValues` to components that depend on it
 import '@ethersproject/shims'; // Polyfill for ethers.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CreateWallet from './src/screens/onboarding/CreateWallet';
@@ -26,8 +26,40 @@ import ConfirmSeedPhrase from './src/screens/onboarding/ConfirmSeedPhrase';
 import DoneWithSeedPhrase from './src/screens/onboarding/DoneWithSeedPhrase';
 import Home from './src/screens/app/Home';
 import TokenDetails from './src/screens/app/TokenDetails';
+import { instantiateSocket } from './src/socket';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
+
+function InstantiatingComponent() {
+  const socket = instantiateSocket();
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Socket connected ', socket.id);
+    });
+    socket.on('price', data => {
+      console.log(data);
+    });
+  }, []);
+
+  return (
+    <NavigationContainer>
+      <Navigator initialRouteName="home">
+        <Group screenOptions={{ headerShown: false }}>
+          <Screen name="walletSetup" component={WalletSetup} />
+          <Screen name="createWallet" component={CreateWallet} />
+          <Screen name="secureWallet" component={SecureWallet} />
+          <Screen name="seedScreenInfo" component={SeedScreenInfo} />
+          <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
+          <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
+          <Screen name="onboardingDone" component={DoneWithSeedPhrase} />
+
+          <Screen name="home" component={Home} />
+          <Screen name="tokenDetails" component={TokenDetails} />
+        </Group>
+      </Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -41,22 +73,7 @@ export default function App() {
     <AppLoading />
   ) : (
     <Provider store={store}>
-      <NavigationContainer>
-        <Navigator initialRouteName="home">
-          <Group screenOptions={{ headerShown: false }}>
-            <Screen name="walletSetup" component={WalletSetup} />
-            <Screen name="createWallet" component={CreateWallet} />
-            <Screen name="secureWallet" component={SecureWallet} />
-            <Screen name="seedScreenInfo" component={SeedScreenInfo} />
-            <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
-            <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
-            <Screen name="onboardingDone" component={DoneWithSeedPhrase} />
-
-            <Screen name="home" component={Home} />
-            <Screen name="tokenDetails" component={TokenDetails} />
-          </Group>
-        </Navigator>
-      </NavigationContainer>
+      <InstantiatingComponent />
     </Provider>
   );
 }

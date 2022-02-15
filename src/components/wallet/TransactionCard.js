@@ -3,7 +3,6 @@ import React from 'react';
 import AppText from '../AppText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../constants/colors';
-import { iteratee } from 'lodash';
 
 export default function TransactionCard({ price, amount, date, type, status }) {
   return (

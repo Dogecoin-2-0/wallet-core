@@ -1,5 +1,6 @@
-import React, {useRef} from 'react';
-import { ImageBackground, StyleSheet, View, SafeAreaView, Image} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, { useRef } from 'react';
+import { ImageBackground, StyleSheet, View, SafeAreaView, Image } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
 import AppButton from '../../components/AppButton';
@@ -8,7 +9,6 @@ import AppText from '../../components/AppText';
 import ImportFromSeed from './ImportFromSeed';
 
 export default function WalletSetup({ navigation }) {
-
   const modalRef = useRef(null);
 
   const onOpen = () => {
@@ -29,13 +29,15 @@ export default function WalletSetup({ navigation }) {
           <AppText white>Import an existing wallet or create a new one</AppText>
 
           <View style={{ marginTop: 50 }}>
-            <AppButton title="Import Using Seed Phrase" outlined  onPress={onOpen}/>
+            <AppButton title="Import Using Seed Phrase" outlined onPress={onOpen} />
             <AppButton title="Create New Wallet" onPress={() => navigation.navigate('createWallet')} />
           </View>
         </SafeAreaView>
-      </ImageBackground> 
+      </ImageBackground>
 
-      <Modalize ref={modalRef}><ImportFromSeed/></Modalize>
+      <Modalize ref={modalRef}>
+        <ImportFromSeed />
+      </Modalize>
     </View>
   );
 }

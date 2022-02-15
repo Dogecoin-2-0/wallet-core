@@ -1,11 +1,8 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList } from 'react-native';
 import React from 'react';
 import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
-import AppText from '../../components/AppText';
 import TransactionCard from '../../components/wallet/TransactionCard';
-import { Icon } from '../../components';
-import colors from '../../constants/colors';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import Actions from '../../components/home/Actions';
@@ -62,13 +59,13 @@ const transactions = [
   }
 ];
 
-export default function TokenDetails() {
+export default function TokenDetails({ route }) {
   const renderHeader = () => {
     return (
       <>
-        <TokenDetailHeader name="BNB" />
+        <TokenDetailHeader name={route.params?.name} image={route.params?.image} />
 
-        <TokenPrice />
+        <TokenPrice symbol={route.params?.symbol} />
         <Actions />
       </>
     );

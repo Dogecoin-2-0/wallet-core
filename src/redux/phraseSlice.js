@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { utils } from 'ethers';
+import { generateMnemonic } from '../utils';
 
 const phraseSlice = createSlice({
   name: 'phrase',
@@ -9,8 +9,7 @@ const phraseSlice = createSlice({
   },
   reducers: {
     initPhrase: state => {
-      const randomBytes = utils.randomBytes(16);
-      const p = utils.entropyToMnemonic(randomBytes);
+      const p = generateMnemonic();
       state.phrase = p;
       state.referencePhrase = p;
     },
