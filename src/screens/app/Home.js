@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity, FlatList, Pressable } from 'react-native';
 import React, { useRef } from 'react';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
@@ -11,7 +11,7 @@ import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const modalRef = useRef(null);
 
   const onOpen = () => {
@@ -40,9 +40,11 @@ export default function Home() {
         <TokenPrice />
         <Actions />
         <TokenCollectiblesSwap />
-        <TokenCard />
-        <TokenCard />
-        <TokenCard />
+        <FlatList
+          data={[1, 2, 3, 4]}
+          keyExtractor={item => item.toString()}
+          renderItem={({ item }) => <TokenCard onPress={() => navigation.navigate('tokenDetails')} />}
+        />
       </Screen>
     </PortalProvider>
   );

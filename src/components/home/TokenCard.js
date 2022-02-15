@@ -4,9 +4,9 @@ import AppText from '../AppText';
 import colors from '../../constants/colors';
 import Icon from '../Icon';
 
-export default function TokenCard() {
+export default function TokenCard({ onPress }) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.avatar} />
       <View>
         <View style={styles.row}>
