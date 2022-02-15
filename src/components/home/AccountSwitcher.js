@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import AppText from '../AppText';
 import AppButton from '../AppButton';
