@@ -1,76 +1,68 @@
-import { FlatList, TouchableOpacity } from 'react-native';
-import React, { useRef } from 'react';
+import { FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
 import TransactionCard from '../../components/wallet/TransactionCard';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import Actions from '../../components/home/Actions';
-import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
-import AccountSwitcher from '../../components/home/AccountSwitcher';
-import TransactionDetailPopup from '../../components/wallet/TransactionDetailPopup';
-
-const transactions = [
-  {
-    date: 'Mar 4 at 10:04 AM',
-    type: 'Recieved BNB',
-    amount: '2.078 BNB',
-    price: '$647.22',
-    status: 'Pending'
-  },
-  {
-    date: 'Mar 4 at 10:44 AM',
-    type: 'Recieved BNB',
-    amount: '2.078 BNB',
-    price: '$647.22',
-    status: 'Failed'
-  },
-  {
-    date: 'Mar 4 at 12:04 PM',
-    type: 'Recieved BNB',
-    amount: '2.078 BNB',
-    price: '$647.22',
-    status: 'Confirmed'
-  },
-  {
-    date: 'Mar 4 at 09:04 AM',
-    type: 'Recieved BNB',
-    amount: '2.078 BNB',
-    price: '$647.22',
-    status: 'Pending'
-  },
-  {
-    date: 'Mar 4 at 08:04 PM',
-    type: 'Recieved BNB',
-    amount: '2.078 BNB',
-    price: '$647.22',
-    status: 'Pending'
-  },
-  {
-    date: 'Mar 4 at 07:04 PM',
-    type: 'Recieved BNB',
-    amount: '2.078 BNB',
-    price: '$647.22',
-    status: 'Failed'
-  },
-  {
-    date: 'Mar 4 at 06:04 AM',
-    type: 'Recieved BNB',
-    amount: '2.078 BNB',
-    price: '$647.22',
-    status: 'Pending'
-  }
-];
+import { fetchTransactions } from '../../utils';
+import { assetPriceKeyMap } from '../../constants/maps';
 
 export default function TokenDetails({ route }) {
-  const modalRef = useRef(null);
-  const onOpen = () => {
-    modalRef.current?.open();
-  };
+  const [txns, setTxns] = useState([]);
+  const { price } = useSelector(state => state.priceReducer);
+  const [priceParsed, setPriceParsed] = useState({});
+  const [p, setPrice] = useState(0);
 
-  const onClose = () => {
-    modalRef.current?.close();
-  };
+  useEffect(() => {
+    setPriceParsed(JSON.parse(price));
+  }, [price]);
+
+  useEffect(() => {
+    if (Object.keys(priceParsed).length > 0)
+      setPrice(
+        route.params?.isToken
+          ? priceParsed[route.params?.id].price
+          : priceParsed[assetPriceKeyMap[route.params?.id]].price
+      );
+  }, [priceParsed]);
+
+  useEffect(async () => {
+    const trxnz = await fetchTransactions('0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578');
+    let mutableArr = [];
+
+    for (const key of Object.keys(trxnz).filter(key => {
+      if (route.params?.isToken)
+        return (
+          trxnz[key]._chain === route.params?.network &&
+          route.params?.id.toLowerCase() === trxnz[key].contract_address.toLowerCase()
+        );
+      return trxnz[key]._chain === route.params?.id;
+    })) {
+      const item = trxnz[key];
+      mutableArr = [
+        ...mutableArr,
+        {
+          date: new Date(item.timestamp).toUTCString(),
+          type:
+            item.from.toLowerCase() === '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578'.toLowerCase()
+              ? 'SENT'
+              : 'RECEIVED',
+          amount: `${item.amount} ${route.params?.symbol}`,
+          price: (parseFloat(item.amount) * p).toPrecision(4),
+          status: 'Confirmed',
+          id: key
+        }
+      ];
+    }
+    setTxns(mutableArr);
+    return () => {
+      setTxns([]);
+    };
+  }, [p]);
+
   const renderHeader = () => {
     return (
       <>
@@ -91,9 +83,9 @@ export default function TokenDetails({ route }) {
       />
       <Screen>
         <FlatList
-          data={transactions}
-          keyExtractor={item => item.date}
-          renderItem={({ item }) => <TransactionCard onPress={onOpen} {...item} />}
+          data={txns}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => <TransactionCard {...item} symbol={route.params?.symbol} />}
           ListHeaderComponent={renderHeader}
           showsVerticalScrollIndicator={false}
         />

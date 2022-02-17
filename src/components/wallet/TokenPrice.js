@@ -5,16 +5,22 @@ import AppText from '../AppText';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 
-export default function TokenPrice({ symbol }) {
+export default function TokenPrice({ symbol, balance = 0, price = 0, percentage = 0, type = 'DECREASE' }) {
   return (
     <View style={styles.container}>
-      <AppText big>55,611.4188 {symbol ? symbol : 'BNB'}</AppText>
+      <AppText big>
+        {balance} {symbol ? symbol : 'BNB'}
+      </AppText>
       <View style={styles.rowArea}>
-        <AppText grey>$ 55,611.41</AppText>
+        <AppText grey>$ {price} </AppText>
         <View style={[styles.rowArea, { marginHorizontal: 25 }]}>
-          <Icon name="arrow-top-right" color={colors.green} size={20} />
-          <AppText grey green>
-            {'9.97'}%
+          <Icon
+            name={type === 'INCREASE' ? 'arrow-top-right' : 'arrow-bottom-left'}
+            color={type === 'INCREASE' ? colors.green : colors.red}
+            size={20}
+          />
+          <AppText grey green={type === 'INCREASE'} red={type === 'DECREASE'}>
+            {percentage}%
           </AppText>
         </View>
       </View>
