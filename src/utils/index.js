@@ -52,3 +52,5 @@ export const fetchTokensList = async network => {
     throw new Error(infoResponseJson.error || `Server responded with ${infoResponse.status}`);
   return [...infoResponseJson.result].map(id => ({ network, id }));
 };
+
+export const numberToHex = num => `0x${num.toString(16)}`;

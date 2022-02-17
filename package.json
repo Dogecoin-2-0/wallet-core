@@ -11,6 +11,7 @@
     "format": "prettier --write **/**/*.{js,json} && eslint --fix"
   },
   "dependencies": {
+    "@ethereumjs/tx": "^3.5.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/shims": "^5.5.0",
     "@expo-google-fonts/red-hat-display": "^0.2.0",
@@ -20,13 +21,13 @@
     "@react-navigation/native-stack": "^6.2.5",
     "@reduxjs/toolkit": "^1.7.1",
     "bip39": "^3.0.4",
-    "ethereumjs-tx": "^2.1.2",
     "ethers": "^5.5.2",
     "expo": "~43.0.2",
     "expo-app-loading": "~1.2.1",
     "expo-blur": "~10.0.3",
     "expo-font": "~10.0.3",
     "expo-status-bar": "~1.1.0",
+    "jsbi": "^4.1.0",
     "lodash": "^4.17.21",
     "node-libs-browser": "^2.2.1",
     "react": "17.0.1",
