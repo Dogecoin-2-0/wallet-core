@@ -4,16 +4,23 @@ import AppText from '../AppText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../constants/colors';
 
-export default function TransactionCard({ price, amount, date, type, status }) {
+export default function TransactionCard({ price, amount, date, type, status, symbol = 'BNB' }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity>
         <AppText grey> {date}</AppText>
         <View style={styles.row}>
           <View style={styles.row}>
-            <Image source={require('../../../assets/actions/clock-loading.png')} style={styles.icon} />
+            <Image
+              source={
+                type === 'SENT'
+                  ? require('../../../assets/actions/send.png')
+                  : require('../../../assets/actions/receive.png')
+              }
+              style={styles.icon}
+            />
             <View>
-              <AppText medium>{type}</AppText>
+              <AppText medium>{type === 'SENT' ? `SENT ${symbol}` : `Received ${symbol}`}</AppText>
               <AppText yellow={status === 'Pending'} green={status === 'Confirmed'} red={status === 'Failed'} bold>
                 {status}
               </AppText>
@@ -21,7 +28,7 @@ export default function TransactionCard({ price, amount, date, type, status }) {
           </View>
           <View>
             <AppText medium>{amount}</AppText>
-            <AppText grey>{price}</AppText>
+            <AppText grey>${price}</AppText>
           </View>
         </View>
       </TouchableOpacity>
