@@ -1,12 +1,11 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import AppText from '../AppText';
 import AppButton from '../AppButton';
 import { Icon } from '..';
 import colors from '../../constants/colors';
-import { Pressable } from 'react-native';
 
-export default function AccountSwitcher() {
+export default function AccountSwitcher({ showButtons = true }) {
   const accounts = [
     {
       id: 1,
@@ -47,8 +46,12 @@ export default function AccountSwitcher() {
       })}
       {/* </ScrollView> */}
 
-      <AppButton title="Create New Account" outlined />
-      <AppButton title="Import Account" />
+      {showButtons && (
+        <>
+          <AppButton title="Create New Account" outlined />
+          <AppButton title="Import Account" />
+        </>
+      )}
     </View>
   );
 }

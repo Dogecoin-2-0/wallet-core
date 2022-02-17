@@ -1,12 +1,14 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import AppText from '../AppText';
 import { Icon } from '..';
 
-export default function TokenDetailHeader({ name, image }) {
+export default function TokenDetailHeader({ name, image, goBack }) {
   return (
     <View style={styles.container}>
-      <Icon name="chevron-left" size={30} />
+      <TouchableOpacity onPress={goBack}>
+        <Icon name="chevron-left" size={30} />
+      </TouchableOpacity>
       <AppText bold>{name} </AppText>
       <Image source={{ uri: image }} style={styles.logo} />
     </View>

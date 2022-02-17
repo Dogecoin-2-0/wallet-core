@@ -29,6 +29,7 @@ import DoneWithSeedPhrase from './src/screens/onboarding/DoneWithSeedPhrase';
 import Home from './src/screens/app/Home';
 import TokenDetails from './src/screens/app/TokenDetails';
 import { instantiateSocket } from './src/socket';
+import SendToken from './src/screens/app/SendToken';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -46,7 +47,7 @@ function InstantiatingComponent() {
 
   return (
     <NavigationContainer>
-      <Navigator initialRouteName="home">
+      <Navigator initialRouteName="sendToken">
         <Group screenOptions={{ headerShown: false }}>
           <Screen name="walletSetup" component={WalletSetup} />
           <Screen name="createWallet" component={CreateWallet} />
@@ -58,6 +59,7 @@ function InstantiatingComponent() {
 
           <Screen name="home" component={Home} />
           <Screen name="tokenDetails" component={TokenDetails} />
+          <Screen name="sendToken" component={SendToken} />
         </Group>
       </Navigator>
     </NavigationContainer>

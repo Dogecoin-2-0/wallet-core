@@ -18,7 +18,8 @@ export default function AppText({
   blue,
   small,
   big,
-  extraBig
+  extraBig,
+  padded
 }) {
   return (
     <View>
@@ -38,6 +39,7 @@ export default function AppText({
           big && styles.big,
           green && styles.green,
           red && styles.red,
+          padded && styles.padded,
           style
         ]}
       >
@@ -93,5 +95,8 @@ const styles = StyleSheet.create({
   },
   big: {
     fontSize: 30
+  },
+  padded: {
+    marginVertical: 10
   }
 });

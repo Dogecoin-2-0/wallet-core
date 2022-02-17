@@ -21,19 +21,37 @@ const actions = [
     backgroundColor: '#FEF0D7'
   }
 ];
-export default function Actions() {
+export default function Actions({ showBuy = true, onSendIconPress, onRecieveIconPress, onBuyIconPress }) {
   return (
     <View style={styles.container}>
-      {actions.map((action, index) => (
-        <TouchableOpacity key={index} style={[styles.actionContainer]}>
+      {/* {actions.map((action, index) => ( */}
+      <TouchableOpacity style={[styles.actionContainer]} onPress={onSendIconPress}>
+        {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
+        <Image source={actions[0].icon} style={styles.action} />
+        {/* </View> */}
+        <AppText bold style={{ overflow: 'hidden' }} centered>
+          {actions[0].name}
+        </AppText>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.actionContainer]} onPress={onRecieveIconPress}>
+        {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
+        <Image source={actions[1].icon} style={styles.action} />
+        {/* </View> */}
+        <AppText bold style={{ overflow: 'hidden' }} centered>
+          {actions[1].name}
+        </AppText>
+      </TouchableOpacity>
+      {showBuy && (
+        <TouchableOpacity style={[styles.actionContainer]} onPress={onBuyIconPress}>
           {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
-          <Image source={action.icon} style={styles.action} />
+          <Image source={actions[2].icon} style={styles.action} />
           {/* </View> */}
           <AppText bold style={{ overflow: 'hidden' }} centered>
-            {action.name}
+            {actions[2].name}
           </AppText>
         </TouchableOpacity>
-      ))}
+      )}
+      {/* ))} */}
     </View>
   );
 }

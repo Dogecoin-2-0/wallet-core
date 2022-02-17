@@ -4,10 +4,10 @@ import AppText from '../AppText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../constants/colors';
 
-export default function TransactionCard({ price, amount, date, type, status, symbol = 'BNB' }) {
+export default function TransactionCard({ price, amount, date, type, status, onPress, symbol = 'BNB' }) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
         <AppText grey> {date}</AppText>
         <View style={styles.row}>
           <View style={styles.row}>

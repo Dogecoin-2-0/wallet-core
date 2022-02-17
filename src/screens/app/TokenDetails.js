@@ -1,5 +1,5 @@
 import { FlatList } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
@@ -9,8 +9,20 @@ import TokenPrice from '../../components/wallet/TokenPrice';
 import Actions from '../../components/home/Actions';
 import { fetchTransactions } from '../../utils';
 import { assetPriceKeyMap } from '../../constants/maps';
+import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
+import TransactionDetailPopup from '../../components/wallet/TransactionDetailPopup';
 
 export default function TokenDetails({ route }) {
+  // modal
+  const modalRef = useRef(null);
+  const onOpen = () => {
+    modalRef.current?.open();
+  };
+
+  const onClose = () => {
+    modalRef.current?.close();
+  };
+
   const [txns, setTxns] = useState([]);
   const { price } = useSelector(state => state.priceReducer);
   const [priceParsed, setPriceParsed] = useState({});
@@ -75,11 +87,17 @@ export default function TokenDetails({ route }) {
   };
   return (
     <PortalProvider>
+      <ReusableBottomSheet
+        height={550}
+        title="Recieved BNB"
+        modalRef={modalRef}
+        children={<TransactionDetailPopup />}
+      />
       <Screen>
         <FlatList
           data={txns}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => <TransactionCard {...item} symbol={route.params?.symbol} />}
+          renderItem={({ item }) => <TransactionCard onPress={onOpen} {...item} symbol={route.params?.symbol} />}
           ListHeaderComponent={renderHeader}
           showsVerticalScrollIndicator={false}
         />
