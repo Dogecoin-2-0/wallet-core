@@ -1,4 +1,5 @@
 import { utils } from 'ethers';
+import { Wallet } from '@ethersproject/wallet';
 import * as constants from '../constants';
 
 export const generateMnemonic = () => {
@@ -16,7 +17,7 @@ export const generateFromMnemonic = argMnemonic => {
     mnemonic = argMnemonic;
   else mnemonic = generateMnemonic();
 
-  return mnemonic;
+  return Wallet.fromMnemonic(mnemonic);
 };
 
 export const fetchBlockchainInfo = async network => {
@@ -53,4 +54,14 @@ export const fetchTokensList = async network => {
   return [...infoResponseJson.result].map(id => ({ network, id }));
 };
 
+export const fetchTransactions = async address => {
+  const txResponse = await fetch(`${constants.PROCESS_ROOT}/transactions?address=${address}`, { method: 'GET' });
+  const txResponseJson = await txResponse.json();
+  if (txResponse.status >= 400) throw new Error(txResponseJson.error || `Server responded with ${txResponse.status}`);
+
+  return { ...txResponseJson.result };
+};
+
 export const numberToHex = num => `0x${num.toString(16)}`;
+
+export const hexToNumber = hex => parseInt(hex, 16);

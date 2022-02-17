@@ -9,11 +9,13 @@ import colors from '../../constants/colors';
 import ReusableAlert from '../extras/ReusableAlert';
 import { fetchBlockchainInfo, fetchTokenInfo } from '../../utils';
 import { assetPriceKeyMap } from '../../constants/maps';
+import Singleton from '../../https/singleton';
 
 function TokenCard({ id, network, onPress }) {
   const [info, setInfo] = useState({});
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [balance, setBalance] = useState('0');
   const { price } = useSelector(state => state.priceReducer);
   const [priceParsed, setPriceParsed] = useState({});
 
@@ -31,27 +33,41 @@ function TokenCard({ id, network, onPress }) {
     setPriceParsed(JSON.parse(price));
   }, [price]);
 
+  useEffect(async () => {
+    const bal =
+      network === 'self'
+        ? await Singleton.getInstance().getNativeBalance(id, '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578')
+        : await Singleton.getInstance().getTokenBalance(network, id, '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578');
+    setBalance(bal);
+  }, []);
+
   return (
     <View>
-      <TouchableOpacity style={styles.container} onPress={() => onPress(info)}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => onPress({ ...info, isToken: network !== 'self', network, id })}
+      >
         <View style={styles.avatar}>
           <Image source={{ uri: info.image }} style={{ height: '100%', width: '100%' }} />
         </View>
         <View>
           <View style={styles.row}>
             <AppText medium> {info.name} </AppText>
-            <AppText medium> 2.5123 {info.symbol} </AppText>
+            <AppText medium>
+              {' '}
+              {balance} {info.symbol}{' '}
+            </AppText>
           </View>
           <View style={styles.row}>
             <AppText grey>
               {' '}
-              $
+              ${' '}
               {network === 'self'
                 ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                  ? parseFloat(priceParsed[assetPriceKeyMap[id]].price).toPrecision(4)
+                  ? parseFloat(priceParsed[assetPriceKeyMap[id]].price).toPrecision(5)
                   : 0
                 : priceParsed[id]
-                ? parseFloat(priceParsed[id].price).toPrecision(4)
+                ? parseFloat(priceParsed[id].price).toPrecision(5)
                 : 0}{' '}
             </AppText>
             <View style={styles.row}>
@@ -103,7 +119,7 @@ function TokenCard({ id, network, onPress }) {
                     : 0
                   : priceParsed[id]
                   ? parseFloat(priceParsed[id]._percentage).toPrecision(2)
-                  : 0}{' '}
+                  : 0}
                 {'%'}
               </AppText>
             </View>

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import { Image, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
 import React, { useRef, useState, useEffect } from 'react';
-import Swal from 'react-native-sweet-alert';
+import { useSelector } from 'react-redux';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
@@ -10,16 +10,22 @@ import TokenCollectiblesSwap from '../../components/home/TokenCollectiblesSwap';
 import TokenCard from '../../components/home/TokenCard';
 import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
+import ReusableAlert from '../../components/extras/ReusableAlert';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import { fetchChainList, fetchTokensList } from '../../utils';
-import colors from '../../constants/colors';
+import Singleton from '../../https/singleton';
 
 export default function Home({ navigation }) {
   const modalRef = useRef(null);
   const [list, setList] = useState([]);
   const [erc20TokensList, setERC20List] = useState([]);
   const [bep20TokenList, setBEP20List] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const { price } = useSelector(state => state.priceReducer);
+  const [priceParsed, setPriceParsed] = useState({});
+  const [balance, setBalance] = useState('0');
 
   const onOpen = () => {
     modalRef.current?.open();
@@ -38,16 +44,27 @@ export default function Home({ navigation }) {
       setERC20List(erc20L);
       setBEP20List(bep20L);
     } catch (error) {
-      Swal.showAlertWithOptions({
-        title: 'Error',
-        subTitle: error.message,
-        confirmButtonTitle: 'Ok',
-        confirmButtonColor: colors.red,
-        style: 'error',
-        cancellable: true
-      });
+      setAlertMessage(error.message);
+      setShowAlert(true);
     }
   }, []);
+
+  useEffect(async () => {
+    try {
+      const bal = await Singleton.getInstance().getNativeBalance(
+        'binance',
+        '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578'
+      );
+      setBalance(bal);
+    } catch (error) {
+      setAlertMessage(error.message);
+      setShowAlert(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    setPriceParsed(JSON.parse(price));
+  }, [price]);
 
   return (
     <PortalProvider>
@@ -65,7 +82,12 @@ export default function Home({ navigation }) {
           </View>
           <Image source={require('../../../assets/dogeroundedLogo.png')} style={styles.logo} />
         </View>
-        <TokenPrice />
+        <TokenPrice
+          price={priceParsed['binancecoin']?.price.toPrecision(5) || 0}
+          percentage={priceParsed['binancecoin']?._percentage.toPrecision(2) || 0}
+          type={priceParsed['binancecoin']?._type}
+          balance={balance}
+        />
         <Actions />
         <TokenCollectiblesSwap />
         <FlatList
@@ -79,6 +101,15 @@ export default function Home({ navigation }) {
             />
           )}
           showsVerticalScrollIndicator={false}
+        />
+        <ReusableAlert
+          message={alertMessage}
+          visible={showAlert}
+          isSuccessful={false}
+          close={() => {
+            setShowAlert(false);
+            setAlertMessage('');
+          }}
         />
       </Screen>
     </PortalProvider>
@@ -107,9 +138,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'
-  },
-  usd: {
-    flexDirection: 'row'
-    // justifyContent: 'space-around'
   }
 });

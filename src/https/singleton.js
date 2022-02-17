@@ -1,6 +1,6 @@
 import { Transaction } from '@ethereumjs/tx';
 import JSBI from 'jsbi';
-import { numberToHex } from '../utils';
+import { hexToNumber, numberToHex } from '../utils';
 import { _encodeFunctionData, _getSigHash, _jsonRpcRequest } from './rpc';
 import abi from '../assets/ERC20ABI.json';
 
@@ -11,7 +11,17 @@ export default class Singleton {
 
   async getNativeBalance(network, address) {
     const bal = await _jsonRpcRequest(network, 'eth_getBalance', [address, 'latest']);
-    const balance = JSBI.divide(JSBI.BigInt(bal), JSBI.BigInt(10 ** 18)).toString(10);
+    const balance = hexToNumber(bal) / 10 ** 18;
+    return Promise.resolve(parseFloat(balance).toPrecision(4));
+  }
+
+  async getTokenBalance(network, token, address) {
+    const decimalFunctionEncoded = _getSigHash(abi, 'decimals');
+    const res = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: decimalFunctionEncoded }, 'latest']);
+    const decimals = hexToNumber(res === '0x' ? '0x12' : res);
+    const balanceOfEncoded = _encodeFunctionData(abi, 'balanceOf', [address]);
+    const bal = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: balanceOfEncoded }, 'latest']);
+    const balance = hexToNumber(bal === '0x' ? '0x0' : bal) / 10 ** decimals;
     return Promise.resolve(parseFloat(balance).toPrecision(2));
   }
 

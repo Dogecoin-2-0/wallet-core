@@ -14,6 +14,7 @@
     "@ethereumjs/tx": "^3.5.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/shims": "^5.5.0",
+    "@ethersproject/wallet": "^5.5.0",
     "@expo-google-fonts/red-hat-display": "^0.2.0",
     "@gorhom/portal": "^1.0.11",
     "@react-native-cryptocurrencies/bip39": "^3.1.5",
@@ -43,6 +44,7 @@
     "react-native-sweet-alert": "^3.5.0",
     "react-redux": "^7.2.6",
     "socket.io-client": "^4.4.1",
+    "stream": "^0.0.2",
     "styled-components": "^5.3.3",
     "web3": "^1.6.1"
   },
