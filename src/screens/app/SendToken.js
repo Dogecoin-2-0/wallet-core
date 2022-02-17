@@ -43,7 +43,7 @@ export default function SendToken() {
             <Icon name="qrcode-scan" />
           </View>
 
-          <AppText centered blue bold underlined>
+          <AppText centered blue bold underlined padded>
             Transfer Between My Accounts
           </AppText>
         </View>

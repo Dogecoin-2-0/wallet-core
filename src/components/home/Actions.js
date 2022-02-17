@@ -24,16 +24,32 @@ const actions = [
 export default function Actions() {
   return (
     <View style={styles.container}>
-      {actions.map((action, index) => (
-        <TouchableOpacity key={index} style={[styles.actionContainer]}>
-          {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
-          <Image source={action.icon} style={styles.action} />
-          {/* </View> */}
-          <AppText bold style={{ overflow: 'hidden' }} centered>
-            {action.name}
-          </AppText>
-        </TouchableOpacity>
-      ))}
+      {/* {actions.map((action, index) => ( */}
+      <TouchableOpacity style={[styles.actionContainer]}>
+        {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
+        <Image source={actions[0].icon} style={styles.action} />
+        {/* </View> */}
+        <AppText bold style={{ overflow: 'hidden' }} centered>
+          {actions[0].name}
+        </AppText>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.actionContainer]}>
+        {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
+        <Image source={actions[1].icon} style={styles.action} />
+        {/* </View> */}
+        <AppText bold style={{ overflow: 'hidden' }} centered>
+          {actions[1].name}
+        </AppText>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.actionContainer]}>
+        {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
+        <Image source={actions[2].icon} style={styles.action} />
+        {/* </View> */}
+        <AppText bold style={{ overflow: 'hidden' }} centered>
+          {actions[2].name}
+        </AppText>
+      </TouchableOpacity>
+      {/* ))} */}
     </View>
   );
 }
