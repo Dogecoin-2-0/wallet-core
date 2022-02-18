@@ -11,3 +11,10 @@ export const assetProvidersMap = {
   ethereum: 'https://speedy-nodes-nyc.moralis.io/558120230227a848a2bb7043/eth/ropsten',
   polygon: 'https://speedy-nodes-nyc.moralis.io/558120230227a848a2bb7043/polygon/mumbai'
 };
+
+export const assetTxChainMap = {
+  binance: 'smartchain',
+  avalanche: 'avalanche',
+  ethereum: 'ethereum',
+  polygon: 'polygon'
+};
