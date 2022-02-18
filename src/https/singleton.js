@@ -65,4 +65,10 @@ export default class Singleton {
 
     return Promise.resolve(txHash);
   }
+
+  async getTxNonce(network, txHash) {
+    let { nonce } = await _jsonRpcRequest(network, 'eth_getTransactionByHash', [txHash]);
+    nonce = hexToNumber(nonce);
+    return Promise.resolve(nonce);
+  }
 }

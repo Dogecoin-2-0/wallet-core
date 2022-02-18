@@ -1,15 +1,16 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import AppText from '../AppText';
-import AppButton from '../AppButton';
-import { Icon } from '..';
-import colors from '../../constants/colors';
-import { Pressable } from 'react-native';
 
-export default function TransactionDetailPopup() {
+export default function TransactionDetailPopup({ selectedId, txns = [] }) {
   // transaction status
   // change to 'confirmed' to see the ui of a successful transaction
-  const status = 'failed';
+  const status = 'confirmed';
+  const [txn, setTxn] = useState({});
+
+  useEffect(() => {
+    if (selectedId !== '0x') setTxn(txns.find(tx => tx.id === selectedId));
+  }, [selectedId]);
 
   return (
     <View style={styles.container}>
@@ -26,33 +27,40 @@ export default function TransactionDetailPopup() {
       <View style={styles.row}>
         <AppText> Amount</AppText>
         <View>
-          <AppText> 0.5673 BNB</AppText>
-          <AppText>$133,2530</AppText>
+          <AppText>{txn.amount}</AppText>
+          <AppText>
+            ${''}
+            {txn.price || 0}
+          </AppText>
         </View>
       </View>
       <View style={styles.row}>
         <AppText small grey>
           From
         </AppText>
-        <AppText> bc1qsh...uyupm</AppText>
+        <AppText>
+          {(txn.from?.slice(0, 8) + '...' + txn.from?.slice(txn.from?.length - 11, txn.from?.length)).toLowerCase()}
+        </AppText>
       </View>
       <View style={styles.row}>
         <AppText small grey>
           To
         </AppText>
-        <AppText> bc1qsh...uyupm</AppText>
+        <AppText>
+          {(txn.to?.slice(0, 8) + '...' + txn.to?.slice(txn.to?.length - 11, txn.to?.length)).toLowerCase()}
+        </AppText>
       </View>
       <View style={styles.row}>
         <AppText small grey>
           Date
         </AppText>
-        <AppText> bc1qsh...uyupm</AppText>
+        <AppText>{txn.date}</AppText>
       </View>
       <View style={styles.row}>
         <AppText small grey>
           Nonce
         </AppText>
-        <AppText> #0</AppText>
+        <AppText bold> # {txn.nonce || 0}</AppText>
       </View>
 
       {status != 'failed' ? (
@@ -65,8 +73,11 @@ export default function TransactionDetailPopup() {
         <View style={styles.row}>
           <AppText>Total Amount</AppText>
           <View>
-            <AppText bold> 1.34272 BNB</AppText>
-            <AppText grey>$3296.35</AppText>
+            <AppText bold>{txn.amount}</AppText>
+            <AppText grey>
+              ${''}
+              {txn.price || 0}
+            </AppText>
           </View>
         </View>
       )}

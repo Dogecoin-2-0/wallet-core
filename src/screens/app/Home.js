@@ -1,6 +1,6 @@
 /* eslint-disable react/no-children-prop */
 import { Image, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
@@ -15,6 +15,7 @@ import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import { fetchChainList, fetchTokensList } from '../../utils';
 import Singleton from '../../https/singleton';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Home({ navigation }) {
   const modalRef = useRef(null);
@@ -35,32 +36,54 @@ export default function Home({ navigation }) {
     modalRef.current?.close();
   };
 
-  useEffect(async () => {
-    try {
-      const l = await fetchChainList();
-      const erc20L = await fetchTokensList('ethereum');
-      const bep20L = await fetchTokensList('binance');
-      setList(l);
-      setERC20List(erc20L);
-      setBEP20List(bep20L);
-    } catch (error) {
-      setAlertMessage(error.message);
-      setShowAlert(true);
-    }
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchItems() {
+        try {
+          const l = await fetchChainList();
+          const erc20L = await fetchTokensList('ethereum');
+          const bep20L = await fetchTokensList('binance');
+          setList(l);
+          setERC20List(erc20L);
+          setBEP20List(bep20L);
+        } catch (error) {
+          setAlertMessage(error.message);
+          setShowAlert(true);
+        }
+      }
 
-  useEffect(async () => {
-    try {
-      const bal = await Singleton.getInstance().getNativeBalance(
-        'binance',
-        '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578'
-      );
-      setBalance(bal);
-    } catch (error) {
-      setAlertMessage(error.message);
-      setShowAlert(true);
-    }
-  }, []);
+      fetchItems();
+
+      return () => {
+        setList([]);
+        setERC20List([]);
+        setBEP20List([]);
+      };
+    }, [])
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      async function getBalance() {
+        try {
+          const bal = await Singleton.getInstance().getNativeBalance(
+            'binance',
+            '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578'
+          );
+          setBalance(bal);
+        } catch (error) {
+          setAlertMessage(error.message);
+          setShowAlert(true);
+        }
+      }
+
+      getBalance();
+
+      return () => {
+        setBalance(0);
+      };
+    }, [])
+  );
 
   useEffect(() => {
     setPriceParsed(JSON.parse(price));
