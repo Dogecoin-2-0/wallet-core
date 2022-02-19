@@ -16,7 +16,7 @@ export default function TransactionDetailPopup() {
       <View style={styles.status}>
         <Image
           source={
-            status === 'failed'
+            status === 'Confirmed'
               ? require('../../../assets/failed-icon.png')
               : require('../../../assets/confirmed-icon.png')
           }
