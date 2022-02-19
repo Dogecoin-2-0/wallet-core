@@ -11,6 +11,7 @@ import { fetchTransactions } from '../../utils';
 import { assetPriceKeyMap } from '../../constants/maps';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import TransactionDetailPopup from '../../components/wallet/TransactionDetailPopup';
+import SendToken from './SendToken';
 
 export default function TokenDetails({ route }) {
   // modal
@@ -21,6 +22,15 @@ export default function TokenDetails({ route }) {
 
   const onClose = () => {
     modalRef.current?.close();
+  };
+
+  const sendModalRef = useRef(null);
+
+  const onSendModalOpen = () => {
+    sendModalRef.current?.open();
+  };
+  const onSendModalClose = () => {
+    sendModalRef.current?.close();
   };
 
   const [txns, setTxns] = useState([]);
@@ -81,7 +91,7 @@ export default function TokenDetails({ route }) {
         <TokenDetailHeader name={route.params?.name} image={route.params?.image} />
 
         <TokenPrice symbol={route.params?.symbol} />
-        <Actions />
+        <Actions onSendIconPress={onSendModalOpen} />
       </>
     );
   };
@@ -93,6 +103,7 @@ export default function TokenDetails({ route }) {
         modalRef={modalRef}
         children={<TransactionDetailPopup />}
       />
+      <ReusableBottomSheet height={800} title="Send Tokens" modalRef={sendModalRef} children={<SendToken />} />
       <Screen>
         <FlatList
           data={txns}
