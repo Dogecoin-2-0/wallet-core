@@ -22,40 +22,32 @@ export default function SendToken() {
   };
   return (
     <PortalProvider>
-      <ReusableBottomSheet
-        title="Account"
-        // height={400}
-        modalRef={accountSwitcherRef}
-        children={<AccountSwitcher />}
-      />
-      <Screen>
+      <ReusableBottomSheet title="Account" height={500} modalRef={accountSwitcherRef} children={<AccountSwitcher />} />
+
+      <AccountCard onPress={onOpen} />
+      <View style={styles.inputArea}>
         <AppText bold padded>
-          From
+          To
         </AppText>
-        <AccountCard onPress={onOpen} />
-        <View style={styles.inputArea}>
-          <AppText bold padded>
-            To
-          </AppText>
 
-          <View style={styles.inputContainer}>
-            <TextInput style={styles.input} placeholder="Search, public address(0x), or ENS" />
-            <Icon name="qrcode-scan" />
-          </View>
-
-          <AppText centered blue bold underlined padded>
-            Transfer Between My Accounts
-          </AppText>
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.input} placeholder="Search, public address(0x), or ENS" />
+          <Icon name="qrcode-scan" />
         </View>
 
-        <AppText bold medium padded>
-          Recent
+        <AppText centered blue bold underlined padded>
+          Transfer Between My Accounts
         </AppText>
+      </View>
 
-        {[1, 2, 3, 4].map(i => (
-          <RecentTransactionCard key={i} />
-        ))}
-      </Screen>
+      <AppText bold medium padded>
+        Recent
+      </AppText>
+
+      {[1, 2, 3].map(i => (
+        <RecentTransactionCard key={i} />
+      ))}
+      {/* </Screen> */}
     </PortalProvider>
   );
 }

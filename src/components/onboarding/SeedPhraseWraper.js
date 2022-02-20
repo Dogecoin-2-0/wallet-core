@@ -49,11 +49,6 @@ function SeedPhraseWraper({ isInit }) {
 }
 
 const styles = StyleSheet.create({
-  // blurContainer: {
-  //   flex: 1,
-  //   padding: 20,
-  //   justifyContent: "center"
-  // },
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',

@@ -39,6 +39,7 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-get-random-values": "^1.7.2",
     "react-native-modalize": "^2.0.13",
+    "react-native-qrcode-svg": "^6.1.2",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-svg": "12.1.1",
