@@ -12,6 +12,7 @@ import { assetPriceKeyMap } from '../../constants/maps';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import TransactionDetailPopup from '../../components/wallet/TransactionDetailPopup';
 import SendToken from './SendToken';
+import RecieveAsset from '../../components/wallet/RecieveAsset';
 
 export default function TokenDetails({ route }) {
   // modal
@@ -31,6 +32,15 @@ export default function TokenDetails({ route }) {
   };
   const onSendModalClose = () => {
     sendModalRef.current?.close();
+  };
+
+  const recieveModalRef = useRef(null);
+
+  const onRecieveModalOpen = () => {
+    recieveModalRef.current?.open();
+  };
+  const onRecieveModalClose = () => {
+    recieveModalRef.current?.close();
   };
 
   const [txns, setTxns] = useState([]);
@@ -91,7 +101,7 @@ export default function TokenDetails({ route }) {
         <TokenDetailHeader name={route.params?.name} image={route.params?.image} />
 
         <TokenPrice symbol={route.params?.symbol} />
-        <Actions onSendIconPress={onSendModalOpen} />
+        <Actions onSendIconPress={onSendModalOpen} onRecieveIconPress={onRecieveModalOpen} />
       </>
     );
   };
@@ -104,6 +114,7 @@ export default function TokenDetails({ route }) {
         children={<TransactionDetailPopup />}
       />
       <ReusableBottomSheet height={800} title="Send Tokens" modalRef={sendModalRef} children={<SendToken />} />
+      <ReusableBottomSheet height={500} title="Recieve BNB" modalRef={recieveModalRef} children={<RecieveAsset />} />
       <Screen>
         <FlatList
           data={txns}
