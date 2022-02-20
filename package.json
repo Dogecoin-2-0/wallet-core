@@ -27,6 +27,7 @@
     "expo-app-loading": "~1.2.1",
     "expo-barcode-scanner": "~11.1.2",
     "expo-blur": "~10.0.3",
+    "expo-clipboard": "^2.1.1",
     "expo-font": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "jsbi": "^4.1.0",
