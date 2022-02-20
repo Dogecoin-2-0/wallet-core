@@ -114,7 +114,7 @@ export default function TokenDetails({ route }) {
         children={<TransactionDetailPopup />}
       />
       <ReusableBottomSheet height={800} title="Send Tokens" modalRef={sendModalRef} children={<SendToken />} />
-      <ReusableBottomSheet height={500} title="Recieve BNB" modalRef={recieveModalRef} children={<RecieveAsset />} />
+      <ReusableBottomSheet height={520} title="Recieve BNB" modalRef={recieveModalRef} children={<RecieveAsset />} />
       <Screen>
         <FlatList
           data={txns}

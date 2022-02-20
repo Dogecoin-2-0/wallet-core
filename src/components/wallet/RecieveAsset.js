@@ -7,14 +7,14 @@ export default function RecieveAsset() {
   return (
     <>
       <View style={styles.container}>
-        <SvgQRCode value="Kingsley is awesome" size={200} />
+        <SvgQRCode value="Kingsley is awesome" size={250} />
         <AppText grey> Scan address to receive payment</AppText>
       </View>
       <View style={styles.row}>
-        <AppButton title="xultyo" outlined half />
-        <AppButton title="Share" outlined half />
+        <AppButton title="xultyoh...34pm" outlined half icon="content-copy" />
+        <AppButton title="Share" outlined half icon="share-variant" />
       </View>
-      <AppButton title="Send Link" />
+      <AppButton icon="arrow-up" title="Send Link" />
     </>
   );
 }
