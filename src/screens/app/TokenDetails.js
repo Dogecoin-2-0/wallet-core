@@ -151,8 +151,23 @@ export default function TokenDetails({ route, navigation }) {
         modalRef={modalRef}
         children={<TransactionDetailPopup selectedId={selectedId} txns={txns} />}
       />
-      <ReusableBottomSheet height={800} title="Send Tokens" modalRef={sendModalRef} children={<SendToken />} />
-      <ReusableBottomSheet height={520} title="Recieve BNB" modalRef={recieveModalRef} children={<RecieveAsset />} />
+      <ReusableBottomSheet
+        height={800}
+        title={`Send ${route.params?.symbol}`}
+        modalRef={sendModalRef}
+        children={<SendToken />}
+      />
+      <ReusableBottomSheet
+        height={520}
+        title={`Receive ${route.params?.symbol}`}
+        modalRef={recieveModalRef}
+        children={
+          <RecieveAsset
+            qrValue="0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578"
+            address="0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578"
+          />
+        }
+      />
       <Screen>
         <FlatList
           data={txns}
