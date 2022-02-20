@@ -18,6 +18,8 @@ import colors from '../../constants/colors';
 import AppText from '../../components/AppText';
 import { View } from 'react-native';
 import Singleton from '../../https/singleton';
+import SendToken from './SendToken';
+import RecieveAsset from '../../components/wallet/RecieveAsset';
 
 export default function TokenDetails({ route, navigation }) {
   // modal
@@ -28,6 +30,24 @@ export default function TokenDetails({ route, navigation }) {
 
   const onClose = () => {
     modalRef.current?.close();
+  };
+
+  const sendModalRef = useRef(null);
+
+  const onSendModalOpen = () => {
+    sendModalRef.current?.open();
+  };
+  const onSendModalClose = () => {
+    sendModalRef.current?.close();
+  };
+
+  const recieveModalRef = useRef(null);
+
+  const onRecieveModalOpen = () => {
+    recieveModalRef.current?.open();
+  };
+  const onRecieveModalClose = () => {
+    recieveModalRef.current?.close();
   };
 
   const [txns, setTxns] = useState([]);
@@ -97,7 +117,7 @@ export default function TokenDetails({ route, navigation }) {
         <TokenDetailHeader name={route.params?.name} image={route.params?.image} goBack={() => navigation.goBack()} />
 
         <TokenPrice symbol={route.params?.symbol} />
-        <Actions />
+        <Actions onSendIconPress={onSendModalOpen} onRecieveIconPress={onRecieveModalOpen} />
       </>
     );
   };
@@ -131,6 +151,8 @@ export default function TokenDetails({ route, navigation }) {
         modalRef={modalRef}
         children={<TransactionDetailPopup selectedId={selectedId} txns={txns} />}
       />
+      <ReusableBottomSheet height={800} title="Send Tokens" modalRef={sendModalRef} children={<SendToken />} />
+      <ReusableBottomSheet height={520} title="Recieve BNB" modalRef={recieveModalRef} children={<RecieveAsset />} />
       <Screen>
         <FlatList
           data={txns}
