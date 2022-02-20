@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Share } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import React, { useState, useEffect } from 'react';
 import SvgQRCode from 'react-native-qrcode-svg';
@@ -18,6 +18,11 @@ export default function RecieveAsset({ qrValue = '0x', address = '0x' }) {
   const closeAlert = () => {
     setAlertDisplayed(false);
     setAlertMessage('');
+  };
+  const share = () => {
+    Share.share({ message: address.toLowerCase() }).then(share => {
+      console.log('Share result: ', { ...share });
+    });
   };
 
   useEffect(() => {
@@ -45,7 +50,7 @@ export default function RecieveAsset({ qrValue = '0x', address = '0x' }) {
           icon="content-copy"
           onPress={copyAddress}
         />
-        <AppButton title="Share" outlined half icon="share-variant" />
+        <AppButton title="Share" outlined half icon="share-variant" onPress={share} />
         <ReusableAlert close={closeAlert} isSuccessful={true} message={alertMessage} visible={alertDisplayed} />
       </View>
     </>
