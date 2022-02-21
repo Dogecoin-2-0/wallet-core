@@ -53,8 +53,8 @@ export default function Settings({ navigation }) {
         renderItem={({ item }) => (
           <SettingItem icon={item.icon} label={item.label} onPress={() => navigation.navigate(item.link)} />
         )}
-        ListFooterComponentStyle={styles.logout}
-        ListFooterComponent={<SettingItem label="Logout" icon="logout-variant" />}
+        // ListFooterComponentStyle={styles.logout}
+        // ListFooterComponent={<SettingItem label="Logout" icon="logout-variant" />}
       />
     </Screen>
   );
