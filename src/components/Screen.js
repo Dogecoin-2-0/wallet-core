@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, View } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Platform, StatusBar } from 'react-native';
 
 export default function Screen({ children, transparent }) {
   return (
@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
   },
   transparent: {
     backgroundColor: 'transparent'
