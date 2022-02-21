@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../constants/colors';
 import Home from '../screens/app/Home';
 import { Icon } from '../components';
+import Settings from '../screens/settings/Settings';
 // import Home from '../screens/wallet/Home';
 
 const Tab = createBottomTabNavigator();
@@ -59,7 +60,7 @@ export default function Tabs() {
       />
       <Tab.Screen
         name="Settings"
-        component={Home}
+        component={Settings}
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({ color }) => <Icon name="cog-outline" color={color} size={24} />
