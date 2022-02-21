@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { Icon } from '..';
 import AppText from '../AppText';
 
-export default function SettingItem({ icon, label }) {
+export default function SettingItem({ icon, label, onPress }) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Icon name={icon} style={styles.icon} />
       <AppText>{label}</AppText>
-    </View>
+    </TouchableOpacity>
   );
 }
 

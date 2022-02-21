@@ -17,7 +17,7 @@ export default function TransactionHistory() {
     {
       price: '65.00',
       amount: '6.00',
-      date: '2020-01-01',
+      date: '2020-01-31',
       type: 'RECIEVED',
       status: 'Pending',
       symbol: 'BNB'
@@ -25,7 +25,7 @@ export default function TransactionHistory() {
     {
       price: '65.00',
       amount: '6.00',
-      date: '2020-01-01',
+      date: '2020-01-41',
       type: 'SENT',
       status: 'Failed',
       symbol: 'BNB'
@@ -33,7 +33,7 @@ export default function TransactionHistory() {
     {
       price: '65.00',
       amount: '6.00',
-      date: '2020-01-01',
+      date: '2020-01-056',
       type: 'RECIEVED',
       status: 'Pending',
       symbol: 'BNB'
@@ -41,7 +41,7 @@ export default function TransactionHistory() {
     {
       price: '65.00',
       amount: '6.00',
-      date: '2020-01-01',
+      date: '2020-01-05',
       type: 'SENT',
       status: 'Confirmed',
       symbol: 'BNB'
@@ -49,7 +49,7 @@ export default function TransactionHistory() {
     {
       price: '65.00',
       amount: '6.00',
-      date: '2020-01-01',
+      date: '2020-01-04',
       type: 'SENT',
       status: 'Confirmed',
       symbol: 'BNB'
@@ -59,6 +59,7 @@ export default function TransactionHistory() {
     <Screen>
       <FlatList
         data={data}
+        keyExtractor={item => item.date}
         ListHeaderComponent={<TokenDetailHeader name="Transactions" />}
         renderItem={({ item }) => <TransactionCard {...item} />}
         showsVerticalScrollIndicator={false}

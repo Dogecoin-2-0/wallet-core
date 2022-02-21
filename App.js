@@ -5,7 +5,7 @@ import '@ethersproject/shims'; // Polyfill for ethers.js
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updatePrice } from './src/redux/priceSlice';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CreateWallet from './src/screens/onboarding/CreateWallet';
@@ -32,6 +32,7 @@ import TokenDetails from './src/screens/app/TokenDetails';
 import { instantiateSocket } from './src/socket';
 import SendToken from './src/screens/app/SendToken';
 import Tabs from './src/routes/Tabs';
+import TransactionHistory from './src/screens/settings/TransactionHistory';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -59,9 +60,13 @@ function InstantiatingComponent() {
           <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
           <Screen name="onboardingDone" component={DoneWithSeedPhrase} />
 
+          {/* Auth Routes */}
           <Screen name="home" component={Tabs} />
           <Screen name="tokenDetails" component={TokenDetails} />
           <Screen name="sendToken" component={SendToken} />
+
+          {/* Settings */}
+          <Screen name="transactionHistory" component={TransactionHistory} />
         </Group>
       </Navigator>
     </NavigationContainer>

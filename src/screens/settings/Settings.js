@@ -15,6 +15,7 @@ export default function Settings({ navigation }) {
     {
       id: 2,
       label: 'Transaction History',
+      link: 'transactionHistory',
       icon: 'file-refresh-outline'
     },
     {
@@ -48,7 +49,10 @@ export default function Settings({ navigation }) {
       <FlatList
         data={categories}
         ListHeaderComponent={listHeader}
-        renderItem={({ item }) => <SettingItem icon={item.icon} label={item.label} />}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => (
+          <SettingItem icon={item.icon} label={item.label} onPress={() => navigation.navigate(item.link)} />
+        )}
         ListFooterComponentStyle={styles.logout}
         ListFooterComponent={<SettingItem label="Logout" icon="logout-variant" />}
       />
