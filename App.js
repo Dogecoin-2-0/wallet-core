@@ -5,8 +5,9 @@ import '@ethersproject/shims'; // Polyfill for ethers.js
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updatePrice } from './src/redux/priceSlice';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CreateWallet from './src/screens/onboarding/CreateWallet';
 
 import AppLoading from 'expo-app-loading';
@@ -30,6 +31,9 @@ import Home from './src/screens/app/Home';
 import TokenDetails from './src/screens/app/TokenDetails';
 import { instantiateSocket } from './src/socket';
 import SendToken from './src/screens/app/SendToken';
+import Tabs from './src/routes/Tabs';
+import TransactionHistory from './src/screens/settings/TransactionHistory';
+import InnerSettings from './src/screens/settings/InnerSettings';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -57,9 +61,14 @@ function InstantiatingComponent() {
           <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
           <Screen name="onboardingDone" component={DoneWithSeedPhrase} />
 
-          <Screen name="home" component={Home} />
+          {/* Auth Routes */}
+          <Screen name="home" component={Tabs} />
           <Screen name="tokenDetails" component={TokenDetails} />
           <Screen name="sendToken" component={SendToken} />
+
+          {/* Settings */}
+          <Screen name="transactionHistory" component={TransactionHistory} />
+          <Screen name="innerSettings" component={InnerSettings} />
         </Group>
       </Navigator>
     </NavigationContainer>

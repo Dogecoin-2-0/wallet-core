@@ -89,30 +89,35 @@ export default function Home({ navigation }) {
     setPriceParsed(JSON.parse(price));
   }, [price]);
 
+  const renderHeader = (
+    <>
+      <View style={styles.row}>
+        <View style={styles.username}>
+          <TouchableOpacity style={styles.rowArea} onPress={onOpen}>
+            <Image source={require('../../../assets/avatar.png')} style={styles.avatar} />
+            <AppText bold yellow>
+              Queen Bee
+            </AppText>
+            <Icon name="chevron-down" />
+          </TouchableOpacity>
+        </View>
+        <Image source={require('../../../assets/dogeroundedLogo.png')} style={styles.logo} />
+      </View>
+      <TokenPrice
+        price={priceParsed['binancecoin']?.price.toPrecision(5) || 0}
+        percentage={priceParsed['binancecoin']?._percentage.toPrecision(2) || 0}
+        type={priceParsed['binancecoin']?._type}
+        balance={balance}
+      />
+      <Actions />
+      <TokenCollectiblesSwap />
+    </>
+  );
+
   return (
     <PortalProvider>
       <ReusableBottomSheet title="Account" modalRef={modalRef} children={<AccountSwitcher />} />
       <Screen>
-        <View style={styles.row}>
-          <View style={styles.username}>
-            <TouchableOpacity style={styles.rowArea} onPress={onOpen}>
-              <Image source={require('../../../assets/avatar.png')} style={styles.avatar} />
-              <AppText bold yellow>
-                Queen Bee
-              </AppText>
-              <Icon name="chevron-down" />
-            </TouchableOpacity>
-          </View>
-          <Image source={require('../../../assets/dogeroundedLogo.png')} style={styles.logo} />
-        </View>
-        <TokenPrice
-          price={priceParsed['binancecoin']?.price.toPrecision(5) || 0}
-          percentage={priceParsed['binancecoin']?._percentage.toPrecision(2) || 0}
-          type={priceParsed['binancecoin']?._type}
-          balance={balance}
-        />
-        <Actions />
-        <TokenCollectiblesSwap />
         <FlatList
           data={[...list, ...erc20TokensList, ...bep20TokenList]}
           keyExtractor={item => item.id}
@@ -124,6 +129,7 @@ export default function Home({ navigation }) {
             />
           )}
           showsVerticalScrollIndicator={false}
+          ListHeaderComponent={renderHeader}
         />
         <ReusableAlert
           message={alertMessage}

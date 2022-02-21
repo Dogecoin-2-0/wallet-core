@@ -11,7 +11,7 @@ export default function TokenCollectiblesSwap() {
     <View style={styles.categoryContainer}>
       {categories.map((item, index) => (
         <TouchableOpacity key={index} activeOpacity={0.8} onPress={() => setCategoryIndex(index)}>
-          <View style={[catergoryIndex === index && styles.categoryTextSelected]}>
+          <View style={[catergoryIndex === index && styles.selectedBotom]}>
             <AppText bold style={[styles.categoryText, catergoryIndex === index && styles.categoryTextSelected]}>
               {item}
             </AppText>
@@ -31,8 +31,10 @@ const styles = StyleSheet.create({
   },
   categoryTextSelected: {
     color: colors.yellow,
+    paddingHorizontal: 15
+  },
+  selectedBotom: {
     paddingBottom: 4,
-    paddingHorizontal: 15,
     borderBottomWidth: 2.5,
     borderBottomColor: colors.yellow
   }
