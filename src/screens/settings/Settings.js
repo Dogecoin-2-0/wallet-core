@@ -21,15 +21,21 @@ export default function Settings({ navigation }) {
     {
       id: 3,
       label: 'Share Public',
-      icon: 'account-circle-outline'
+      icon: 'share-variant'
     },
     {
       id: 4,
+      label: 'Settings',
+      icon: 'cog-outline',
+      link: 'innerSettings'
+    },
+    {
+      id: 5,
       label: 'Get Help',
       icon: 'face-agent'
     },
     {
-      id: 5,
+      id: 6,
       label: 'Send Feedback',
       icon: 'email-send-outline'
     }

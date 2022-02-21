@@ -33,6 +33,7 @@ import { instantiateSocket } from './src/socket';
 import SendToken from './src/screens/app/SendToken';
 import Tabs from './src/routes/Tabs';
 import TransactionHistory from './src/screens/settings/TransactionHistory';
+import InnerSettings from './src/screens/settings/InnerSettings';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -67,6 +68,7 @@ function InstantiatingComponent() {
 
           {/* Settings */}
           <Screen name="transactionHistory" component={TransactionHistory} />
+          <Screen name="innerSettings" component={InnerSettings} />
         </Group>
       </Navigator>
     </NavigationContainer>
