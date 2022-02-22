@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../constants/colors';
@@ -17,7 +16,8 @@ export default function Tabs() {
       screenOptions={{
         headerShown: false,
         indicatorStyle: {
-          height: 0
+          height: 0,
+          backgroundColor: 'transparent'
         },
         tabBarShowLabel: true,
         initialRouteName: 'Home',
@@ -26,9 +26,6 @@ export default function Tabs() {
         tabStyle: {
           // paddingBottom: 8
           // paddingTop: 8
-        },
-        indicatorStyle: {
-          backgroundColor: 'transparent'
         },
         tabBarStyle: {
           backgroundColor: colors.white
@@ -71,4 +68,4 @@ export default function Tabs() {
   );
 }
 
-const styles = StyleSheet.create({});
+// const styles = StyleSheet.create({});

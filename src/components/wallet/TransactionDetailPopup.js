@@ -1,8 +1,8 @@
-import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AppText from '../AppText';
 
-export default function TransactionDetailPopup({ selectedId, txns = [] }) {
+export default function TransactionDetailPopup({ selectedId, txns = [], explorer = 'http://google.com' }) {
   // transaction status
   // change to 'confirmed' to see the ui of a successful transaction
   const status = 'confirmed';
@@ -64,9 +64,14 @@ export default function TransactionDetailPopup({ selectedId, txns = [] }) {
       </View>
 
       {status != 'failed' ? (
-        <TouchableOpacity onPress={() => alert('view on main net')} style={styles.cta}>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL(`${explorer}tx/${selectedId}`).then(console.log);
+          }}
+          style={styles.cta}
+        >
           <AppText underlined bold yellow centered>
-            View On Mainnet
+            View On Explorer
           </AppText>
         </TouchableOpacity>
       ) : (
