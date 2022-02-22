@@ -5,9 +5,8 @@ import '@ethersproject/shims'; // Polyfill for ethers.js
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updatePrice } from './src/redux/priceSlice';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CreateWallet from './src/screens/onboarding/CreateWallet';
 
 import AppLoading from 'expo-app-loading';
@@ -27,7 +26,6 @@ import SeedScreenInfo from './src/screens/onboarding/SeedScreenInfo';
 import RevealSeedPhrase from './src/screens/onboarding/RevealSeedPhrase';
 import ConfirmSeedPhrase from './src/screens/onboarding/ConfirmSeedPhrase';
 import DoneWithSeedPhrase from './src/screens/onboarding/DoneWithSeedPhrase';
-import Home from './src/screens/app/Home';
 import TokenDetails from './src/screens/app/TokenDetails';
 import { instantiateSocket } from './src/socket';
 import SendToken from './src/screens/app/SendToken';

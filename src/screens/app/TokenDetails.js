@@ -149,7 +149,7 @@ export default function TokenDetails({ route, navigation }) {
         height={550}
         title="Transaction Detail"
         modalRef={modalRef}
-        children={<TransactionDetailPopup selectedId={selectedId} txns={txns} />}
+        children={<TransactionDetailPopup selectedId={selectedId} txns={txns} explorer={route.params?.explorer} />}
       />
       <ReusableBottomSheet
         height={800}
