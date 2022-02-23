@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import AppText from '../../components/AppText';
 import AppButton from '../../components/AppButton';
@@ -39,9 +39,14 @@ export default function ScanBarcode({ navigation }) {
         <Icon name="close" color={colors.white} size={35} />
       </TouchableOpacity>
 
-      <AppText white centered>
-        Scanning...
-      </AppText>
+      {!scanned && (
+        <>
+          <Image source={require('../../../assets/scan-code.png')} />
+          <AppText white centered>
+            Scanning...
+          </AppText>
+        </>
+      )}
       {scanned && <AppButton title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   );
