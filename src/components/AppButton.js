@@ -4,9 +4,12 @@ import { Icon } from '.';
 import colors from '../constants/colors';
 import AppText from './AppText';
 
-export default function AppButton({ title, outlined, onPress, half, icon }) {
+export default function AppButton({ title, outlined, onPress, half, icon, small }) {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.container, outlined && styles.outlined, half && styles.half]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.container, outlined && styles.outlined, half && styles.half, small && styles.small]}
+    >
       {icon && <Icon name={icon} color={outlined ? colors.yellow : colors.white} size={15} />}
       {!outlined ? (
         <AppText bold underlined white>
@@ -43,5 +46,8 @@ const styles = StyleSheet.create({
   half: {
     width: '46%',
     justifyContent: 'space-evenly'
+  },
+  small: {
+    width: '30%'
   }
 });

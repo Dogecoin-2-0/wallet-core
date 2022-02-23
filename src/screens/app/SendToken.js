@@ -129,7 +129,32 @@ export default function SendToken({ navigation }) {
           onScanPress={() => navigation.navigate('scanBarcode')}
         />
       )}
-      {progress === 2 && <KeyPadComponent onKeyClick={console.log} />}
+      {progress === 2 && (
+        <>
+          <View style={styles.row}>
+            <View />
+            <View />
+            <AppButton title="BNB" half outlined icon="chevron-down" small />
+            <TouchableOpacity>
+              <AppText yellow small>
+                Use max
+              </AppText>
+            </TouchableOpacity>
+          </View>
+          <AppText extraBig centered>
+            2,3686
+          </AppText>
+          <TouchableOpacity style={styles.row}>
+            <AppText>$ 488.40 </AppText>
+            <Icon name="swap-vertical" size={30} />
+          </TouchableOpacity>
+          <AppText centered grey>
+            Balance: 11.4188 BNB
+          </AppText>
+          <KeyPadComponent onKeyClick={console.log} />
+          <AppButton title="Next" />
+        </>
+      )}
       {/* </Screen> */}
     </PortalProvider>
   );
@@ -163,5 +188,10 @@ const styles = StyleSheet.create({
     width: '100%',
     flexWrap: 'wrap',
     height: 296
+  },
+  row: {
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });
