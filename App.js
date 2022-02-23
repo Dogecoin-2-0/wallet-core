@@ -32,6 +32,7 @@ import SendToken from './src/screens/app/SendToken';
 import Tabs from './src/routes/Tabs';
 import TransactionHistory from './src/screens/settings/TransactionHistory';
 import InnerSettings from './src/screens/settings/InnerSettings';
+import ScanBarcode from './src/screens/app/ScanBarcode';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -63,6 +64,7 @@ function InstantiatingComponent() {
           <Screen name="home" component={Tabs} />
           <Screen name="tokenDetails" component={TokenDetails} />
           <Screen name="sendToken" component={SendToken} />
+          <Screen name="scanBarcode" component={ScanBarcode} />
 
           {/* Settings */}
           <Screen name="transactionHistory" component={TransactionHistory} />

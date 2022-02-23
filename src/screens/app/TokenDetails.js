@@ -155,7 +155,7 @@ export default function TokenDetails({ route, navigation }) {
         height={800}
         title={`Send ${route.params?.symbol}`}
         modalRef={sendModalRef}
-        children={<SendToken />}
+        children={<SendToken navigation={navigation} />}
       />
       <ReusableBottomSheet
         height={520}

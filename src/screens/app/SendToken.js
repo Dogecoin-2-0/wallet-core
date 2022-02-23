@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-color-literals */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-children-prop */
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useRef, useState } from 'react';
 import AppText from '../../components/AppText';
 import RecentTransactionCard from '../../components/wallet/RecentTransactionCard';
@@ -15,8 +15,9 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import _ from 'lodash';
 import { Icon } from '../../components';
 import AppButton from '../../components/AppButton';
+import { NavigationContainer } from '@react-navigation/native';
 
-function TransferComponent({ setRecipient, onOpen, recipient, onNextClick }) {
+function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onScanPress }) {
   return (
     <>
       <AccountCard onPress={onOpen} />
@@ -32,7 +33,9 @@ function TransferComponent({ setRecipient, onOpen, recipient, onNextClick }) {
             placeholder="Search, public address(0x), or ENS"
             value={recipient}
           />
-          <Icon name={recipient.trim().length > 0 ? 'close' : 'qrcode-scan'} />
+          <Pressable onPress={onScanPress}>
+            <Icon name={recipient.trim().length > 0 ? 'close' : 'qrcode-scan'} />
+          </Pressable>
         </View>
 
         {recipient.trim().length === 0 && (
@@ -95,7 +98,7 @@ function KeyPadComponent({ onKeyClick }) {
   );
 }
 
-export default function SendToken() {
+export default function SendToken({ navigation }) {
   const [progress, setProgress] = useState(1);
   const accountSwitcherRef = useRef(null);
   const onOpen = () => {
@@ -118,6 +121,7 @@ export default function SendToken() {
           setRecipient={setRecipient}
           recipient={recipient}
           onNextClick={() => setProgress(2)}
+          onScanPress={() => navigation.navigate('scanBarcode')}
         />
       )}
       {progress === 2 && <KeyPadComponent onKeyClick={console.log} />}
