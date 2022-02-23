@@ -22,9 +22,7 @@ function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onSca
     <>
       <AccountCard onPress={onOpen} />
       <View style={styles.inputArea}>
-        <AppText bold padded>
-          To
-        </AppText>
+        <AppText bold>To</AppText>
 
         <View style={styles.inputContainer}>
           <TextInput
@@ -46,7 +44,7 @@ function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onSca
       </View>
 
       {recipient.trim().length === 0 && (
-        <AppText bold medium padded>
+        <AppText bold medium>
           Recent
         </AppText>
       )}
