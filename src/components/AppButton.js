@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 24,
     alignSelf: 'center',
-    marginVertical: 10
+    marginVertical: 10,
+    padding: 10
   },
 
   outlined: {
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   half: {
-    width: '48%'
+    width: '46%',
+    justifyContent: 'space-evenly'
   }
 });
