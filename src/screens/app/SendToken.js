@@ -73,7 +73,7 @@ function KeyPadComponent({ onKeyClick }) {
           key={s}
         >
           <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <Text style={{ fontSize: 24, lineHeight: 36, color: colors.grey, textAlign: 'center' }}>{s}</Text>
+            <AppText medium>{s}</AppText>
           </TouchableOpacity>
         </View>
       ))}
@@ -114,7 +114,7 @@ export default function SendToken({ navigation }) {
       <ReusableBottomSheet
         title="Account"
         height={600}
-        ratio={0.8}
+        ratio={0.5}
         // rati
         modalRef={accountSwitcherRef}
         children={<AccountSwitcher showButtons={false} />}
