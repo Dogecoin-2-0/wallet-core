@@ -3,6 +3,8 @@ import { Text, View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import AppText from '../../components/AppText';
 import AppButton from '../../components/AppButton';
+import { Icon } from '../../components';
+import colors from '../../constants/colors';
 
 export default function ScanBarcode() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -32,6 +34,11 @@ export default function ScanBarcode() {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
+      <Icon name="close" color={colors.white} style={styles.closeButton} />
+
+      <AppText white centered>
+        Scanning...
+      </AppText>
       {scanned && <AppButton title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   );
@@ -41,6 +48,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    padding: 40,
+
     justifyContent: 'center'
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 100,
+    right: 50
   }
 });
