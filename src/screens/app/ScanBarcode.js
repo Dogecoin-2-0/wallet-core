@@ -47,7 +47,7 @@ export default function ScanBarcode({ navigation }) {
           </AppText>
         </>
       )}
-      {scanned && <AppButton title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      {scanned && <AppButton outlined title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   );
 }
