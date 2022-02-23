@@ -3,10 +3,10 @@ import { Text, View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import AppText from '../../components/AppText';
 import AppButton from '../../components/AppButton';
-import { Icon } from '../../components';
+import { Icon, TouchableOpacity } from '../../components';
 import colors from '../../constants/colors';
 
-export default function ScanBarcode() {
+export default function ScanBarcode({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   useEffect(() => {
@@ -28,13 +28,16 @@ export default function ScanBarcode() {
     return <AppText>No access to camera</AppText>;
   }
 
+  const goBack = () => navigation.goBack();
   return (
     <View style={styles.container}>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      <Icon name="close" color={colors.white} style={styles.closeButton} />
+      <TouchableOpacity onPress={goBack} style={styles.closeButton}>
+        <Icon name="close" color={colors.white} size={35} />
+      </TouchableOpacity>
 
       <AppText white centered>
         Scanning...
@@ -49,12 +52,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     padding: 40,
-
     justifyContent: 'center'
   },
   closeButton: {
     position: 'absolute',
     top: 100,
-    right: 50
+    left: 300
   }
 });
