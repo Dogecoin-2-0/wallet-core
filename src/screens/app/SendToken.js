@@ -111,7 +111,14 @@ export default function SendToken({ navigation }) {
 
   return (
     <PortalProvider>
-      <ReusableBottomSheet title="Account" height={500} modalRef={accountSwitcherRef} children={<AccountSwitcher />} />
+      <ReusableBottomSheet
+        title="Account"
+        height={600}
+        ratio={0.8}
+        // rati
+        modalRef={accountSwitcherRef}
+        children={<AccountSwitcher showButtons={false} />}
+      />
 
       {progress === 1 && (
         <TransferComponent
