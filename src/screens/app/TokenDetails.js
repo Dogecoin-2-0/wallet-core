@@ -152,13 +152,15 @@ export default function TokenDetails({ route, navigation }) {
         children={<TransactionDetailPopup selectedId={selectedId} txns={txns} explorer={route.params?.explorer} />}
       />
       <ReusableBottomSheet
-        height={800}
+        ratio={0.9}
+        // height={}
         title={`Send ${route.params?.symbol}`}
         modalRef={sendModalRef}
-        children={<SendToken />}
+        children={<SendToken navigation={navigation} />}
       />
       <ReusableBottomSheet
-        height={520}
+        // height={520}
+        ratio={0.58}
         title={`Receive ${route.params?.symbol}`}
         modalRef={recieveModalRef}
         children={

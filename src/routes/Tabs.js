@@ -5,6 +5,7 @@ import Home from '../screens/app/Home';
 import { Icon } from '../components';
 import Settings from '../screens/settings/Settings';
 import TransactionHistory from '../screens/settings/TransactionHistory';
+import ScanBarcode from '../screens/app/ScanBarcode';
 // import Home from '../screens/wallet/Home';
 
 const Tab = createBottomTabNavigator();
@@ -50,7 +51,7 @@ export default function Tabs() {
       />
       <Tab.Screen
         name="Notes"
-        component={TransactionHistory}
+        component={ScanBarcode}
         options={{
           tabBarLabel: 'Scan',
           tabBarIcon: ({ color }) => <Icon name="qrcode-scan" color={color} size={24} />

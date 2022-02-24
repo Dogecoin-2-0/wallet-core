@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-color-literals */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-children-prop */
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useRef, useState } from 'react';
 import AppText from '../../components/AppText';
 import RecentTransactionCard from '../../components/wallet/RecentTransactionCard';
@@ -15,15 +15,14 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import _ from 'lodash';
 import { Icon } from '../../components';
 import AppButton from '../../components/AppButton';
+import { NavigationContainer } from '@react-navigation/native';
 
-function TransferComponent({ setRecipient, onOpen, recipient, onNextClick }) {
+function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onScanPress }) {
   return (
     <>
       <AccountCard onPress={onOpen} />
       <View style={styles.inputArea}>
-        <AppText bold padded>
-          To
-        </AppText>
+        <AppText bold>To</AppText>
 
         <View style={styles.inputContainer}>
           <TextInput
@@ -32,7 +31,9 @@ function TransferComponent({ setRecipient, onOpen, recipient, onNextClick }) {
             placeholder="Search, public address(0x), or ENS"
             value={recipient}
           />
-          <Icon name={recipient.trim().length > 0 ? 'close' : 'qrcode-scan'} />
+          <Pressable onPress={onScanPress}>
+            <Icon name={recipient.trim().length > 0 ? 'close' : 'qrcode-scan'} />
+          </Pressable>
         </View>
 
         {recipient.trim().length === 0 && (
@@ -43,7 +44,7 @@ function TransferComponent({ setRecipient, onOpen, recipient, onNextClick }) {
       </View>
 
       {recipient.trim().length === 0 && (
-        <AppText bold medium padded>
+        <AppText bold medium>
           Recent
         </AppText>
       )}
@@ -72,7 +73,7 @@ function KeyPadComponent({ onKeyClick }) {
           key={s}
         >
           <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <Text style={{ fontSize: 24, lineHeight: 36, color: colors.grey, textAlign: 'center' }}>{s}</Text>
+            <AppText medium>{s}</AppText>
           </TouchableOpacity>
         </View>
       ))}
@@ -95,7 +96,7 @@ function KeyPadComponent({ onKeyClick }) {
   );
 }
 
-export default function SendToken() {
+export default function SendToken({ navigation }) {
   const [progress, setProgress] = useState(1);
   const accountSwitcherRef = useRef(null);
   const onOpen = () => {
@@ -110,7 +111,14 @@ export default function SendToken() {
 
   return (
     <PortalProvider>
-      <ReusableBottomSheet title="Account" height={500} modalRef={accountSwitcherRef} children={<AccountSwitcher />} />
+      <ReusableBottomSheet
+        title="Account"
+        height={600}
+        ratio={0.5}
+        // rati
+        modalRef={accountSwitcherRef}
+        children={<AccountSwitcher showButtons={false} />}
+      />
 
       {progress === 1 && (
         <TransferComponent
@@ -118,9 +126,35 @@ export default function SendToken() {
           setRecipient={setRecipient}
           recipient={recipient}
           onNextClick={() => setProgress(2)}
+          onScanPress={() => navigation.navigate('scanBarcode')}
         />
       )}
-      {progress === 2 && <KeyPadComponent onKeyClick={console.log} />}
+      {progress === 2 && (
+        <>
+          <View style={styles.row}>
+            <View />
+            <View />
+            <AppButton title="BNB" half outlined icon="chevron-down" small />
+            <TouchableOpacity>
+              <AppText yellow small>
+                Use max
+              </AppText>
+            </TouchableOpacity>
+          </View>
+          <AppText extraBig centered>
+            2,3686
+          </AppText>
+          <TouchableOpacity style={styles.row}>
+            <AppText>$ 488.40 </AppText>
+            <Icon name="swap-vertical" size={30} />
+          </TouchableOpacity>
+          <AppText centered grey>
+            Balance: 11.4188 BNB
+          </AppText>
+          <KeyPadComponent onKeyClick={console.log} />
+          <AppButton title="Next" />
+        </>
+      )}
       {/* </Screen> */}
     </PortalProvider>
   );
@@ -154,5 +188,10 @@ const styles = StyleSheet.create({
     width: '100%',
     flexWrap: 'wrap',
     height: 296
+  },
+  row: {
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });

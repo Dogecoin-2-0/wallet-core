@@ -44,7 +44,7 @@ export default function RecieveAsset({ qrValue = '0x', address = '0x' }) {
       </View>
       <View style={styles.row}>
         <AppButton
-          title={(address.slice(0, 8) + '...' + address.slice(address.length - 11, address.length)).toLowerCase()}
+          title={(address.slice(0, 2) + '...' + address.slice(address.length - 8, address.length)).toLowerCase()}
           outlined
           half
           icon="content-copy"

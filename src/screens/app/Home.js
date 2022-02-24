@@ -116,7 +116,7 @@ export default function Home({ navigation }) {
 
   return (
     <PortalProvider>
-      <ReusableBottomSheet title="Account" modalRef={modalRef} children={<AccountSwitcher />} />
+      <ReusableBottomSheet title="Account" modalRef={modalRef} children={<AccountSwitcher />} ratio={0.6} />
       <Screen>
         <FlatList
           data={[...list, ...erc20TokensList, ...bep20TokenList]}
