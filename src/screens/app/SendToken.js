@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-color-literals */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-children-prop */
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import React, { useRef, useState } from 'react';
 import AppText from '../../components/AppText';
 import RecentTransactionCard from '../../components/wallet/RecentTransactionCard';
@@ -15,9 +15,9 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import _ from 'lodash';
 import { Icon } from '../../components';
 import AppButton from '../../components/AppButton';
-import { NavigationContainer } from '@react-navigation/native';
+import ScanBarcode from './ScanBarcode';
 
-function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onScanPress }) {
+function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onScanPress, onClosePress }) {
   return (
     <>
       <AccountCard onPress={onOpen} />
@@ -31,7 +31,12 @@ function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onSca
             placeholder="Search, public address(0x), or ENS"
             value={recipient}
           />
-          <Pressable onPress={onScanPress}>
+          <Pressable
+            onPress={() => {
+              if (recipient.trim().length > 0) onClosePress();
+              else onScanPress();
+            }}
+          >
             <Icon name={recipient.trim().length > 0 ? 'close' : 'qrcode-scan'} />
           </Pressable>
         </View>
@@ -56,7 +61,7 @@ function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onSca
   );
 }
 
-function KeyPadComponent({ onKeyClick }) {
+function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
   return (
     <View style={styles.keypadContainer}>
       {_.map(['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0'], s => (
@@ -73,7 +78,7 @@ function KeyPadComponent({ onKeyClick }) {
           key={s}
         >
           <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <AppText medium>{s}</AppText>
+            <AppText big>{s}</AppText>
           </TouchableOpacity>
         </View>
       ))}
@@ -88,7 +93,7 @@ function KeyPadComponent({ onKeyClick }) {
           height: 68
         }}
       >
-        <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick('')}>
+        <TouchableOpacity style={{ width: '100%' }} onPress={onBackSpacePress}>
           <Icon name="backspace-outline" style={{ textAlign: 'center' }} color={colors.grey} />
         </TouchableOpacity>
       </View>
@@ -96,8 +101,7 @@ function KeyPadComponent({ onKeyClick }) {
   );
 }
 
-export default function SendToken({ navigation }) {
-  const [progress, setProgress] = useState(1);
+export default function SendToken() {
   const accountSwitcherRef = useRef(null);
   const onOpen = () => {
     accountSwitcherRef.current?.open();
@@ -108,6 +112,10 @@ export default function SendToken({ navigation }) {
   };
 
   const [recipient, setRecipient] = useState('');
+  const [progress, setProgress] = useState(1);
+  const [amountVal, setAmountVal] = useState('0');
+  const [displayBarcode, setDisplayBarcode] = useState(false);
+  const [scanned, setScanned] = useState(false);
 
   return (
     <PortalProvider>
@@ -120,15 +128,29 @@ export default function SendToken({ navigation }) {
         children={<AccountSwitcher showButtons={false} />}
       />
 
-      {progress === 1 && (
+      {progress === 1 && !displayBarcode && (
         <TransferComponent
           onOpen={onOpen}
           setRecipient={setRecipient}
           recipient={recipient}
           onNextClick={() => setProgress(2)}
-          onScanPress={() => navigation.navigate('scanBarcode')}
+          onScanPress={() => setDisplayBarcode(true)}
+          onClosePress={() => setRecipient('')}
         />
       )}
+
+      {displayBarcode && (
+        <ScanBarcode
+          onHide={val => setDisplayBarcode(val)}
+          handleBarCodeScanned={({ type, data }) => {
+            setRecipient(data);
+            setScanned(true);
+          }}
+          scanned={scanned}
+          setScanned={setScanned}
+        />
+      )}
+
       {progress === 2 && (
         <>
           <View style={styles.row}>
@@ -137,21 +159,37 @@ export default function SendToken({ navigation }) {
             <AppButton title="BNB" half outlined icon="chevron-down" small />
             <TouchableOpacity>
               <AppText yellow small>
-                Use max
+                Use Max
               </AppText>
             </TouchableOpacity>
           </View>
-          <AppText extraBig centered>
-            2,3686
-          </AppText>
-          <TouchableOpacity style={styles.row}>
-            <AppText>$ 488.40 </AppText>
-            <Icon name="swap-vertical" size={30} />
-          </TouchableOpacity>
+          <TextInput
+            value={amountVal}
+            style={{ textAlign: 'center', fontSize: 30 }}
+            onChangeText={setAmountVal}
+            editable={false}
+          />
+          <View style={styles.row}>
+            <View />
+            <TouchableOpacity style={[styles.row2, { backgroundColor: '#f5f5f5', height: 40, width: 121 }]}>
+              <AppText>$ 488.40 </AppText>
+              <Icon name="swap-vertical" size={30} />
+            </TouchableOpacity>
+            <View />
+          </View>
           <AppText centered grey>
             Balance: 11.4188 BNB
           </AppText>
-          <KeyPadComponent onKeyClick={console.log} />
+          <KeyPadComponent
+            onKeyClick={value => {
+              setAmountVal(amountVal === '0' ? value : amountVal + value);
+            }}
+            onBackSpacePress={() => {
+              setAmountVal(
+                amountVal === '0' ? amountVal : amountVal.length === 1 ? '0' : amountVal.slice(0, amountVal.length - 1)
+              );
+            }}
+          />
           <AppButton title="Next" />
         </>
       )}
@@ -193,5 +231,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  row2: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 100
   }
 });
