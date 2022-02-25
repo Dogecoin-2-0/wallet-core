@@ -28,10 +28,10 @@ export default function SecureWallet({ navigation }) {
 
         <View style={styles.faceIdPromptContainer}></View>
 
-        <AppText underlined yellow bold centered style={{ marginVertical: 50 }}>
+        <AppText underlined yellow bold centered style={{ marginVertical: 20 }}>
           Remind me Later
         </AppText>
-        <View style={{ marginTop: 10 }}>
+        <View style={{}}>
           <AppButton title="Start" onPress={() => navigation.navigate('seedScreenInfo')} />
         </View>
       </View>
