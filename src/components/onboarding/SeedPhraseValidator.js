@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { TouchableOpacity } from '..';
 import AppText from '../AppText';
@@ -7,7 +7,7 @@ const width = Dimensions.get('screen').width;
 
 // how many tries user has to enter the correct phrase
 
-const MAX_TRIES = 3; // 3 tries
+// 3 tries
 
 let unshuffled = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
 
@@ -43,6 +43,23 @@ function checkIfKeyHasBeenPicked(key) {
 }
 
 export default function SeedPhraseValidator() {
+  const [prompt, setPrompt] = useState(randomKey());
+  const [maxTries, setMaxTries] = useState(3);
+
+  const correctEntries = [];
+  function addCorrectEntry(val) {
+    correctEntries.push(shuffled[val]);
+    console.log(correctEntries);
+  }
+  const onInvalidEntry = () => {
+    setMaxTries(maxTries => maxTries - 1);
+    if (!maxTries >= 0) {
+      Alert.alert('Invalid Entry', `You have ${maxTries} chances left`);
+    } else {
+      Alert.alert('Account Locked', 'you have reached the maximum tries available');
+    }
+  };
+
   return (
     <View>
       <AppText> {randomKey()} </AppText>
@@ -52,7 +69,11 @@ export default function SeedPhraseValidator() {
             style={{ width: width / 5 }}
             key={index}
             onPress={() => {
-              console.log(index, randomKey());
+              if (index == prompt) {
+                addCorrectEntry(index);
+              } else {
+                onInvalidEntry();
+              }
             }}
           >
             <AppText> {word}</AppText>
