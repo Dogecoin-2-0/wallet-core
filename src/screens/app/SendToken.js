@@ -116,6 +116,7 @@ export default function SendToken() {
   const [amountVal, setAmountVal] = useState('0');
   const [displayBarcode, setDisplayBarcode] = useState(false);
   const [scanned, setScanned] = useState(false);
+  const [scanning, setScanning] = useState(false);
 
   return (
     <PortalProvider>
@@ -141,6 +142,7 @@ export default function SendToken() {
 
       {displayBarcode && (
         <ScanBarcode
+          onCancel={() => setDisplayBarcode(false)}
           onHide={val => setDisplayBarcode(val)}
           handleBarCodeScanned={({ type, data }) => {
             setRecipient(data);
