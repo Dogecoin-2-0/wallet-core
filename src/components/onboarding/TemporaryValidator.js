@@ -6,10 +6,10 @@ const width = Dimensions.get('screen').width;
 export default function TemporaryValidator() {
   const words = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
 
-  const [pickedWords, updatePickedWords] = useState(['']);
+  const [pickedWords, updatePickedWords] = useState([]);
 
   const addCorrectEntry = entry => {
-    updatePickedWords(pickedWords => [...pickedWords, words[entry]]);
+    updatePickedWords([...pickedWords, entry]);
   };
 
   const onInvalidEntry = () => {
@@ -32,12 +32,8 @@ export default function TemporaryValidator() {
             style={{ width: width / 4 }}
             key={index}
             onPress={() => {
-              if (1 == 1) {
-                addCorrectEntry(index);
-                console.log(pickedWords);
-              } else {
-                onInvalidEntry();
-              }
+              addCorrectEntry(word);
+              //   console.log(pickedWords);
             }}
           >
             <AppText> {word}</AppText>
