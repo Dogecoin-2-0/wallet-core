@@ -17,7 +17,7 @@ export default function RevealSeedPhrase({ navigation }) {
   return (
     <Screen>
       <View style={{ flex: 1 }}>
-        <OnboardingProgress step={2} />
+        <OnboardingProgress step={2} onClose={() => navigation.goBack()} />
         <AppText bold medium style={{ marginVertical: 10 }}>
           Write down your seed phrase
         </AppText>

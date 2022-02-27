@@ -34,7 +34,7 @@ export default function SeedScreenInfo({ navigation }) {
 your wallet by saving your seed phrase in a place you trust. 
 It’s the only way to recover your wallet if you get locked out of the app or get a new device."
         />
-        <OnboardingProgress step={2} />
+        <OnboardingProgress step={2} onClose={() => navigation.goBack()} />
         <View style={styles.title}>
           <AppText bold medium>
             Secure your wallet

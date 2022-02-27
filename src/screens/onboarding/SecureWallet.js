@@ -12,7 +12,7 @@ import AppButton from '../../components/AppButton';
 export default function SecureWallet({ navigation }) {
   return (
     <Screen>
-      <OnboardingProgress step={2} />
+      <OnboardingProgress step={2} onClose={() => navigation.goBack()} />
       <View style={styles.formArea}>
         <AppText bold medium>
           Secure your wallet
