@@ -3,6 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import AppButton from '../../components/AppButton';
 import AppText from '../../components/AppText';
+import SeedPhraseValidator from '../../components/onboarding/SeedPhraseValidator';
 import SeedPhraseWraper from '../../components/onboarding/SeedPhraseWraper';
 import OnboardingProgress from '../../components/OnboardingProgress';
 import Screen from '../../components/Screen';
@@ -20,7 +21,8 @@ export default function ConfirmSeedPhrase({ navigation }) {
       </View>
 
       <View style={{ flex: 2 }}>
-        <SeedPhraseWraper />
+        {/* <SeedPhraseWraper /> */}
+        <SeedPhraseValidator />
       </View>
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', marginVertical: 10 }}>
         <AppButton title="Continue" />
@@ -28,5 +30,3 @@ export default function ConfirmSeedPhrase({ navigation }) {
     </Screen>
   );
 }
-
-// const styles = StyleSheet.create({});
