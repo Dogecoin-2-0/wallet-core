@@ -10,6 +10,8 @@ export default function GeneralSettings({ navigation }) {
   return (
     <Screen>
       <TokenDetailHeader name="General" goBack={() => navigation.goBack()} />
+
+      <SelectBox title="Base Currency" selectedValue="USD - United States Dollar" />
       <AppText padded>Privacy Currency</AppText>
       <AppText grey>
         Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to
@@ -17,9 +19,10 @@ export default function GeneralSettings({ navigation }) {
       </AppText>
       <AppText padded>Current Language</AppText>
       <AppText grey>Translate the application to a different supported language</AppText>
+      <SelectBox title="Language" selectedValue="English" />
       <AppText padded> Search Engine</AppText>
       <AppText grey> Change the default search engine used when entering search terms in the URL bar </AppText>
-      <SelectBox title="Base Currency" selectedValue="USD - United States Dollar" />
+      <SelectBox title="Engine" selectedValue="Duck Duck Go" />
       <AppText> Account Identicon</AppText>
       <AppText grey> You can customize your account</AppText>
     </Screen>
