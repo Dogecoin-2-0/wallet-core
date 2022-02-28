@@ -10,7 +10,8 @@ export default function Settings({ navigation }) {
     {
       id: 1,
       label: 'Account',
-      icon: 'account-circle-outline'
+      icon: 'account-circle-outline',
+      link: 'comingSoon'
     },
     {
       id: 2,
@@ -21,7 +22,8 @@ export default function Settings({ navigation }) {
     {
       id: 3,
       label: 'Share Public',
-      icon: 'share-variant'
+      icon: 'share-variant',
+      link: 'comingSoon'
     },
     {
       id: 4,
@@ -32,12 +34,14 @@ export default function Settings({ navigation }) {
     {
       id: 5,
       label: 'Get Help',
-      icon: 'face-agent'
+      icon: 'face-agent',
+      link: 'comingSoon'
     },
     {
       id: 6,
       label: 'Send Feedback',
-      icon: 'email-send-outline'
+      icon: 'email-send-outline',
+      link: 'comingSoon'
     }
   ];
 
@@ -57,7 +61,11 @@ export default function Settings({ navigation }) {
         ListHeaderComponent={listHeader}
         keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
-          <SettingItem icon={item.icon} label={item.label} onPress={() => navigation.navigate(item.link)} />
+          <SettingItem
+            icon={item.icon}
+            label={item.label}
+            onPress={() => navigation.navigate(item.link, { title: item.label })}
+          />
         )}
         // ListFooterComponentStyle={styles.logout}
         // ListFooterComponent={<SettingItem label="Logout" icon="logout-variant" />}
