@@ -4,6 +4,7 @@ import AppText from '../../components/AppText';
 import Screen from '../../components/Screen';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import SelectBox from '../../components/settings/SelectBox';
+import PrivacyCurrencySwitcher from '../../components/settings/PrivacyCurrencySwitcher';
 // import App from '../../../App';
 
 export default function GeneralSettings({ navigation }) {
@@ -17,6 +18,8 @@ export default function GeneralSettings({ navigation }) {
         Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to
         prioritize displaying values in your selected fiat currency
       </AppText>
+
+      <PrivacyCurrencySwitcher />
       <AppText padded>Current Language</AppText>
       <AppText grey>Translate the application to a different supported language</AppText>
       <SelectBox title="Language" selectedValue="English" />
