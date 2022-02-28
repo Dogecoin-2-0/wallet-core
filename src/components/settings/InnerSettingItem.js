@@ -8,7 +8,7 @@ import { BlurView } from 'expo-blur';
 
 export default function InnerSettingItem({ title, description, onPress }) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <BlurView style={styles.row} intensity={60}>
         <View style={styles.textArea}>
           <AppText>{title}</AppText>

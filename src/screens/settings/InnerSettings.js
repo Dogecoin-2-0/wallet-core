@@ -9,7 +9,8 @@ export default function InnerSettings({ navigation }) {
   const innerSettings = [
     {
       title: 'General',
-      description: 'Currency conversion, primary currency, language and search engine '
+      description: 'Currency conversion, primary currency, language and search engine ',
+      link: 'generalSettings'
     },
     {
       title: 'Security and Privacy',
@@ -39,8 +40,15 @@ export default function InnerSettings({ navigation }) {
         <View style={styles.body}>
           <FlatList
             data={innerSettings}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
-              return <InnerSettingItem title={item.title} description={item.description} />;
+              return (
+                <InnerSettingItem
+                  title={item.title}
+                  description={item.description}
+                  onPress={() => navigation.navigate(item.link)}
+                />
+              );
             }}
           />
         </View>

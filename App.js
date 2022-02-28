@@ -32,6 +32,7 @@ import SendToken from './src/screens/app/SendToken';
 import Tabs from './src/routes/Tabs';
 import TransactionHistory from './src/screens/settings/TransactionHistory';
 import InnerSettings from './src/screens/settings/InnerSettings';
+import GeneralSettings from './src/screens/settings/GeneralSettings';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -49,7 +50,7 @@ function InstantiatingComponent() {
 
   return (
     <NavigationContainer>
-      <Navigator initialRouteName="confirmSeedPhrase">
+      <Navigator initialRouteName="home">
         <Group screenOptions={{ headerShown: false }}>
           <Screen name="walletSetup" component={WalletSetup} />
           <Screen name="createWallet" component={CreateWallet} />
@@ -67,6 +68,7 @@ function InstantiatingComponent() {
           {/* Settings */}
           <Screen name="transactionHistory" component={TransactionHistory} />
           <Screen name="innerSettings" component={InnerSettings} />
+          <Screen name="generalSettings" component={GeneralSettings} />
         </Group>
       </Navigator>
     </NavigationContainer>
