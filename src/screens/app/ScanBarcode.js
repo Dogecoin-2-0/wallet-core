@@ -6,7 +6,7 @@ import AppButton from '../../components/AppButton';
 import { Icon, TouchableOpacity } from '../../components';
 import colors from '../../constants/colors';
 
-export default function ScanBarcode({ handleBarCodeScanned, scanned, onHide, setScanned }) {
+export default function ScanBarcode({ handleBarCodeScanned, scanned, onHide, setScanned, onCancel }) {
   const [hasPermission, setHasPermission] = useState(null);
   useEffect(() => {
     (async () => {
@@ -29,7 +29,7 @@ export default function ScanBarcode({ handleBarCodeScanned, scanned, onHide, set
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      <TouchableOpacity onPress={goBack} style={styles.closeButton}>
+      <TouchableOpacity onPress={onCancel} style={styles.closeButton}>
         <Icon name="close" color={colors.white} size={35} />
       </TouchableOpacity>
 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 100,
-    left: 300
+    top: 10,
+    left: 280
   }
 });

@@ -4,7 +4,7 @@ import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import Screen from '../../components/Screen';
 import TransactionCard from '../../components/wallet/TransactionCard';
 
-export default function TransactionHistory() {
+export default function TransactionHistory({ navigation }) {
   const data = [
     {
       price: '65.00',
@@ -60,7 +60,7 @@ export default function TransactionHistory() {
       <FlatList
         data={data}
         keyExtractor={item => item.date}
-        ListHeaderComponent={<TokenDetailHeader name="Transactions" />}
+        ListHeaderComponent={<TokenDetailHeader name="Transactions" goBack={() => navigation.goBack()} />}
         renderItem={({ item }) => <TransactionCard {...item} />}
         showsVerticalScrollIndicator={false}
       />

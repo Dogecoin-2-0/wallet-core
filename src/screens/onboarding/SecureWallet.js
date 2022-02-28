@@ -12,7 +12,7 @@ import AppButton from '../../components/AppButton';
 export default function SecureWallet({ navigation }) {
   return (
     <Screen>
-      <OnboardingProgress step={2} />
+      <OnboardingProgress step={2} onClose={() => navigation.goBack()} />
       <View style={styles.formArea}>
         <AppText bold medium>
           Secure your wallet
@@ -28,10 +28,10 @@ export default function SecureWallet({ navigation }) {
 
         <View style={styles.faceIdPromptContainer}></View>
 
-        <AppText underlined yellow bold centered style={{ marginVertical: 50 }}>
+        <AppText underlined yellow bold centered style={{ marginVertical: 20 }}>
           Remind me Later
         </AppText>
-        <View style={{ marginTop: 10 }}>
+        <View style={{}}>
           <AppButton title="Start" onPress={() => navigation.navigate('seedScreenInfo')} />
         </View>
       </View>

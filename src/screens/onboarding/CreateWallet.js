@@ -4,7 +4,7 @@ import { StyleSheet, Switch, View } from 'react-native';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import AppPasswordInput from '../../components/forms/AppPasswordInput';
-import OnboardingProgress from '../../components/OnboardingProgress';
+import OnboardingProgress from '../../components/onboarding/OnboardingProgress';
 import colors from '../../constants/colors';
 import AppButton from '../../components/AppButton';
 import CheckBox from '../../components/forms/CheckBox';
@@ -20,7 +20,7 @@ export default function CreateWallet({ navigation }) {
 
   return (
     <Screen>
-      <OnboardingProgress step={step} />
+      <OnboardingProgress step={step} onClose={() => navigation.goBack()} />
       <View style={styles.formArea}>
         <AppText bold medium>
           Create Password

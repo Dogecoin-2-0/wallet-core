@@ -9,8 +9,10 @@ export default function TokenDetailHeader({ name, image, goBack }) {
       <TouchableOpacity onPress={goBack}>
         <Icon name="chevron-left" size={30} />
       </TouchableOpacity>
-      <AppText bold>{name} </AppText>
-      <Image source={image ? { uri: image } : require('../../../assets/dogeroundedLogo.png')} style={styles.logo} />
+      <AppText bold medium>
+        {name}{' '}
+      </AppText>
+      <Image source={image && { uri: image }} />
     </View>
   );
 }

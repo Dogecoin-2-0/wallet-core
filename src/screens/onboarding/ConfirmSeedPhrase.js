@@ -3,15 +3,17 @@ import React from 'react';
 import { View } from 'react-native';
 import AppButton from '../../components/AppButton';
 import AppText from '../../components/AppText';
+import SeedPhraseValidator from '../../components/onboarding/SeedPhraseValidator';
 import SeedPhraseWraper from '../../components/onboarding/SeedPhraseWraper';
+import TemporaryValidator from '../../components/onboarding/TemporaryValidator';
 import OnboardingProgress from '../../components/OnboardingProgress';
 import Screen from '../../components/Screen';
 
-export default function ConfirmSeedPhrase() {
+export default function ConfirmSeedPhrase({ navigation }) {
   return (
     <Screen>
       <View style={{ flex: 1 }}>
-        <OnboardingProgress step={2} />
+        <OnboardingProgress step={2} onClose={() => navigation.goBack()} />
         <AppText bold medium style={{ marginVertical: 10 }}>
           Confirm Seed Phrase
         </AppText>
@@ -20,7 +22,9 @@ export default function ConfirmSeedPhrase() {
       </View>
 
       <View style={{ flex: 2 }}>
-        <SeedPhraseWraper />
+        {/* <SeedPhraseWraper /> */}
+        {/* <SeedPhraseValidator /> */}
+        <TemporaryValidator />
       </View>
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', marginVertical: 10 }}>
         <AppButton title="Continue" />
@@ -28,5 +32,3 @@ export default function ConfirmSeedPhrase() {
     </Screen>
   );
 }
-
-// const styles = StyleSheet.create({});
