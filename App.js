@@ -33,6 +33,7 @@ import Tabs from './src/routes/Tabs';
 import TransactionHistory from './src/screens/settings/TransactionHistory';
 import InnerSettings from './src/screens/settings/InnerSettings';
 import GeneralSettings from './src/screens/settings/GeneralSettings';
+import ComingSoon from './src/screens/settings/ComingSoon';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -69,6 +70,7 @@ function InstantiatingComponent() {
           <Screen name="transactionHistory" component={TransactionHistory} />
           <Screen name="innerSettings" component={InnerSettings} />
           <Screen name="generalSettings" component={GeneralSettings} />
+          <Screen name="comingSoon" component={ComingSoon} />
         </Group>
       </Navigator>
     </NavigationContainer>

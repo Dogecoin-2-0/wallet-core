@@ -14,23 +14,28 @@ export default function InnerSettings({ navigation }) {
     },
     {
       title: 'Security and Privacy',
-      description: 'Currency conversion, primary currency, language and search engine '
+      description: 'Currency conversion, primary currency, language and search engine ',
+      link: 'comingSoon'
     },
     {
       title: 'Advanced',
-      description: 'Currency conversion, primary currency, language and search engine '
+      description: 'Currency conversion, primary currency, language and search engine ',
+      link: 'comingSoon'
     },
     {
       title: 'Contacts',
-      description: 'Currency conversion, primary currency, language and search engine '
+      description: 'Currency conversion, primary currency, language and search engine ',
+      link: 'comingSoon'
     },
     {
       title: 'Networks',
-      description: 'Currency conversion, primary currency, language and search engine '
+      description: 'Currency conversion, primary currency, language and search engine ',
+      link: 'comingSoon'
     },
     {
       title: 'Experimental',
-      description: 'Currency conversion, primary currency, language and search engine '
+      description: 'Currency conversion, primary currency, language and search engine ',
+      link: 'comingSoon'
     }
   ];
   return (
@@ -46,7 +51,7 @@ export default function InnerSettings({ navigation }) {
                 <InnerSettingItem
                   title={item.title}
                   description={item.description}
-                  onPress={() => navigation.navigate(item.link)}
+                  onPress={() => navigation.navigate(item.link, { title: item.title })}
                 />
               );
             }}
