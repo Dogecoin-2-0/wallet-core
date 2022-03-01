@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import React, { useMemo, useRef, useCallback } from 'react';
 import AppText from '../../components/AppText';
 import Screen from '../../components/Screen';
@@ -31,15 +31,15 @@ export default function GeneralSettings({ navigation }) {
   const onCloseLanguageSwitch = () => {
     languageSwitchRef.current?.close();
   };
-
   return (
     <Screen>
+      {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       <BottomSheetModalProvider>
         <TokenDetailHeader name="General" goBack={() => navigation.goBack()} />
 
         <SelectBox title="Base Currency" selectedValue="USD - United States Dollar" />
         <AppText padded>Privacy Currency</AppText>
-        <AppText grey>
+        <AppText grey small>
           Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to
           prioritize displaying values in your selected fiat currency
         </AppText>
@@ -70,6 +70,7 @@ export default function GeneralSettings({ navigation }) {
           }}
         />
       </BottomSheetModalProvider>
+      {/* </ScrollView> */}
     </Screen>
   );
 }

@@ -8,15 +8,14 @@ import { TouchableOpacity } from 'react-native';
 import { Icon } from '..';
 
 export default function LanguageSwitch({ snapPoints, innerRef, handleClose }) {
-  const [selected, setSelected] = useState('Google');
+  const [selected, setSelected] = useState('English');
   const languages = require('../../utils/languages.json');
 
   const languagesList = Object.keys(languages);
-  console.log(languages[languagesList[25]]['name']);
 
   //   console.log(searchEngines[Object.keys(searchEngines)[0]]['name']);
-  const handleSelected = name => {
-    setSelected(name);
+  const handleSelected = val => {
+    // setSelected(val);
     handleClose();
   };
 
@@ -26,13 +25,18 @@ export default function LanguageSwitch({ snapPoints, innerRef, handleClose }) {
         Language
       </AppText>
       <BottomSheetFlatList
+        initialScrollIndex={31} // change to current user language
+        scrollsToTop={true}
         data={languagesList}
-        keyExtractor={item => item.name}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
-          <AppText padded grey>
-            {' '}
-            {languages[item]['name']}{' '}
-          </AppText>
+          <TouchableOpacity style={styles.item}>
+            <AppText padded grey={selected != languages[item]['name']}>
+              {languages[item]['name']}
+            </AppText>
+
+            {selected == languages[item]['name'] ? <Icon name="check" color={colors.green} /> : null}
+          </TouchableOpacity>
         )}
       />
     </BottomSheetModal>
