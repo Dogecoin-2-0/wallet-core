@@ -4,14 +4,11 @@ import { generateMnemonic } from '../utils';
 const phraseSlice = createSlice({
   name: 'phrase',
   initialState: {
-    phrase: null,
-    referencePhrase: null
+    phrase: null
   },
   reducers: {
     initPhrase: state => {
-      const p = generateMnemonic();
-      state.phrase = p;
-      state.referencePhrase = p;
+      state.phrase = generateMnemonic();
     },
     shufflePhrase: state => {
       const shuffle = () => {
@@ -30,7 +27,6 @@ const phraseSlice = createSlice({
     },
     clearPhrase: state => {
       state.phrase = null;
-      state.referencePhrase = null;
     }
   }
 });

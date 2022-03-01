@@ -30,7 +30,7 @@ export default function RevealSeedPhrase({ navigation }) {
 
       <View style={{ flex: 2 }}>
         {visible ? (
-          <SeedPhraseWraper isInit={true} />
+          <SeedPhraseWraper />
         ) : (
           <TouchableOpacity onPress={toggleVisibility}>
             <Image source={require('../../../assets/seedphrase.png')} style={styles.image} />

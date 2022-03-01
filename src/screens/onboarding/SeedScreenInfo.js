@@ -48,7 +48,7 @@ It’s the only way to recover your wallet if you get locked out of the app or g
           </AppText>
         </TouchableOpacity>
 
-        <AppText grey> Write down your seed phraase on a piece of paper and store in a safe place</AppText>
+        <AppText grey> Write down your seed phrase on a piece of paper and store in a safe place</AppText>
 
         <View style={styles.row}>
           <AppText small grey>

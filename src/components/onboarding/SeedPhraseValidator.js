@@ -1,85 +1,115 @@
-import { StyleSheet, Text, View, Dimensions, Alert } from 'react-native';
-import React, { useState } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import { StyleSheet, View, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import _ from 'lodash';
 import { TouchableOpacity } from '..';
 import AppText from '../AppText';
+import colors from '../../constants/colors';
+import ReusableAlert from '../../components/extras/ReusableAlert';
 
 const width = Dimensions.get('screen').width;
 
-// how many tries user has to enter the correct phrase
+export default function SeedPhraseValidator({ enableNavigate }) {
+  const [unshuffled, setUnshuffled] = useState([]);
+  const [shuffled, setShuffled] = useState([]);
+  const [pickedKeys, setPickedKeys] = useState([]);
+  const [targetIndex, setTargetIndex] = useState(0);
+  const [correctEntries, setCorrectEntries] = useState([]);
+  const { phrase } = useSelector(state => state.phraseReducer);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
-// 3 tries
+  // const randomKey = () => {
+  //   // random key from the array of phrases
+  //   return Math.floor(Math.random() * shuffled.length);
+  // };
 
-let unshuffled = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+  // const getUniqueKey = () => {
+  //   // get a unique key
+  //   let key = randomKey();
+  //   while (checkIfKeyHasBeenPicked(key)) {
+  //     key = randomKey();
+  //   }
+  //   return key;
+  // };
 
-let shuffled = unshuffled
-  .map(value => ({ value, sort: Math.random() }))
-  .sort((a, b) => a.sort - b.sort)
-  .map(({ value }) => value);
+  // const checkIfKeyHasBeenPicked = key => {
+  //   return pickedKeys.includes(key);
+  // };
 
-function randomKey() {
-  // random key from the array of phrases
-  return Math.floor(Math.random() * shuffled.length);
-}
+  const addKeyToPickedList = key => {
+    setPickedKeys([...pickedKeys, key]);
+  };
 
-let pickedKeys = [];
+  const addCorrectEntry = val => {
+    setCorrectEntries([...correctEntries, shuffled[val]]);
+  };
 
-function addKeyToPickedList(key) {
-  // add phrase to the list of picked phrases
-  pickedKeys.push(key);
-}
+  useEffect(() => {
+    if (!!phrase || phrase !== null) setUnshuffled(_.split(phrase, ' '));
+  }, [phrase]);
 
-function getUniqueKey() {
-  // get a unique key
-  let key = randomKey();
-  while (checkIfKeyHasBeenPicked(key)) {
-    key = randomKey();
-  }
-  return key;
-}
+  useEffect(() => {
+    if (unshuffled.length > 0)
+      setShuffled(
+        _.map(unshuffled, value => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value)
+      );
+  }, [unshuffled]);
 
-function checkIfKeyHasBeenPicked(key) {
-  // check if the key has been picked
-  return pickedKeys.includes(key);
-}
+  useEffect(() => {
+    if (correctEntries.length === unshuffled.length) enableNavigate(true);
+  }, [correctEntries.length]);
 
-export default function SeedPhraseValidator() {
-  const [prompt, setPrompt] = useState(randomKey());
-  const [maxTries, setMaxTries] = useState(3);
-
-  const correctEntries = [];
-  function addCorrectEntry(val) {
-    correctEntries.push(shuffled[val]);
-    console.log(correctEntries);
-  }
   const onInvalidEntry = () => {
-    setMaxTries(maxTries => maxTries - 1);
-    if (!maxTries >= 0) {
-      Alert.alert('Invalid Entry', `You have ${maxTries} chances left`);
-    } else {
-      Alert.alert('Account Locked', 'you have reached the maximum tries available');
-    }
+    setAlertMessage('Invalid Entry');
+    setShowAlert(true);
   };
 
   return (
-    <View>
-      <AppText> {randomKey()} </AppText>
+    <View style={{ flex: 1 }}>
       <View style={styles.container}>
-        {shuffled.map((word, index) => (
-          <TouchableOpacity
-            style={{ width: width / 5 }}
-            key={index}
-            onPress={() => {
-              if (index == prompt) {
-                addCorrectEntry(index);
-              } else {
-                onInvalidEntry();
-              }
-            }}
-          >
-            <AppText> {word}</AppText>
-          </TouchableOpacity>
-        ))}
+        {pickedKeys.length > 0 &&
+          _.map(pickedKeys, key => (
+            <TouchableOpacity style={{ width: width / 5 }} key={key}>
+              <AppText>{unshuffled[key]}</AppText>
+            </TouchableOpacity>
+          ))}
       </View>
+      <View style={styles.container2}>
+        {shuffled.length > 0 &&
+          _.map(shuffled, (word, index) => (
+            <TouchableOpacity
+              style={{ width: width / 5 }}
+              key={index}
+              onPress={() => {
+                if (unshuffled[targetIndex] === word) {
+                  addCorrectEntry(index);
+                  addKeyToPickedList(unshuffled.indexOf(word));
+                  setShuffled(shuffled.filter(item => item !== word));
+                  if (targetIndex < unshuffled.length - 1) {
+                    setTargetIndex(targetIndex + 1);
+                  }
+                } else {
+                  onInvalidEntry();
+                }
+              }}
+            >
+              <AppText> {word}</AppText>
+            </TouchableOpacity>
+          ))}
+      </View>
+      <ReusableAlert
+        visible={showAlert}
+        isSuccessful={false}
+        message={alertMessage}
+        close={() => {
+          setShowAlert(false);
+          setAlertMessage('');
+        }}
+      />
     </View>
   );
 }
@@ -88,9 +118,20 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginVertical: 25,
-    paddingHorizontal: 25
+    justifyContent: 'center',
+    marginVertical: 4,
+    paddingHorizontal: 5,
+    borderColor: colors.lightSmoke,
+    borderStyle: 'solid',
+    borderBottomWidth: 1
+  },
+  container2: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginVertical: 10,
+    paddingHorizontal: 5,
+    alignItems: 'center'
     // alignItems: 'center'
   }
 });
