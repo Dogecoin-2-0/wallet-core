@@ -1,9 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import ReusableBottomSheet, { BottomSheetFlatList } from '../extras/ReusableBottomSheet';
-import AppText from '../AppText';
+import { StyleSheet, Text, TouchableOpacityBase, View } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 
-export default function SearchEngineSwitch() {
+import AppText from '../AppText';
+import colors from '../../constants/colors';
+import { TouchableOpacity } from 'react-native';
+import { Icon } from '..';
+
+export default function SearchEngineSwitch({ snapPoints, ref, handleClose }) {
+  const [selected, setSelected] = useState('Google');
   const searchEngines = [
     {
       name: 'Google'
@@ -12,16 +17,43 @@ export default function SearchEngineSwitch() {
       name: 'Duck Duck Go'
     }
   ];
+
   return (
-    <BottomSheetFlatList
-      data={searchEngines}
-      renderItem={({ item }) => (
-        <View style={styles.item}>
-          <AppText> {item.name}</AppText>
-        </View>
-      )}
-    />
+    <BottomSheet ref={ref} snapPoints={snapPoints} style={styles.container}>
+      <AppText bold padded medium>
+        Search Engine
+      </AppText>
+      <BottomSheetFlatList
+        data={searchEngines}
+        keyExtractor={item => item.name}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.item}
+            onPress={() => {
+              setSelected(item.name);
+              handleClose;
+            }}
+          >
+            <AppText padded grey>
+              {item.name}
+            </AppText>
+
+            {selected == item.name ? <Icon name="check" color={colors.green} /> : null}
+          </TouchableOpacity>
+        )}
+      />
+    </BottomSheet>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 30
+    // backgroundColor: colors.white
+  },
+  item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
+});
