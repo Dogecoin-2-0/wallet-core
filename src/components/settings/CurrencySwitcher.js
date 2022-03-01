@@ -7,11 +7,11 @@ import colors from '../../constants/colors';
 import { TouchableOpacity } from 'react-native';
 import { Icon } from '..';
 
-export default function LanguageSwitch({ snapPoints, innerRef, handleClose }) {
+export default function CurrencySwitcher({ snapPoints, innerRef, handleClose }) {
   const [selected, setSelected] = useState('English');
-  const languages = require('../../utils/languages.json');
+  const currencies = require('../../utils/languages.json');
 
-  const languagesList = Object.keys(languages);
+  const currencyList = Object.keys(languages);
 
   //   console.log(searchEngines[Object.keys(searchEngines)[0]]['name']);
   const handleSelected = val => {
@@ -25,14 +25,14 @@ export default function LanguageSwitch({ snapPoints, innerRef, handleClose }) {
         Language
       </AppText>
       <BottomSheetFlatList
-        // initialScrollIndex={31} // change to current user language
+        initialScrollIndex={31} // change to current user language
         scrollsToTop={true}
         data={languagesList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <TouchableOpacity style={styles.item}>
             <AppText padded grey={selected != languages[item]['name']}>
-              {languages[item]['name']}
+              {currenc[item]['name']}
             </AppText>
 
             {selected == languages[item]['name'] ? <Icon name="check" color={colors.green} /> : null}

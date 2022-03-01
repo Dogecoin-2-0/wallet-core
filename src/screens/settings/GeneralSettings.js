@@ -46,14 +46,20 @@ export default function GeneralSettings({ navigation }) {
 
         <PrivacyCurrencySwitcher />
         <AppText padded>Current Language</AppText>
-        <AppText grey>Translate the application to a different supported language</AppText>
+        <AppText grey small>
+          Translate the application to a different supported language
+        </AppText>
         <SelectBox title="Language" selectedValue="English" onPress={handlePresentLanguageSwitch} />
         <AppText padded> Search Engine</AppText>
-        <AppText grey> Change the default search engine used when entering search terms in the URL bar </AppText>
+        <AppText grey small>
+          Change the default search engine used when entering search terms in the URL bar{' '}
+        </AppText>
         <SelectBox title="Engine" selectedValue="Duck Duck Go" onPress={handlePresentModalPress} />
 
         <AppText> Account Identicon</AppText>
-        <AppText grey> You can customize your account</AppText>
+        <AppText grey small>
+          You can customize your account
+        </AppText>
 
         <SearchEngineSwitch
           innerRef={searchEngineSwitchRef}
