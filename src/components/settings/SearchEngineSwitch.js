@@ -1,13 +1,13 @@
 import { StyleSheet, Text, TouchableOpacityBase, View } from 'react-native';
 import React, { useState, useCallback } from 'react';
-import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetFlatList, BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import AppText from '../AppText';
 import colors from '../../constants/colors';
 import { TouchableOpacity } from 'react-native';
 import { Icon } from '..';
 
-export default function SearchEngineSwitch({ snapPoints, ref, handleClose }) {
+export default function SearchEngineSwitch({ snapPoints, innerRef, handleClose }) {
   const [selected, setSelected] = useState('Google');
   const searchEngines = [
     {
@@ -18,8 +18,13 @@ export default function SearchEngineSwitch({ snapPoints, ref, handleClose }) {
     }
   ];
 
+  const handleSelected = name => {
+    setSelected(name);
+    handleClose();
+  };
+
   return (
-    <BottomSheet ref={ref} snapPoints={snapPoints} style={styles.container}>
+    <BottomSheetModal ref={innerRef} snapPoints={snapPoints} style={styles.container} enablePanDownToClose index={0}>
       <AppText bold padded medium>
         Search Engine
       </AppText>
@@ -30,8 +35,7 @@ export default function SearchEngineSwitch({ snapPoints, ref, handleClose }) {
           <TouchableOpacity
             style={styles.item}
             onPress={() => {
-              setSelected(item.name);
-              handleClose;
+              handleSelected(item.name);
             }}
           >
             <AppText padded grey>
@@ -42,7 +46,7 @@ export default function SearchEngineSwitch({ snapPoints, ref, handleClose }) {
           </TouchableOpacity>
         )}
       />
-    </BottomSheet>
+    </BottomSheetModal>
   );
 }
 
