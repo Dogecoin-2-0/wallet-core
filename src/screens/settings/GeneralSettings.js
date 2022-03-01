@@ -7,13 +7,10 @@ import SelectBox from '../../components/settings/SelectBox';
 import PrivacyCurrencySwitcher from '../../components/settings/PrivacyCurrencySwitcher';
 import SearchEngineSwitch from '../../components/settings/SearchEngineSwitch';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import LanguageSwitch from '../../components/settings/LanguageSwitch';
 
 export default function GeneralSettings({ navigation }) {
   const searchEngineSwitchRef = useRef(null);
-  //   const onOpenSearchEngineSwitch = () => {
-  //     console.log('Boom');
-  //     searchEngineSwitchRef.current?.present();
-  //   };
 
   const handlePresentModalPress = useCallback(() => {
     searchEngineSwitchRef.current?.present();
@@ -24,6 +21,16 @@ export default function GeneralSettings({ navigation }) {
   };
 
   const searchEngineSwitchSnapPoints = useMemo(() => ['30%', '50%'], []);
+
+  const languageSwitchRef = useRef(null);
+
+  const handlePresentLanguageSwitch = useCallback(() => {
+    languageSwitchRef.current?.present();
+  }, []);
+
+  const onCloseLanguageSwitch = () => {
+    languageSwitchRef.current?.close();
+  };
 
   return (
     <Screen>
@@ -40,7 +47,7 @@ export default function GeneralSettings({ navigation }) {
         <PrivacyCurrencySwitcher />
         <AppText padded>Current Language</AppText>
         <AppText grey>Translate the application to a different supported language</AppText>
-        <SelectBox title="Language" selectedValue="English" />
+        <SelectBox title="Language" selectedValue="English" onPress={handlePresentLanguageSwitch} />
         <AppText padded> Search Engine</AppText>
         <AppText grey> Change the default search engine used when entering search terms in the URL bar </AppText>
         <SelectBox title="Engine" selectedValue="Duck Duck Go" onPress={handlePresentModalPress} />
@@ -53,6 +60,13 @@ export default function GeneralSettings({ navigation }) {
           snapPoints={searchEngineSwitchSnapPoints}
           handleClose={() => {
             searchEngineSwitchRef.current?.close();
+          }}
+        />
+        <LanguageSwitch
+          innerRef={languageSwitchRef}
+          snapPoints={['30%', '80%']}
+          handleClose={() => {
+            languageSwitchRef.current?.close();
           }}
         />
       </BottomSheetModalProvider>
