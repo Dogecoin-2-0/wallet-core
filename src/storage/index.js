@@ -7,14 +7,14 @@ export const _saveAccount = (pw, name, address, seedPhrase) => {
     AsyncStorage.getItem('accounts').then(accounts => {
       if (!accounts || accounts === null || typeof accounts === 'undefined')
         AsyncStorage.setItem('accounts', JSON.stringify([{ id, pw, name, address, seedPhrase }]))
-          .then(() => resolve())
+          .then(() => resolve(id))
           .catch(reject);
       else
         AsyncStorage.setItem(
           'accounts',
           JSON.stringify([...JSON.parse(accounts), { id, pw, name, address, seedPhrase }])
         )
-          .then(() => resolve())
+          .then(() => resolve(id))
           .catch(reject);
     });
   });
@@ -36,13 +36,32 @@ export const _getAccountById = id => {
   });
 };
 
-export const getAllAccounts = () => {
+export const _getAllAccounts = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem('accounts')
       .then(accounts => {
         if (!accounts || accounts === null || typeof accounts === 'undefined')
           reject(new Error('No account exists on this device'));
         resolve([...JSON.parse(accounts)]);
+      })
+      .catch(reject);
+  });
+};
+
+export const _setActiveId = id => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.setItem('activeId', id)
+      .then(() => resolve())
+      .catch(reject);
+  });
+};
+
+export const _getActiveId = () => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem('activeId')
+      .then(id => {
+        if (id) resolve(id);
+        else resolve(null);
       })
       .catch(reject);
   });

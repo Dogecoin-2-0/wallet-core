@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import AppText from '../AppText';
-import SecurityLevel from '../onboarding/SecurityLevel';
 import AppTextInput from './AppTextInput';
 
 export default function AppPasswordInput({ label, onChangeText, text }) {
