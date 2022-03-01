@@ -51,7 +51,7 @@ function InstantiatingComponent() {
 
   return (
     <NavigationContainer>
-      <Navigator initialRouteName="home">
+      <Navigator initialRouteName="generalSettings">
         <Group screenOptions={{ headerShown: false }}>
           <Screen name="walletSetup" component={WalletSetup} />
           <Screen name="createWallet" component={CreateWallet} />

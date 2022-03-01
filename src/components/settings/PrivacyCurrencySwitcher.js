@@ -36,7 +36,5 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'flex-end'
-    // alignItems: 'rig'
-    // marginRight: 10
   }
 });

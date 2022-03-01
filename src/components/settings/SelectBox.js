@@ -6,7 +6,7 @@ import { Icon } from '..';
 
 export default function SelectBox({ title, selectedValue, onPress }) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View>
         <AppText small grey>
           {title}
