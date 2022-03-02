@@ -7,42 +7,35 @@ import colors from '../../constants/colors';
 import { TouchableOpacity } from 'react-native';
 import { Icon } from '..';
 
-export default function SearchEngineSwitch({ snapPoints, innerRef, handleClose }) {
-  const [selected, setSelected] = useState('Google');
-  const searchEngines = [
-    {
-      name: 'Google'
-    },
-    {
-      name: 'Duck Duck Go'
-    }
-  ];
+export default function LanguageSwitch({ snapPoints, innerRef, handleClose }) {
+  const [selected, setSelected] = useState('English');
+  const languages = require('../../utils/languages.json');
 
-  const handleSelected = name => {
-    setSelected(name);
+  const languagesList = Object.keys(languages);
+
+  //   console.log(searchEngines[Object.keys(searchEngines)[0]]['name']);
+  const handleSelected = val => {
+    // setSelected(val);
     handleClose();
   };
 
   return (
     <BottomSheetModal ref={innerRef} snapPoints={snapPoints} style={styles.container} enablePanDownToClose index={0}>
       <AppText bold padded medium>
-        Search Engine
+        Language
       </AppText>
       <BottomSheetFlatList
-        data={searchEngines}
-        keyExtractor={item => item.name}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
-            onPress={() => {
-              handleSelected(item.name);
-            }}
-          >
-            <AppText padded grey>
-              {item.name}
+        // initialScrollIndex={31} // change to current user language
+        scrollsToTop={true}
+        data={languagesList}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity style={styles.item}>
+            <AppText padded grey={selected != languages[item]['name']}>
+              {languages[item]['name']}
             </AppText>
 
-            {selected == item.name ? <Icon name="check" color={colors.green} /> : null}
+            {selected == languages[item]['name'] ? <Icon name="check" color={colors.green} /> : null}
           </TouchableOpacity>
         )}
       />
