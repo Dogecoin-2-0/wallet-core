@@ -9,7 +9,7 @@ import { useAccounts, useActiveAccount } from '../../hooks/accounts';
 export default function AccountSwitcher({ showButtons = true }) {
   const accounts = useAccounts();
   const activeAccount = useActiveAccount();
-  const [selectedAccount, setSelectedAccount] = useState(activeAccount.id);
+  const [selectedAccount, setSelectedAccount] = useState(activeAccount?.id);
 
   useEffect(() => {
     if (activeAccount && activeAccount.id.trim().length > 0) setSelectedAccount(activeAccount.id);
@@ -39,7 +39,6 @@ export default function AccountSwitcher({ showButtons = true }) {
       {showButtons && (
         <>
           <AppButton title="Create New Account" outlined />
-          <AppButton title="Import Account" />
         </>
       )}
     </View>

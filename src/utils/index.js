@@ -70,6 +70,20 @@ export const fetchTransactions = async address => {
   return { ...txResponseJson.result };
 };
 
+export const saveData = async address => {
+  const txResponse = await fetch(`${constants.PROCESS_ROOT}/wallet`, {
+    method: 'POST',
+    body: JSON.stringify({ address }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const txResponseJson = await txResponse.json();
+  if (txResponse.status >= 400) throw new Error(txResponseJson.error || `Server responded with ${txResponse.status}`);
+
+  return { ...txResponseJson.result };
+};
+
 export const numberToHex = num => `0x${num.toString(16)}`;
 
 export const hexToNumber = hex => parseInt(hex, 16);

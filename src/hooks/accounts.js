@@ -21,7 +21,7 @@ export const useAccountById = () => {
 };
 
 export const useActiveAccount = () => {
-  const [account, setAccount] = useState({ id: '' });
+  const [account, setAccount] = useState(null);
 
   useEffect(() => {
     _getActiveId().then(id => {
@@ -48,6 +48,9 @@ export const useAccountTxs = () => {
     } catch (error) {
       console.log(error.message);
     }
+    return () => {
+      setTxns([]);
+    };
   }, []);
 
   return txns;

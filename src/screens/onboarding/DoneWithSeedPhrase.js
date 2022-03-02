@@ -18,7 +18,7 @@ export default function DoneWithSeedPhrase({ navigation }) {
         </AppText>
 
         <AppText grey>
-          You've successfully protexted your wallet. Remember to keep your seed phrase safe, it's your responsibility!
+          You've successfully protected your wallet. Remember to keep your seed phrase safe, it's your responsibility!
         </AppText>
 
         <TouchableOpacity style={styles.hintCta}>

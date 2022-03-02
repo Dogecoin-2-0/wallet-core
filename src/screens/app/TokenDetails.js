@@ -63,48 +63,47 @@ export default function TokenDetails({ route, navigation }) {
   }, [priceParsed]);
 
   useEffect(async () => {
-    if (activeAccount && activeAccount.address && txns.length > 0) {
-      try {
-        let mutableArr = [];
+    try {
+      let mutableArr = [];
 
-        for (const key of Object.keys(txns).filter(key => {
-          if (route.params?.isToken)
-            return (
-              txns[key]._chain === assetTxChainMap[route.params?.network] &&
-              route.params?.id.toLowerCase() === txns[key].contract_address?.toLowerCase()
-            );
-          return txns[key]._chain === assetTxChainMap[route.params?.id];
-        })) {
-          const item = txns[key];
-          setTimeout(() => {}, 10000);
-          const nonce = await Singleton.getInstance().getTxNonce(
-            route.params?.network === 'self' ? route.params?.id : route.params?.network,
-            key
+      for (const key of Object.keys(txns).filter(key => {
+        if (route.params?.isToken)
+          return (
+            txns[key]._chain === assetTxChainMap[route.params?.network] &&
+            route.params?.id.toLowerCase() === txns[key].contract_address?.toLowerCase()
           );
-          mutableArr = [
-            ...mutableArr,
-            {
-              date: new Date(item.timestamp).toUTCString(),
-              type: item.from.toLowerCase() === activeAccount.address.toLowerCase() ? 'SENT' : 'RECEIVED',
-              amount: `${item.amount} ${route.params?.symbol}`,
-              price: (parseFloat(item.amount) * p).toPrecision(4),
-              status: 'Confirmed',
-              id: key,
-              from: item.from,
-              to: item.to,
-              nonce
-            }
-          ];
-        }
-        setMappedTxns(mutableArr);
-      } catch (error) {
-        console.log(error.message);
+        return txns[key]._chain === assetTxChainMap[route.params?.id];
+      })) {
+        console.log(key);
+        const item = txns[key];
+        setTimeout(() => {}, 10000);
+        const nonce = await Singleton.getInstance().getTxNonce(
+          route.params?.network === 'self' ? route.params?.id : route.params?.network,
+          key
+        );
+        mutableArr = [
+          ...mutableArr,
+          {
+            date: new Date(item.timestamp).toUTCString(),
+            type: item.from.toLowerCase() === activeAccount.address.toLowerCase() ? 'SENT' : 'RECEIVED',
+            amount: `${item.amount} ${route.params?.symbol}`,
+            price: (parseFloat(item.amount) * p).toPrecision(4),
+            status: 'Confirmed',
+            id: key,
+            from: item.from,
+            to: item.to,
+            nonce
+          }
+        ];
       }
+      setMappedTxns(mutableArr);
+    } catch (error) {
+      console.log(error.message);
     }
     return () => {
       setMappedTxns([]);
     };
-  }, [p, activeAccount, txns]);
+  }, [p, txns]);
 
   const renderHeader = () => {
     return (
@@ -144,7 +143,9 @@ export default function TokenDetails({ route, navigation }) {
         height={550}
         title="Transaction Detail"
         modalRef={modalRef}
-        children={<TransactionDetailPopup selectedId={selectedId} txns={txns} explorer={route.params?.explorer} />}
+        children={
+          <TransactionDetailPopup selectedId={selectedId} txns={mappedTxns} explorer={route.params?.explorer} />
+        }
       />
       <ReusableBottomSheet
         ratio={0.9}
@@ -160,8 +161,8 @@ export default function TokenDetails({ route, navigation }) {
         modalRef={recieveModalRef}
         children={
           <RecieveAsset
-            qrValue={activeAccount.address ? activeAccount.address : '0x0'}
-            address={activeAccount.address ? activeAccount.address : '0x0'}
+            qrValue={activeAccount?.address ? activeAccount.address : '0x0'}
+            address={activeAccount?.address ? activeAccount.address : '0x0'}
           />
         }
       />

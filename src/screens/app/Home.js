@@ -93,7 +93,7 @@ export default function Home({ navigation }) {
           <TouchableOpacity style={styles.rowArea} onPress={onOpen}>
             <Image source={require('../../../assets/avatar.png')} style={styles.avatar} />
             <AppText bold yellow>
-              {activeAccount.name || 'Loading...'}
+              {activeAccount?.name || 'Loading...'}
             </AppText>
             <Icon name="chevron-down" />
           </TouchableOpacity>

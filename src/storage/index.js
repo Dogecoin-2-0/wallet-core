@@ -28,7 +28,7 @@ export const _getAccountById = id => {
           reject(new Error('No account exists on this device'));
         else {
           const account = [...JSON.parse(accounts)].find(acc => acc.id === id);
-          if (!account) reject(new Error('Account with specified ID not found'));
+          if (!account) resolve(null);
           resolve(account);
         }
       })
@@ -55,6 +55,8 @@ export const _setActiveId = id => {
       .catch(reject);
   });
 };
+
+export const _resetActiveId = () => _setActiveId('0');
 
 export const _getActiveId = () => {
   return new Promise((resolve, reject) => {

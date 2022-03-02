@@ -11,13 +11,19 @@ import AccountCreator from '../../components/onboarding/AccountCreator';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import Screen from '../../components/Screen';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateName } from '../../redux/initializationSlice';
+import { updateName, clearPropagatebleState } from '../../redux/initializationSlice';
 import { _saveAccount, _setActiveId } from '../../storage';
 import { useWalletFromMnemonic } from '../../hooks/wallet';
+import { saveData } from '../../utils';
+import ReusableSpinner from '../../components/extras/ReusableSpinner';
+import ReusableAlert from '../../components/extras/ReusableAlert';
 
 export default function ConfirmSeedPhrase({ navigation }) {
   const modalRef = useRef(null);
   const [navigationEnabled, setNavigationEnabled] = useState(false);
+  const [spinnerShown, setSpinnerShown] = useState(false);
+  const [alertShown, setAlertShown] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const { name, hashedPw } = useSelector(state => state.initializationReducer);
   const { phrase } = useSelector(state => state.phraseReducer);
   const dispatch = useDispatch();
@@ -50,6 +56,7 @@ export default function ConfirmSeedPhrase({ navigation }) {
         <View style={{ flex: 2 }}>
           {/* <SeedPhraseWraper /> */}
           <SeedPhraseValidator enableNavigate={setNavigationEnabled} />
+          <ReusableSpinner visible={!_wallet} />
           {/* <TemporaryValidator /> */}
         </View>
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', marginVertical: 10 }}>
@@ -59,17 +66,41 @@ export default function ConfirmSeedPhrase({ navigation }) {
           modalRef={modalRef}
           ratio={0.6}
           children={
-            <AccountCreator
-              onChangeText={text => dispatch(updateName(text))}
-              onProceedClick={() => {
-                _saveAccount(hashedPw, name, _wallet?.address, phrase, _wallet?.privateKey).then(id => {
-                  _setActiveId(id).then(() => {
-                    console.log('Account ID: ', id);
-                    navigation.navigate('home');
-                  });
-                });
-              }}
-            />
+            <>
+              <AccountCreator
+                onChangeText={text => dispatch(updateName(text))}
+                onProceedClick={() => {
+                  setSpinnerShown(true);
+                  saveData(_wallet?.address)
+                    .then(data => {
+                      _saveAccount(hashedPw, name, _wallet?.address, phrase, _wallet?.privateKey).then(id => {
+                        _setActiveId(id).then(() => {
+                          console.log('Account ID: ', id);
+                          console.log('Data from server: ', data);
+                          setSpinnerShown(false);
+                          dispatch(clearPropagatebleState());
+                          navigation.navigate('home');
+                        });
+                      });
+                    })
+                    .catch(err => {
+                      setAlertMessage(err.message);
+                      setAlertShown(false);
+                      setSpinnerShown(false);
+                    });
+                }}
+              />
+              <ReusableAlert
+                visible={alertShown}
+                isSuccessful={false}
+                message={alertMessage}
+                close={() => {
+                  setAlertShown(false);
+                  setAlertMessage('');
+                }}
+              />
+              <ReusableSpinner visible={spinnerShown} />
+            </>
           }
         />
       </Screen>

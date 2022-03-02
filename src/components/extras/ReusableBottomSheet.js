@@ -8,7 +8,7 @@ import colors from '../../constants/colors';
 const { height } = Dimensions.get('screen');
 const modalHeight = height * 0.6;
 
-export default function ReusableBottomSheet({ modalRef, onClose, title, body, children, ratio }) {
+export default function ReusableBottomSheet({ modalRef, title, children, ratio }) {
   const responsiveHeight = height * ratio;
   console.log(responsiveHeight);
   return (
