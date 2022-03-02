@@ -1,6 +1,6 @@
+/* eslint-disable react-native/no-color-literals */
 import React from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import colors from '../../constants/colors';
+import { StyleSheet, TextInput, View } from 'react-native';
 import AppText from '../AppText';
 import Icon from '../Icon';
 
@@ -11,7 +11,7 @@ export default function AppTextInput({ label, icon, icons, iconAction, placehold
       <View style={styles.inputContainer}>
         <TextInput style={styles.input} placeholder={placeholder} {...otherProps} />
         {icons && icons.map((icon, index) => <Icon key={index} name={icon} />)}
-        {icon && <Icon name={icon} />}
+        {icon && <Icon name={icon} onPress={iconAction} />}
       </View>
     </View>
   );

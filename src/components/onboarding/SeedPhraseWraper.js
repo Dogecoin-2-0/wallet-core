@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { initPhrase, shufflePhrase, clearPhrase } from '../../redux/phraseSlice';
+import { initPhrase } from '../../redux/phraseSlice';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import _ from 'lodash';
 import AppText from '../AppText';
@@ -9,34 +9,19 @@ import propTypes from 'prop-types';
 
 const width = Dimensions.get('screen').width / 4.2;
 
-function SeedPhraseWraper({ isInit }) {
-  const { phrase, referencePhrase } = useSelector(state => state.phraseReducer);
+function SeedPhraseWraper() {
+  const { phrase } = useSelector(state => state.phraseReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isInit) {
-      dispatch(initPhrase());
-    } else {
-      dispatch(shufflePhrase());
-    }
-    return () => {
-      dispatch(clearPhrase());
-    };
+    dispatch(initPhrase());
   }, []);
 
   return (
     <TouchableOpacity>
       <TouchableOpacity>
         <View style={styles.container}>
-          {isInit &&
-            referencePhrase &&
-            _.map(referencePhrase.split(' '), (word, index) => (
-              <AppText style={{ width, margin: 10 }} key={index}>
-                {index + 1}. {word}
-              </AppText>
-            ))}
-          {!isInit &&
-            phrase &&
+          {phrase &&
             _.map(phrase.split(' '), (word, index) => (
               <AppText style={{ width, margin: 10 }} key={index}>
                 {index + 1}. {word}

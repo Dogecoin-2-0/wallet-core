@@ -34,12 +34,15 @@ import TransactionHistory from './src/screens/settings/TransactionHistory';
 import InnerSettings from './src/screens/settings/InnerSettings';
 import GeneralSettings from './src/screens/settings/GeneralSettings';
 import ComingSoon from './src/screens/settings/ComingSoon';
+import { useActiveAccount } from './src/hooks/accounts';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
 function InstantiatingComponent() {
   const dispatch = useDispatch();
   const socket = instantiateSocket();
+  const activeAccount = useActiveAccount();
+
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Socket connected: ', socket.id);
@@ -51,26 +54,32 @@ function InstantiatingComponent() {
 
   return (
     <NavigationContainer>
-      <Navigator initialRouteName="home">
+      <Navigator>
         <Group screenOptions={{ headerShown: false }}>
-          <Screen name="walletSetup" component={WalletSetup} />
-          <Screen name="createWallet" component={CreateWallet} />
-          <Screen name="secureWallet" component={SecureWallet} />
-          <Screen name="seedScreenInfo" component={SeedScreenInfo} />
-          <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
-          <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
-          <Screen name="onboardingDone" component={DoneWithSeedPhrase} />
+          {!activeAccount ? (
+            <>
+              <Screen name="walletSetup" component={WalletSetup} />
+              <Screen name="createWallet" component={CreateWallet} />
+              <Screen name="secureWallet" component={SecureWallet} />
+              <Screen name="seedScreenInfo" component={SeedScreenInfo} />
+              <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
+              <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
+              <Screen name="onboardingDone" component={DoneWithSeedPhrase} />
+            </>
+          ) : (
+            <>
+              {/* Auth Routes */}
+              <Screen name="home" component={Tabs} />
+              <Screen name="tokenDetails" component={TokenDetails} />
+              <Screen name="sendToken" component={SendToken} />
 
-          {/* Auth Routes */}
-          <Screen name="home" component={Tabs} />
-          <Screen name="tokenDetails" component={TokenDetails} />
-          <Screen name="sendToken" component={SendToken} />
-
-          {/* Settings */}
-          <Screen name="transactionHistory" component={TransactionHistory} />
-          <Screen name="innerSettings" component={InnerSettings} />
-          <Screen name="generalSettings" component={GeneralSettings} />
-          <Screen name="comingSoon" component={ComingSoon} />
+              {/* Settings */}
+              <Screen name="transactionHistory" component={TransactionHistory} />
+              <Screen name="innerSettings" component={InnerSettings} />
+              <Screen name="generalSettings" component={GeneralSettings} />
+              <Screen name="comingSoon" component={ComingSoon} />
+            </>
+          )}
         </Group>
       </Navigator>
     </NavigationContainer>

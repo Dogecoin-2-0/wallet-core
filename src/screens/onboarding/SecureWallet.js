@@ -21,7 +21,7 @@ export default function SecureWallet({ navigation }) {
         <Image source={require('../../../assets/doge2locked.png')} style={styles.lockedImage} />
         <View>
           <AppText grey>
-            Don't risk losing your funds. protect your wallet by saving your seed phrase in a place you trust. It's the
+            Don't risk losing your funds. Protect your wallet by saving your seed phrase in a place you trust. It's the
             only way to recover your wallet if you get locked out of the app or get a new device.{' '}
           </AppText>
         </View>

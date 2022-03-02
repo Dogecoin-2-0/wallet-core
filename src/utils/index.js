@@ -1,6 +1,14 @@
 import { utils } from 'ethers';
 import { Wallet } from '@ethersproject/wallet';
+import bcrypt from 'react-native-bcrypt';
+import isaac from 'isaac';
 import * as constants from '../constants';
+
+bcrypt.setRandomFallback(len => {
+  const buf = new Uint8Array(len);
+
+  return buf.map(() => Math.floor(isaac.random() * 256));
+});
 
 export const generateMnemonic = () => {
   return utils.entropyToMnemonic(utils.randomBytes(16));
@@ -62,6 +70,24 @@ export const fetchTransactions = async address => {
   return { ...txResponseJson.result };
 };
 
+export const saveData = async address => {
+  const txResponse = await fetch(`${constants.PROCESS_ROOT}/wallet`, {
+    method: 'POST',
+    body: JSON.stringify({ address }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const txResponseJson = await txResponse.json();
+  if (txResponse.status >= 400) throw new Error(txResponseJson.error || `Server responded with ${txResponse.status}`);
+
+  return { ...txResponseJson.result };
+};
+
 export const numberToHex = num => `0x${num.toString(16)}`;
 
 export const hexToNumber = hex => parseInt(hex, 16);
+
+export const hashPassword = pw => bcrypt.hashSync(pw, bcrypt.genSaltSync(5));
+
+export const comparePassword = (pw, hash) => bcrypt.compareSync(pw, hash);
