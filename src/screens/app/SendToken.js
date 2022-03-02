@@ -17,50 +17,9 @@ import { Icon } from '../../components';
 import AppButton from '../../components/AppButton';
 import ScanBarcode from './ScanBarcode';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import TransferComponent from '../../components/wallet/TransferComponent';
 
-function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onScanPress, onClosePress }) {
-  return (
-    <>
-      <AccountCard onPress={onOpen} />
-      <View style={styles.inputArea}>
-        <AppText bold>To</AppText>
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            onChangeText={setRecipient}
-            placeholder="Search, public address(0x), or ENS"
-            value={recipient}
-          />
-          <Pressable
-            onPress={() => {
-              if (recipient.trim().length > 0) onClosePress();
-              else onScanPress();
-            }}
-          >
-            <Icon name={recipient.trim().length > 0 ? 'close' : 'qrcode-scan'} />
-          </Pressable>
-        </View>
-
-        {recipient.trim().length === 0 && (
-          <AppText centered blue bold underlined padded>
-            Transfer Between My Accounts
-          </AppText>
-        )}
-      </View>
-
-      {recipient.trim().length === 0 && (
-        <AppText bold medium>
-          Recent
-        </AppText>
-      )}
-
-      {recipient.trim().length > 0 && <AppButton title="Next" onPress={onNextClick} />}
-
-      {recipient.trim().length === 0 && [1, 2, 3].map(i => <RecentTransactionCard key={i} />)}
-    </>
-  );
-}
 
 function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
   return (
@@ -117,7 +76,6 @@ export default function SendToken() {
   const [amountVal, setAmountVal] = useState('0');
   const [displayBarcode, setDisplayBarcode] = useState(false);
   const [scanned, setScanned] = useState(false);
-  const [scanning, setScanning] = useState(false);
 
   const barcodeBottomSheetModalRef = useRef(null);
   const barCodeSnapPoints = useMemo(() => ['100%', '100%'], []);
@@ -130,7 +88,6 @@ export default function SendToken() {
     barcodeBottomSheetModalRef.current?.close();
   }, []);
   return (
-    // <PortalProvider>
     <BottomSheetModalProvider>
       <BottomSheetModal ref={barcodeBottomSheetModalRef} index={1} snapPoints={barCodeSnapPoints}>
         <ScanBarcode
@@ -160,19 +117,6 @@ export default function SendToken() {
           onNextClick={() => setProgress(2)}
           onScanPress={onScanPressHandler}
           onClosePress={() => setRecipient('')}
-        />
-      )}
-
-      {displayBarcode && (
-        <ScanBarcode
-          onCancel={onClosePressHandler}
-          onHide={val => setDisplayBarcode(val)}
-          handleBarCodeScanned={({ type, data }) => {
-            setRecipient(data);
-            setScanned(true);
-          }}
-          scanned={scanned}
-          setScanned={setScanned}
         />
       )}
 
@@ -219,29 +163,11 @@ export default function SendToken() {
         </>
       )}
     </BottomSheetModalProvider>
-    // </PortalProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  inputArea: {
-    padding: 10,
-    backgroundColor: colors.white
-  },
-  inputContainer: {
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    borderWidth: 0.5,
-    borderColor: colors.lightSmoke,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10
-  },
-  input: {
-    width: '90%',
-    padding: 15
-  },
+
   keypadContainer: {
     borderRadius: 5,
     padding: 0,
