@@ -7,7 +7,7 @@ import AppSeedWalletInput from '../../components/forms/AppSeedWalletInput';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AppButton from '../../components/AppButton';
 
-export default function ImportFromSeed() {
+export default function ImportFromSeed({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (

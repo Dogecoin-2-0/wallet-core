@@ -6,7 +6,7 @@ import AppButton from '../../components/AppButton';
 import { Icon, TouchableOpacity } from '../../components';
 import colors from '../../constants/colors';
 
-export default function ScanBarcode({ handleBarCodeScanned, scanned, onHide, setScanned, onCancel }) {
+export default function ScanBarcode({ handleBarCodeScanned, scanned, setScanned, onCancel }) {
   const [hasPermission, setHasPermission] = useState(null);
   useEffect(() => {
     (async () => {
@@ -22,7 +22,6 @@ export default function ScanBarcode({ handleBarCodeScanned, scanned, onHide, set
     return <AppText>No access to camera</AppText>;
   }
 
-  const goBack = () => onHide(true);
   return (
     <View style={styles.container}>
       <BarCodeScanner

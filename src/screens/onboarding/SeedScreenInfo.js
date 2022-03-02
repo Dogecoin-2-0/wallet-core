@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-native/no-color-literals */
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-
+import { useSelector } from 'react-redux';
 import { PortalProvider } from '@gorhom/portal';
 import Icon from '../../components/Icon';
 import Screen from '../../components/Screen';
@@ -23,6 +23,24 @@ export default function SeedScreenInfo({ navigation }) {
   const onClose = () => {
     modalRef.current?.close();
   };
+
+  const { pw } = useSelector(state => state.initializationReducer);
+  const [level, setLevel] = useState(null);
+
+  useEffect(() => {
+    if (pw.trim().length > 0 && !!pw) {
+      if (pw.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/)) setLevel('STRONG');
+      else if (
+        pw.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,}$/) ||
+        pw.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}$/)
+      )
+        setLevel('FAIR');
+      else setLevel('WEAK');
+    } else {
+      setLevel(null);
+    }
+  }, [pw]);
+
   return (
     <PortalProvider>
       <Screen>
@@ -48,18 +66,18 @@ It’s the only way to recover your wallet if you get locked out of the app or g
           </AppText>
         </TouchableOpacity>
 
-        <AppText grey> Write down your seed phraase on a piece of paper and store in a safe place</AppText>
+        <AppText grey> Write down your seed phrase on a piece of paper and store in a safe place</AppText>
 
         <View style={styles.row}>
           <AppText small grey>
             {' '}
             Security Level:{' '}
           </AppText>
-          <AppText small style={{ color: 'blue' }}>
-            Very strong
+          <AppText small green={level === 'STRONG'} red={level === 'WEAK'} yellow={level === 'FAIR'}>
+            {level === 'WEAK' ? 'Weak' : level === 'STRONG' ? 'Strong' : 'Fair'}
           </AppText>
         </View>
-        <SecurityLevel />
+        <SecurityLevel level={level} />
 
         <View>
           <AppText grey small>
@@ -89,7 +107,7 @@ It’s the only way to recover your wallet if you get locked out of the app or g
           </AppText>
           <AppText small grey>
             {' '}
-            - Store in Multiple Secret places
+            - Store in multiple secret places
           </AppText>
         </View>
         <View style={{ marginTop: 100 }}>

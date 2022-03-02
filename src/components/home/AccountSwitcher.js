@@ -1,44 +1,34 @@
 import { Image, StyleSheet, View, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppText from '../AppText';
 import AppButton from '../AppButton';
 import { Icon } from '..';
 import colors from '../../constants/colors';
+import { useAccounts, useActiveAccount } from '../../hooks/accounts';
 
 export default function AccountSwitcher({ showButtons = true }) {
-  const accounts = [
-    {
-      id: 1,
-      username: 'Queen Bee',
-      avatarUrl: require('../../../assets/avatar.png')
-    },
-    {
-      id: 2,
-      username: 'Lamino Rubix',
-      avatarUrl: require('../../../assets/avatar.png')
-    },
-    {
-      id: 3,
-      username: 'Nei Momo',
-      avatarUrl: require('../../../assets/avatar.png')
-    }
-  ];
-  const [selectedAccount, setSelectedAccount] = useState(accounts[0].id);
+  const accounts = useAccounts();
+  const activeAccount = useActiveAccount();
+  const [selectedAccount, setSelectedAccount] = useState(activeAccount?.id);
+
+  useEffect(() => {
+    if (activeAccount && activeAccount.id.trim().length > 0) setSelectedAccount(activeAccount.id);
+  }, [activeAccount]);
   return (
     <View>
       {/* <ScrollView> */}
       {accounts.map(account => {
         return (
           <Pressable
-            key={account.username}
+            key={account.id}
             style={[styles.row, styles.container]}
             onPress={() => {
               setSelectedAccount(account.id);
             }}
           >
             <View style={styles.row}>
-              <Image source={account.avatarUrl} style={styles.avatar} />
-              <AppText> {account.username}</AppText>
+              <Image source={require('../../../assets/avatar.png')} style={styles.avatar} />
+              <AppText> {account.name}</AppText>
             </View>
             {selectedAccount == account.id && <Icon name="check" color={colors.green} />}
           </Pressable>
@@ -49,7 +39,6 @@ export default function AccountSwitcher({ showButtons = true }) {
       {showButtons && (
         <>
           <AppButton title="Create New Account" outlined />
-          <AppButton title="Import Account" />
         </>
       )}
     </View>

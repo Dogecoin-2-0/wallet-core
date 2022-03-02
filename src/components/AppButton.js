@@ -1,14 +1,22 @@
+/* eslint-disable react-native/no-color-literals */
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from '.';
 import colors from '../constants/colors';
 import AppText from './AppText';
 
-export default function AppButton({ title, outlined, onPress, half, icon, small }) {
+export default function AppButton({ title, outlined, onPress, half, icon, small, disable = false }) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.container, outlined && styles.outlined, half && styles.half, small && styles.small]}
+      style={[
+        styles.container,
+        outlined && !disable && styles.outlined,
+        half && styles.half,
+        small && styles.small,
+        disable && styles.disabled
+      ]}
+      disabled={disable}
     >
       {icon && <Icon name={icon} color={outlined ? colors.yellow : colors.white} size={15} />}
       {!outlined ? (
@@ -49,5 +57,8 @@ const styles = StyleSheet.create({
   },
   small: {
     width: '30%'
+  },
+  disabled: {
+    backgroundColor: colors.grey
   }
 });

@@ -10,6 +10,7 @@ import ReusableAlert from '../extras/ReusableAlert';
 import { fetchBlockchainInfo, fetchTokenInfo } from '../../utils';
 import { assetPriceKeyMap } from '../../constants/maps';
 import Singleton from '../../https/singleton';
+import { useActiveAccount } from '../../hooks/accounts';
 
 function TokenCard({ id, network, onPress }) {
   const [info, setInfo] = useState({});
@@ -18,6 +19,7 @@ function TokenCard({ id, network, onPress }) {
   const [balance, setBalance] = useState('0');
   const { price } = useSelector(state => state.priceReducer);
   const [priceParsed, setPriceParsed] = useState({});
+  const activeAccount = useActiveAccount();
 
   useEffect(async () => {
     try {
@@ -34,12 +36,14 @@ function TokenCard({ id, network, onPress }) {
   }, [price]);
 
   useEffect(async () => {
-    const bal =
-      network === 'self'
-        ? await Singleton.getInstance().getNativeBalance(id, '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578')
-        : await Singleton.getInstance().getTokenBalance(network, id, '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578');
-    setBalance(bal);
-  }, []);
+    if (activeAccount && activeAccount.address) {
+      const bal =
+        network === 'self'
+          ? await Singleton.getInstance().getNativeBalance(id, activeAccount.address)
+          : await Singleton.getInstance().getTokenBalance(network, id, activeAccount.address);
+      setBalance(bal);
+    }
+  }, [activeAccount]);
 
   return (
     <View>

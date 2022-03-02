@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View, StyleSheet, Text, Button } from 'react-native';
+import { Dimensions, View, StyleSheet } from 'react-native';
 import { Portal } from '@gorhom/portal';
 import { Modalize } from 'react-native-modalize';
 import AppButton from '../AppButton';
