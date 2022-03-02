@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import AppPasswordInput from '../../components/forms/AppPasswordInput';
@@ -10,6 +11,7 @@ import AppButton from '../../components/AppButton';
 import CheckBox from '../../components/forms/CheckBox';
 import SecurityLevel from '../../components/onboarding/SecurityLevel';
 import { hashPassword, comparePassword } from '../../utils';
+import { updateHashedPw, updatePw } from '../../redux/initializationSlice';
 
 export default function CreateWallet({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -17,6 +19,7 @@ export default function CreateWallet({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [level, setLevel] = useState(null);
   const [pwMatch, setPwMatch] = useState(false);
+  const dispatch = useDispatch();
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const step = 1;
 
@@ -44,7 +47,7 @@ export default function CreateWallet({ navigation }) {
       const comparison = comparePassword(confirmPassword, hash);
       setPwMatch(comparison);
     }
-  }, [confirmPassword]);
+  }, [confirmPassword, password]);
 
   return (
     <Screen>
@@ -86,7 +89,15 @@ export default function CreateWallet({ navigation }) {
         </View>
 
         <View style={{ marginTop: 10 }}>
-          <AppButton title="Create Password" onPress={() => navigation.navigate('secureWallet')} />
+          <AppButton
+            title="Create Password"
+            disable={!pwMatch || password.trim().length === 0 || confirmPassword.trim().length === 0 || !isChecked}
+            onPress={() => {
+              dispatch(updateHashedPw(hashPassword(password)));
+              dispatch(updatePw(password));
+              navigation.navigate('secureWallet');
+            }}
+          />
         </View>
       </View>
     </Screen>

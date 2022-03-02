@@ -35,6 +35,7 @@ export default class Singleton {
       gasPrice: numberToHex(gasPrice * 10 ** 9)
     });
 
+    // eslint-disable-next-line no-undef
     const privateKey = Buffer.from(pk, 'hex');
     tx.sign(privateKey);
 
@@ -57,6 +58,7 @@ export default class Singleton {
       gasPrice: numberToHex(gasPrice * 10 ** 9),
       data: funcEncoded
     });
+    // eslint-disable-next-line no-undef
     const privateKey = Buffer.from(pk, 'hex');
     tx.sign(privateKey);
 

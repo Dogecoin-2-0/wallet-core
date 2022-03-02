@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { _getAccountById, _getActiveId, _getAllAccounts } from '../storage';
+import { fetchTransactions } from '../utils';
 
 export const useAccounts = () => {
   const [accounts, setAccounts] = useState([]);
@@ -20,7 +21,7 @@ export const useAccountById = () => {
 };
 
 export const useActiveAccount = () => {
-  const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState({ id: '' });
 
   useEffect(() => {
     _getActiveId().then(id => {
@@ -29,4 +30,25 @@ export const useActiveAccount = () => {
   }, []);
 
   return account;
+};
+
+export const useAccountTxs = () => {
+  const [txns, setTxns] = useState([]);
+  useEffect(() => {
+    try {
+      _getActiveId().then(id => {
+        _getAccountById(id).then(acc => {
+          fetchTransactions(acc.address)
+            .then(transactions => setTxns(transactions))
+            .catch(err => {
+              console.log(err.message);
+            });
+        });
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
+
+  return txns;
 };

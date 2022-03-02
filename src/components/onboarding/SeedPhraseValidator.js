@@ -60,8 +60,8 @@ export default function SeedPhraseValidator({ enableNavigate }) {
   }, [unshuffled]);
 
   useEffect(() => {
-    if (correctEntries.length === unshuffled.length) enableNavigate(true);
-  }, [correctEntries.length]);
+    if (correctEntries.length === 12) enableNavigate(true);
+  }, [correctEntries]);
 
   const onInvalidEntry = () => {
     setAlertMessage('Invalid Entry');

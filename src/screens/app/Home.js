@@ -16,6 +16,7 @@ import TokenPrice from '../../components/wallet/TokenPrice';
 import { fetchChainList, fetchTokensList } from '../../utils';
 import Singleton from '../../https/singleton';
 import { useFocusEffect } from '@react-navigation/native';
+import { useActiveAccount } from '../../hooks/accounts';
 
 export default function Home({ navigation }) {
   const modalRef = useRef(null);
@@ -27,13 +28,10 @@ export default function Home({ navigation }) {
   const { price } = useSelector(state => state.priceReducer);
   const [priceParsed, setPriceParsed] = useState({});
   const [balance, setBalance] = useState('0');
+  const activeAccount = useActiveAccount();
 
   const onOpen = () => {
     modalRef.current?.open();
-  };
-
-  const onClose = () => {
-    modalRef.current?.close();
   };
 
   useFocusEffect(
@@ -65,15 +63,14 @@ export default function Home({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       async function getBalance() {
-        try {
-          const bal = await Singleton.getInstance().getNativeBalance(
-            'binance',
-            '0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578'
-          );
-          setBalance(bal);
-        } catch (error) {
-          setAlertMessage(error.message);
-          setShowAlert(true);
+        if (activeAccount && activeAccount.address) {
+          try {
+            const bal = await Singleton.getInstance().getNativeBalance('binance', activeAccount.address);
+            setBalance(bal);
+          } catch (error) {
+            setAlertMessage(error.message);
+            setShowAlert(true);
+          }
         }
       }
 
@@ -82,7 +79,7 @@ export default function Home({ navigation }) {
       return () => {
         setBalance(0);
       };
-    }, [])
+    }, [activeAccount])
   );
 
   useEffect(() => {
@@ -96,7 +93,7 @@ export default function Home({ navigation }) {
           <TouchableOpacity style={styles.rowArea} onPress={onOpen}>
             <Image source={require('../../../assets/avatar.png')} style={styles.avatar} />
             <AppText bold yellow>
-              Queen Bee
+              {activeAccount.name || 'Loading...'}
             </AppText>
             <Icon name="chevron-down" />
           </TouchableOpacity>

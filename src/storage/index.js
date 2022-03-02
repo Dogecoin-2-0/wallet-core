@@ -1,18 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v4 as uuid } from 'uuid';
 
-export const _saveAccount = (pw, name, address, seedPhrase) => {
+export const _saveAccount = (pw, name, address, seedPhrase, pk) => {
   const id = uuid();
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem('accounts').then(accounts => {
       if (!accounts || accounts === null || typeof accounts === 'undefined')
-        AsyncStorage.setItem('accounts', JSON.stringify([{ id, pw, name, address, seedPhrase }]))
+        AsyncStorage.setItem('accounts', JSON.stringify([{ id, pw, name, address, seedPhrase, pk }]))
           .then(() => resolve(id))
           .catch(reject);
       else
         AsyncStorage.setItem(
           'accounts',
-          JSON.stringify([...JSON.parse(accounts), { id, pw, name, address, seedPhrase }])
+          JSON.stringify([...JSON.parse(accounts), { id, pw, name, address, seedPhrase, pk }])
         )
           .then(() => resolve(id))
           .catch(reject);
