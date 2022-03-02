@@ -5,7 +5,7 @@ import AppText from '../../components/AppText';
 import AppButton from '../../components/AppButton';
 import AppPasswordInput from '../../components/forms/AppPasswordInput';
 
-export default function Login() {
+export default function Login({ navigation }) {
   return (
     <ImageBackground source={require('../../../assets/wallet-setupbg.jpg')} style={styles.background}>
       <View style={styles.container}>
@@ -20,7 +20,7 @@ export default function Login() {
         </AppText>
 
         <AppPasswordInput label="Password" />
-        <AppButton title="Login" />
+        <AppButton title="Login" onPress={() => navigation.navigate('home')} />
       </View>
     </ImageBackground>
   );
