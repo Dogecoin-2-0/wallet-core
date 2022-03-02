@@ -3,7 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-children-prop */
 import { Pressable, StyleSheet, View } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useMemo, useCallback, useState } from 'react';
 import AppText from '../../components/AppText';
 import RecentTransactionCard from '../../components/wallet/RecentTransactionCard';
 import AccountCard from '../../components/wallet/AccountCard';
@@ -16,6 +16,7 @@ import _ from 'lodash';
 import { Icon } from '../../components';
 import AppButton from '../../components/AppButton';
 import ScanBarcode from './ScanBarcode';
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onScanPress, onClosePress }) {
   return (
@@ -118,13 +119,35 @@ export default function SendToken() {
   const [scanned, setScanned] = useState(false);
   const [scanning, setScanning] = useState(false);
 
+  const barcodeBottomSheetModalRef = useRef(null);
+  const barCodeSnapPoints = useMemo(() => ['100%', '100%'], []);
+
+  const onScanPressHandler = useCallback(() => {
+    barcodeBottomSheetModalRef.current?.present();
+  }, []);
+
+  const onClosePressHandler = useCallback(() => {
+    barcodeBottomSheetModalRef.current?.close();
+  }, []);
   return (
-    <PortalProvider>
+    // <PortalProvider>
+    <BottomSheetModalProvider>
+      <BottomSheetModal ref={barcodeBottomSheetModalRef} index={1} snapPoints={barCodeSnapPoints}>
+        <ScanBarcode
+          onCancel={onClosePressHandler}
+          onHide={val => setDisplayBarcode(val)}
+          handleBarCodeScanned={({ type, data }) => {
+            setRecipient(data);
+            setScanned(true);
+          }}
+          scanned={scanned}
+          setScanned={setScanned}
+        />
+      </BottomSheetModal>
       <ReusableBottomSheet
         title="Account"
         height={600}
         ratio={0.5}
-        // rati
         modalRef={accountSwitcherRef}
         children={<AccountSwitcher showButtons={false} />}
       />
@@ -135,14 +158,14 @@ export default function SendToken() {
           setRecipient={setRecipient}
           recipient={recipient}
           onNextClick={() => setProgress(2)}
-          onScanPress={() => setDisplayBarcode(true)}
+          onScanPress={onScanPressHandler}
           onClosePress={() => setRecipient('')}
         />
       )}
 
       {displayBarcode && (
         <ScanBarcode
-          onCancel={() => setDisplayBarcode(false)}
+          onCancel={onClosePressHandler}
           onHide={val => setDisplayBarcode(val)}
           handleBarCodeScanned={({ type, data }) => {
             setRecipient(data);
@@ -195,8 +218,8 @@ export default function SendToken() {
           <AppButton title="Next" />
         </>
       )}
-      {/* </Screen> */}
-    </PortalProvider>
+    </BottomSheetModalProvider>
+    // </PortalProvider>
   );
 }
 
