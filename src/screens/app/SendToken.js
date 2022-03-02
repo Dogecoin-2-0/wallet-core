@@ -18,48 +18,7 @@ import AppButton from '../../components/AppButton';
 import ScanBarcode from './ScanBarcode';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import TransferComponent from '../../components/wallet/TransferComponent';
-
-
-
-function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
-  return (
-    <View style={styles.keypadContainer}>
-      {_.map(['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0'], s => (
-        <View
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexGrow: 1,
-            flexShrink: 0,
-            flexBasis: '33.3333%',
-            height: 68
-          }}
-          key={s}
-        >
-          <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <AppText big>{s}</AppText>
-          </TouchableOpacity>
-        </View>
-      ))}
-      <View
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexGrow: 1,
-          flexShrink: 0,
-          flexBasis: '33.3333%',
-          height: 68
-        }}
-      >
-        <TouchableOpacity style={{ width: '100%' }} onPress={onBackSpacePress}>
-          <Icon name="backspace-outline" style={{ textAlign: 'center' }} color={colors.grey} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+import KeyPadComponent from '../../components/wallet/KeypadComponent';
 
 export default function SendToken() {
   const accountSwitcherRef = useRef(null);
@@ -84,14 +43,14 @@ export default function SendToken() {
     barcodeBottomSheetModalRef.current?.present();
   }, []);
 
-  const onClosePressHandler = useCallback(() => {
+  const onScanClosePressHandler = useCallback(() => {
     barcodeBottomSheetModalRef.current?.close();
   }, []);
   return (
     <BottomSheetModalProvider>
       <BottomSheetModal ref={barcodeBottomSheetModalRef} index={1} snapPoints={barCodeSnapPoints}>
         <ScanBarcode
-          onCancel={onClosePressHandler}
+          onCancel={onScanClosePressHandler}
           onHide={val => setDisplayBarcode(val)}
           handleBarCodeScanned={({ type, data }) => {
             setRecipient(data);
@@ -167,17 +126,6 @@ export default function SendToken() {
 }
 
 const styles = StyleSheet.create({
-
-  keypadContainer: {
-    borderRadius: 5,
-    padding: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    marginVertical: 10,
-    width: '100%',
-    flexWrap: 'wrap',
-    height: 296
-  },
   row: {
     justifyContent: 'space-evenly',
     flexDirection: 'row',
