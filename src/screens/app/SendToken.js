@@ -12,7 +12,6 @@ import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import colors from '../../constants/colors';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import _ from 'lodash';
 import { Icon } from '../../components';
 import AppButton from '../../components/AppButton';
 import ScanBarcode from './ScanBarcode';

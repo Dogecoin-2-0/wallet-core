@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import _ from 'lodash';
+import React from 'react';
 import colors from '../../constants/colors';
+import AppText from '../AppText';
+import { Icon } from '..';
 
 export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
   return (
@@ -41,7 +44,6 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   keypadContainer: {
