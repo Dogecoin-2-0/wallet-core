@@ -35,6 +35,7 @@ import InnerSettings from './src/screens/settings/InnerSettings';
 import GeneralSettings from './src/screens/settings/GeneralSettings';
 import ComingSoon from './src/screens/settings/ComingSoon';
 import { useActiveAccount } from './src/hooks/accounts';
+import Login from './src/screens/app/Login';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
@@ -69,6 +70,8 @@ function InstantiatingComponent() {
           ) : (
             <>
               {/* Auth Routes */}
+              <Screen name="login" component={Login} />
+
               <Screen name="home" component={Tabs} />
               <Screen name="tokenDetails" component={TokenDetails} />
               <Screen name="sendToken" component={SendToken} />
