@@ -12,95 +12,12 @@ import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import colors from '../../constants/colors';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import _ from 'lodash';
 import { Icon } from '../../components';
 import AppButton from '../../components/AppButton';
 import ScanBarcode from './ScanBarcode';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-
-function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onScanPress, onClosePress }) {
-  return (
-    <>
-      <AccountCard onPress={onOpen} />
-      <View style={styles.inputArea}>
-        <AppText bold>To</AppText>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            onChangeText={setRecipient}
-            placeholder="Search, public address(0x), or ENS"
-            value={recipient}
-          />
-          <Pressable
-            onPress={() => {
-              if (recipient.trim().length > 0) onClosePress();
-              else onScanPress();
-            }}
-          >
-            <Icon name={recipient.trim().length > 0 ? 'close' : 'qrcode-scan'} />
-          </Pressable>
-        </View>
-
-        {recipient.trim().length === 0 && (
-          <AppText centered blue bold underlined padded>
-            Transfer Between My Accounts
-          </AppText>
-        )}
-      </View>
-
-      {recipient.trim().length === 0 && (
-        <AppText bold medium>
-          Recent
-        </AppText>
-      )}
-
-      {recipient.trim().length > 0 && <AppButton title="Next" onPress={onNextClick} />}
-
-      {recipient.trim().length === 0 && [1, 2, 3].map(i => <RecentTransactionCard key={i} />)}
-    </>
-  );
-}
-
-function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
-  return (
-    <View style={styles.keypadContainer}>
-      {_.map(['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0'], s => (
-        <View
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexGrow: 1,
-            flexShrink: 0,
-            flexBasis: '33.3333%',
-            height: 68
-          }}
-          key={s}
-        >
-          <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <AppText big>{s}</AppText>
-          </TouchableOpacity>
-        </View>
-      ))}
-      <View
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexGrow: 1,
-          flexShrink: 0,
-          flexBasis: '33.3333%',
-          height: 68
-        }}
-      >
-        <TouchableOpacity style={{ width: '100%' }} onPress={onBackSpacePress}>
-          <Icon name="backspace-outline" style={{ textAlign: 'center' }} color={colors.grey} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+import TransferComponent from '../../components/wallet/TransferComponent';
+import KeyPadComponent from '../../components/wallet/KeypadComponent';
 
 export default function SendToken() {
   const accountSwitcherRef = useRef(null);
@@ -117,7 +34,6 @@ export default function SendToken() {
   const [amountVal, setAmountVal] = useState('0');
   const [displayBarcode, setDisplayBarcode] = useState(false);
   const [scanned, setScanned] = useState(false);
-  const [scanning, setScanning] = useState(false);
 
   const barcodeBottomSheetModalRef = useRef(null);
   const barCodeSnapPoints = useMemo(() => ['100%', '100%'], []);
@@ -126,15 +42,14 @@ export default function SendToken() {
     barcodeBottomSheetModalRef.current?.present();
   }, []);
 
-  const onClosePressHandler = useCallback(() => {
+  const onScanClosePressHandler = useCallback(() => {
     barcodeBottomSheetModalRef.current?.close();
   }, []);
   return (
-    // <PortalProvider>
     <BottomSheetModalProvider>
       <BottomSheetModal ref={barcodeBottomSheetModalRef} index={1} snapPoints={barCodeSnapPoints}>
         <ScanBarcode
-          onCancel={onClosePressHandler}
+          onCancel={onScanClosePressHandler}
           onHide={val => setDisplayBarcode(val)}
           handleBarCodeScanned={({ type, data }) => {
             setRecipient(data);
@@ -160,19 +75,6 @@ export default function SendToken() {
           onNextClick={() => setProgress(2)}
           onScanPress={onScanPressHandler}
           onClosePress={() => setRecipient('')}
-        />
-      )}
-
-      {displayBarcode && (
-        <ScanBarcode
-          onCancel={onClosePressHandler}
-          onHide={val => setDisplayBarcode(val)}
-          handleBarCodeScanned={({ type, data }) => {
-            setRecipient(data);
-            setScanned(true);
-          }}
-          scanned={scanned}
-          setScanned={setScanned}
         />
       )}
 
@@ -219,39 +121,10 @@ export default function SendToken() {
         </>
       )}
     </BottomSheetModalProvider>
-    // </PortalProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  inputArea: {
-    padding: 10,
-    backgroundColor: colors.white
-  },
-  inputContainer: {
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    borderWidth: 0.5,
-    borderColor: colors.lightSmoke,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10
-  },
-  input: {
-    width: '90%',
-    padding: 15
-  },
-  keypadContainer: {
-    borderRadius: 5,
-    padding: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    marginVertical: 10,
-    width: '100%',
-    flexWrap: 'wrap',
-    height: 296
-  },
   row: {
     justifyContent: 'space-evenly',
     flexDirection: 'row',
