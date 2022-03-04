@@ -12,17 +12,18 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
         <View
           style={{
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'center',
             flexGrow: 1,
             flexShrink: 0,
-            flexBasis: '33.3333%',
+            flexBasis: '30%',
             height: 68
           }}
           key={s}
         >
           <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <AppText big>{s}</AppText>
+            <AppText centered big>
+              {s}
+            </AppText>
           </TouchableOpacity>
         </View>
       ))}
@@ -33,12 +34,12 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
           justifyContent: 'center',
           flexGrow: 1,
           flexShrink: 0,
-          flexBasis: '33.3333%',
+          flexBasis: '30%',
           height: 68
         }}
       >
         <TouchableOpacity style={{ width: '100%' }} onPress={onBackSpacePress}>
-          <Icon name="backspace-outline" style={{ textAlign: 'center' }} color={colors.grey} />
+          <Icon name="backspace-outline" style={{ alignItems: 'center' }} color={colors.grey} />
         </TouchableOpacity>
       </View>
     </View>
@@ -47,13 +48,11 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
 
 const styles = StyleSheet.create({
   keypadContainer: {
-    borderRadius: 5,
-    padding: 0,
     display: 'flex',
     flexDirection: 'row',
     marginVertical: 10,
-    width: '100%',
-    flexWrap: 'wrap',
-    height: 296
+    paddingVertical: 10,
+    justifyContent: 'center',
+    flexWrap: 'wrap'
   }
 });
