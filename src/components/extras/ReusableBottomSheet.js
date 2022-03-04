@@ -3,16 +3,15 @@ import { StyleSheet, View, Dimensions } from 'react-native';
 import { Portal } from '@gorhom/portal';
 import { Modalize } from 'react-native-modalize';
 import AppText from '../AppText';
-import colors from '../../constants/colors';
 
-export default function ReusableBottomSheet({ modalRef, title, children, ratio }) {
+export default function ReusableBottomSheet({ modalRef, title, children, ratio, extraStyle }) {
   const { height } = Dimensions.get('screen');
   const modalHeight = height * 0.6;
   const responsiveHeight = height * ratio;
   return (
     <Portal>
       <Modalize ref={modalRef} modalHeight={ratio ? responsiveHeight : height ? height : modalHeight}>
-        <View style={styles.content}>
+        <View style={[styles.content, extraStyle && { ...extraStyle }]}>
           <View>
             <AppText bold medium padded>
               {title}
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // height: modalHeight,
     paddingHorizontal: 20,
-    paddingVertical: 32,
-    backgroundColor: colors.white
+    paddingVertical: 32
   }
 });

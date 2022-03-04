@@ -25,6 +25,19 @@ export default class Singleton {
     return Promise.resolve(parseFloat(balance).toPrecision(2));
   }
 
+  async obtainNativeBaseFee(network, from, to, value, gasPrice, gasLimit) {
+    const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+    return Transaction.fromTxData({
+      to,
+      nonce,
+      value: numberToHex(value * 10 ** 18),
+      gasLimit: numberToHex(gasLimit),
+      gasPrice: numberToHex(gasPrice * 10 ** 9)
+    })
+      .getBaseFee()
+      .toString('hex');
+  }
+
   async sendNativeTransaction(network, from, to, value, gasPrice, gasLimit, pk) {
     const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
     const tx = Transaction.fromTxData({

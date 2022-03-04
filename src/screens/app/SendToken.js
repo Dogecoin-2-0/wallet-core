@@ -18,6 +18,7 @@ import KeyPadComponent from '../../components/wallet/KeypadComponent';
 import { useBalance } from '../../hooks/wallet';
 import { useActiveAccount } from '../../hooks/accounts';
 import ConfirmationComponent from '../../components/wallet/ConfirmationComponent';
+import colors from '../../constants/colors';
 
 export default function SendToken({
   price = '0',
@@ -88,8 +89,26 @@ export default function SendToken({
         <ReusableBottomSheet
           height={600}
           ratio={0.7}
+          title="Confirm"
           modalRef={confirmationBottomSheetRef}
-          children={<ConfirmationComponent goBack={onConfirmationClose} image={image} />}
+          children={
+            <>
+              <ConfirmationComponent
+                amount={amountVal}
+                symbol={symbol}
+                recipient={recipient}
+                price={price}
+                onXPress={() => {
+                  onConfirmationClose();
+                  setRecipient('');
+                  setProgress(1);
+                }}
+                image={image}
+              />
+              <AppButton title="Send" />
+            </>
+          }
+          extraStyle={{ backgroundColor: colors.otherGray }}
         />
 
         {progress === 1 && (
@@ -129,7 +148,7 @@ export default function SendToken({
             <View style={styles.row}>
               <View />
               <TouchableOpacity style={[styles.row2, { backgroundColor: '#f5f5f5', height: 40, width: 121 }]}>
-                <AppText>$ {parseFloat(price) * 1} </AppText>
+                <AppText>$ {(parseFloat(price) * parseFloat(amountVal)).toPrecision(4)} </AppText>
                 <Icon name="swap-vertical" size={30} />
               </TouchableOpacity>
               <View />
@@ -142,7 +161,7 @@ export default function SendToken({
                 if (amountVal.includes('.') && value === '.') {
                   return;
                 }
-                setAmountVal(amountVal === '0' ? value : amountVal + value);
+                setAmountVal(amountVal === '0' && value !== '.' ? value : amountVal + value);
               }}
               onBackSpacePress={() => {
                 setAmountVal(

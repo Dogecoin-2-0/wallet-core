@@ -7,25 +7,23 @@ import AppText from '../AppText';
 import { Icon } from '..';
 
 export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
-  const { width } = Dimensions.get('window');
+  const { width } = Dimensions.get('screen');
   return (
-    <View
-      style={[styles.keypadContainer, { marginLeft: 0.05 * width, marginRight: 0.05 * width, width: 0.99 * width }]}
-    >
+    <View style={[styles.keypadContainer, { width }]}>
       {_.map(['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0'], s => (
         <View
           style={{
-            display: 'flex',
+            alignItems: 'center',
             justifyContent: 'center',
             flexGrow: 1,
             flexShrink: 0,
-            flexBasis: '30%',
+            flexBasis: '33.3333%',
             height: 68
           }}
           key={s}
         >
           <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <AppText centered big>
+            <AppText big grey>
               {s}
             </AppText>
           </TouchableOpacity>
@@ -33,17 +31,16 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
       ))}
       <View
         style={{
-          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexGrow: 1,
           flexShrink: 0,
-          flexBasis: '30%',
+          flexBasis: '33.3333%',
           height: 68
         }}
       >
         <TouchableOpacity style={{ width: '100%' }} onPress={onBackSpacePress}>
-          <Icon name="backspace-outline" style={{ alignItems: 'center' }} color={colors.grey} />
+          <Icon name="backspace-outline" color={colors.grey} />
         </TouchableOpacity>
       </View>
     </View>
@@ -54,9 +51,9 @@ const styles = StyleSheet.create({
   keypadContainer: {
     display: 'flex',
     flexDirection: 'row',
-    marginVertical: 10,
-    paddingVertical: 10,
-    justifyContent: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    height: 296,
+    marginVertical: 12,
+    flex: 1
   }
 });

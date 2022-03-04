@@ -25,10 +25,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   container: {
-    padding: 15,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     backgroundColor: colors.white,
-    borderRadius: 10,
-    marginVertical: 10
+    borderRadius: 16,
+    marginVertical: 10,
+    height: 64
   },
   avatar: {
     marginHorizontal: 10
