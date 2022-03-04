@@ -37,9 +37,9 @@ export default class Singleton {
 
     // eslint-disable-next-line no-undef
     const privateKey = Buffer.from(pk, 'hex');
-    tx.sign(privateKey);
+    const signedTx = tx.sign(privateKey);
 
-    const txSignedHex = `0x${tx.serialize().toString('hex')}`;
+    const txSignedHex = `0x${signedTx.serialize().toString('hex')}`;
     const txHash = await _jsonRpcRequest(network, 'eth_sendRawTransaction', [txSignedHex]);
     return Promise.resolve(txHash);
   }
@@ -60,9 +60,9 @@ export default class Singleton {
     });
     // eslint-disable-next-line no-undef
     const privateKey = Buffer.from(pk, 'hex');
-    tx.sign(privateKey);
+    const signedTx = tx.sign(privateKey);
 
-    const txSignedHex = `0x${tx.serialize().toString('hex')}`;
+    const txSignedHex = `0x${signedTx.serialize().toString('hex')}`;
     const txHash = await _jsonRpcRequest(network, 'eth_sendRawTransaction', [txSignedHex]);
 
     return Promise.resolve(txHash);

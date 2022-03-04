@@ -48,6 +48,7 @@ export default function TokenDetails({ route, navigation }) {
   const [p, setPrice] = useState(0);
   const [selectedId, setSelectedId] = useState('0x');
   const [mappedTxns, setMappedTxns] = useState([]);
+  const [balance, setBalance] = useState('0');
 
   useEffect(() => {
     setPriceParsed(JSON.parse(price));
@@ -62,6 +63,25 @@ export default function TokenDetails({ route, navigation }) {
       );
   }, [priceParsed]);
 
+  useEffect(() => {
+    const getBalance = async () => {
+      let bal = '0';
+      if (activeAccount) {
+        if (route.params?.isToken) {
+          bal = await Singleton.getInstance().getTokenBalance(
+            route.params?.network,
+            route.params?.id,
+            activeAccount.address
+          );
+        } else {
+          bal = await Singleton.getInstance().getNativeBalance(route.params?.id, activeAccount.address);
+        }
+        setBalance(bal);
+      }
+    };
+    getBalance();
+  }, [activeAccount]);
+
   useEffect(async () => {
     try {
       let mutableArr = [];
@@ -74,7 +94,6 @@ export default function TokenDetails({ route, navigation }) {
           );
         return txns[key]._chain === assetTxChainMap[route.params?.id];
       })) {
-        console.log(key);
         const item = txns[key];
         setTimeout(() => {}, 10000);
         const nonce = await Singleton.getInstance().getTxNonce(
@@ -110,7 +129,21 @@ export default function TokenDetails({ route, navigation }) {
       <>
         <TokenDetailHeader name={route.params?.name} image={route.params?.image} goBack={() => navigation.goBack()} />
 
-        <TokenPrice symbol={route.params?.symbol} />
+        <TokenPrice
+          percentage={
+            route.params?.isToken
+              ? priceParsed[route.params?.id]?._percentage.toPrecision(2)
+              : priceParsed[assetPriceKeyMap[route.params?.id]]?._percentage.toPrecision(2)
+          }
+          type={
+            route.params?.isToken
+              ? priceParsed[route.params?.id]?._type
+              : priceParsed[assetPriceKeyMap[route.params?.id]]?._type
+          }
+          balance={balance}
+          price={p.toPrecision(5) || 0}
+          symbol={route.params?.symbol}
+        />
         <Actions onSendIconPress={onSendModalOpen} onRecieveIconPress={onRecieveModalOpen} />
       </>
     );
@@ -152,7 +185,16 @@ export default function TokenDetails({ route, navigation }) {
         // height={}
         title={`Send ${route.params?.symbol}`}
         modalRef={sendModalRef}
-        children={<SendToken navigation={navigation} />}
+        children={
+          <SendToken
+            price={p.toPrecision(5)}
+            isToken={route.params?.isToken}
+            network={route.params?.network}
+            id={route.params?.id}
+            symbol={route.params?.symbol}
+            image={route.params?.image}
+          />
+        }
       />
       <ReusableBottomSheet
         // height={520}

@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
 import _ from 'lodash';
 import React from 'react';
 import colors from '../../constants/colors';
@@ -6,8 +7,11 @@ import AppText from '../AppText';
 import { Icon } from '..';
 
 export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
+  const { width } = Dimensions.get('window');
   return (
-    <View style={styles.keypadContainer}>
+    <View
+      style={[styles.keypadContainer, { marginLeft: 0.05 * width, marginRight: 0.05 * width, width: 0.99 * width }]}
+    >
       {_.map(['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0'], s => (
         <View
           style={{
@@ -16,13 +20,16 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
             justifyContent: 'center',
             flexGrow: 1,
             flexShrink: 0,
-            flexBasis: '33.3333%',
-            height: 68
+            flexBasis: '33.3333333333%',
+            height: 68,
+            width: '100%'
           }}
           key={s}
         >
           <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <AppText big>{s}</AppText>
+            <AppText big grey>
+              {s}
+            </AppText>
           </TouchableOpacity>
         </View>
       ))}
@@ -33,8 +40,9 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
           justifyContent: 'center',
           flexGrow: 1,
           flexShrink: 0,
-          flexBasis: '33.3333%',
-          height: 68
+          flexBasis: '33.3333333333%',
+          height: 68,
+          width: '100%'
         }}
       >
         <TouchableOpacity style={{ width: '100%' }} onPress={onBackSpacePress}>
@@ -51,8 +59,6 @@ const styles = StyleSheet.create({
     padding: 0,
     display: 'flex',
     flexDirection: 'row',
-    marginVertical: 10,
-    width: '100%',
     flexWrap: 'wrap',
     height: 296
   }

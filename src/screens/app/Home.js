@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { Image, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity, FlatList, BackHandler } from 'react-native';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Screen from '../../components/Screen';
@@ -36,6 +36,9 @@ export default function Home({ navigation }) {
 
   useFocusEffect(
     useCallback(() => {
+      const backHandling = () => true;
+
+      BackHandler.addEventListener('hardwareBackPress', backHandling);
       async function fetchItems() {
         try {
           const l = await fetchChainList();
@@ -56,6 +59,7 @@ export default function Home({ navigation }) {
         setList([]);
         setERC20List([]);
         setBEP20List([]);
+        BackHandler.removeEventListener('hardwareBackPress', backHandling);
       };
     }, [])
   );

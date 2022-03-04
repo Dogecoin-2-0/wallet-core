@@ -18,10 +18,6 @@ export default function TokenDetailHeader({ name, image, goBack }) {
 }
 
 const styles = StyleSheet.create({
-  logo: {
-    height: 50,
-    width: 50
-  },
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',

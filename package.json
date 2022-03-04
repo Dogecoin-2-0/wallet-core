@@ -30,6 +30,7 @@
     "expo-app-loading": "~1.2.1",
     "expo-barcode-scanner": "~11.1.2",
     "expo-blur": "~10.0.3",
+    "expo-camera": "^12.1.2",
     "expo-clipboard": "^2.1.1",
     "expo-font": "~10.0.3",
     "expo-sharing": "^10.1.1",

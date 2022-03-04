@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import React from 'react';
 import colors from '../../constants/colors';
 import AccountCard from './AccountCard';

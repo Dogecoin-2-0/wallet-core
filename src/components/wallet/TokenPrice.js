@@ -5,7 +5,7 @@ import AppText from '../AppText';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 
-export default function TokenPrice({ symbol, balance = 0, price = 0, percentage = 0, type = 'DECREASE' }) {
+export default function TokenPrice({ symbol, balance = 0, price = '0', percentage = '0', type = 'DECREASE' }) {
   return (
     <View style={styles.container}>
       <AppText big>

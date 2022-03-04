@@ -5,12 +5,10 @@ import { Modalize } from 'react-native-modalize';
 import AppText from '../AppText';
 import colors from '../../constants/colors';
 
-const { height } = Dimensions.get('screen');
-const modalHeight = height * 0.6;
-
 export default function ReusableBottomSheet({ modalRef, title, children, ratio }) {
+  const { height } = Dimensions.get('screen');
+  const modalHeight = height * 0.6;
   const responsiveHeight = height * ratio;
-  console.log(responsiveHeight);
   return (
     <Portal>
       <Modalize ref={modalRef} modalHeight={ratio ? responsiveHeight : height ? height : modalHeight}>
