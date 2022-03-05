@@ -1,16 +1,27 @@
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppText from '../AppText';
+import { useAccountById } from '../../hooks/accounts';
 
-export default function RecentTransactionCard() {
+export default function RecentTransactionCard({ id }) {
+  const { account, accountById } = useAccountById();
+
+  useEffect(() => {
+    accountById(id);
+  }, []);
+
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.image}>
         <Image source={require('../../../assets/avatar.png')} />
       </View>
       <View>
-        <AppText>Jennie</AppText>
-        <AppText grey>0x3Dc6...DxE9</AppText>
+        <AppText>{account?.name}</AppText>
+        <AppText grey>
+          {account?.address?.slice(0, 6) +
+            '...' +
+            account?.address?.slice(account?.address?.length - 4, account?.address?.length)}
+        </AppText>
       </View>
     </TouchableOpacity>
   );

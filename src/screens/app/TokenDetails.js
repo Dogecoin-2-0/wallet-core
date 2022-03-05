@@ -193,6 +193,7 @@ export default function TokenDetails({ route, navigation }) {
             id={route.params?.id}
             symbol={route.params?.symbol}
             image={route.params?.image}
+            explorer={route.params?.explorer}
           />
         }
       />

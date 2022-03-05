@@ -15,7 +15,7 @@ export default class Singleton {
   async getNativeBalance(network, address) {
     const bal = await _jsonRpcRequest(network, 'eth_getBalance', [address, 'latest']);
     const balance = hexToNumber(bal) / 10 ** 18;
-    return Promise.resolve(parseFloat(balance).toPrecision(4));
+    return Promise.resolve(parseFloat(balance).toPrecision(2));
   }
 
   async getTokenBalance(network, token, address) {

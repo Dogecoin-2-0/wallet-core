@@ -17,7 +17,7 @@ export const useAccountById = () => {
   const accountById = useCallback(id => {
     _getAccountById(id).then(acc => setAccount(acc));
   }, []);
-  return [account, accountById];
+  return { account, accountById };
 };
 
 export const useActiveAccount = () => {

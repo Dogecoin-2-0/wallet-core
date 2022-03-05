@@ -12,9 +12,11 @@ import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import ReusableAlert from '../../components/extras/ReusableAlert';
 import ReusableTabSwitch from '../../components/extras/ReusableTabSwitch';
+import SendToken from './SendToken';
+import RecieveAsset from '../../components/wallet/RecieveAsset';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
-import { fetchChainList, fetchTokensList } from '../../utils';
+import { fetchBlockchainInfo, fetchChainList, fetchTokensList } from '../../utils';
 import Singleton from '../../https/singleton';
 import { useFocusEffect } from '@react-navigation/native';
 import { useActiveAccount } from '../../hooks/accounts';
@@ -22,6 +24,8 @@ import colors from '../../constants/colors';
 
 export default function Home({ navigation }) {
   const modalRef = useRef(null);
+  const sendModalRef = useRef(null);
+  const receiveModalRef = useRef(null);
   const [list, setList] = useState([]);
   const [erc20TokensList, setERC20List] = useState([]);
   const [bep20TokenList, setBEP20List] = useState([]);
@@ -29,11 +33,20 @@ export default function Home({ navigation }) {
   const [alertMessage, setAlertMessage] = useState('');
   const { price } = useSelector(state => state.priceReducer);
   const [priceParsed, setPriceParsed] = useState({});
+  const [info, setInfo] = useState(null);
   const [balance, setBalance] = useState('0');
   const activeAccount = useActiveAccount();
 
   const onOpen = () => {
     modalRef.current?.open();
+  };
+
+  const openSendModal = () => {
+    sendModalRef.current?.open();
+  };
+
+  const openReceiveModal = () => {
+    receiveModalRef.current?.open();
   };
 
   useFocusEffect(
@@ -46,9 +59,11 @@ export default function Home({ navigation }) {
           const l = await fetchChainList();
           const erc20L = await fetchTokensList('ethereum');
           const bep20L = await fetchTokensList('binance');
+          const i = await fetchBlockchainInfo('binance');
           setList(l);
           setERC20List(erc20L);
           setBEP20List(bep20L);
+          setInfo(i);
         } catch (error) {
           setAlertMessage(error.message);
           setShowAlert(true);
@@ -58,6 +73,9 @@ export default function Home({ navigation }) {
       fetchItems();
 
       return () => {
+        setList([]);
+        setERC20List([]);
+        setBEP20List([]);
         BackHandler.removeEventListener('hardwareBackPress', backHandling);
       };
     }, [])
@@ -105,7 +123,7 @@ export default function Home({ navigation }) {
         type={priceParsed['binancecoin']?._type}
         balance={balance}
       />
-      <Actions />
+      <Actions onSendIconPress={openSendModal} onRecieveIconPress={openReceiveModal} />
     </>
   );
 
@@ -132,7 +150,41 @@ export default function Home({ navigation }) {
 
   return (
     <PortalProvider>
-      <ReusableBottomSheet title="Account" modalRef={modalRef} children={<AccountSwitcher />} ratio={0.6} />
+      <ReusableBottomSheet
+        title="Account"
+        modalRef={modalRef}
+        children={<AccountSwitcher navigation={navigation} />}
+        ratio={0.6}
+      />
+      <ReusableBottomSheet
+        ratio={0.9}
+        // height={}
+        title="Send BNB"
+        modalRef={sendModalRef}
+        children={
+          <SendToken
+            price={priceParsed['binancecoin']?.price.toPrecision(5)}
+            isToken={false}
+            network="self"
+            id="binance"
+            symbol="BNB"
+            image={info?.image}
+            explorer={info?.explorer}
+          />
+        }
+      />
+      <ReusableBottomSheet
+        // height={520}
+        ratio={0.58}
+        title="Receive BNB"
+        modalRef={receiveModalRef}
+        children={
+          <RecieveAsset
+            qrValue={activeAccount?.address ? activeAccount.address : '0x0'}
+            address={activeAccount?.address ? activeAccount.address : '0x0'}
+          />
+        }
+      />
       <Screen>
         <ReusableTabSwitch
           tabs={[

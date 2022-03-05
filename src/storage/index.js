@@ -69,21 +69,26 @@ export const _getActiveId = () => {
   });
 };
 
-export const _addToRecentTx = (hash, accountId) => {
+export const _addToRecentTx = (hash, accountId, network, id) => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem('recent_transactions').then(val => {
       if (!val) {
-        const newData = [{ hash, id: accountId }];
+        const newData = [{ hash, accountId, network, id }];
 
         AsyncStorage.setItem('recent_transactions', JSON.stringify(newData))
           .then(() => resolve())
           .catch(reject);
       } else {
         let data = [...JSON.parse(val)];
+        let filtered = data.filter(item => {
+          return item.id === id;
+        });
 
-        if (data.length === 3) data.shift();
+        if (filtered.length === 3) filtered.shift();
 
-        data = [...data, { hash, id: accountId }];
+        filtered = [...filtered, { hash, accountId, network, id }];
+
+        for (const f of filtered) if (!data.map(i => i.hash).includes(f.hash)) data = [...data, f];
 
         AsyncStorage.setItem('recent_transactions', JSON.stringify(data))
           .then(() => resolve())

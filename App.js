@@ -34,15 +34,16 @@ import TransactionHistory from './src/screens/settings/TransactionHistory';
 import InnerSettings from './src/screens/settings/InnerSettings';
 import GeneralSettings from './src/screens/settings/GeneralSettings';
 import ComingSoon from './src/screens/settings/ComingSoon';
-import { useActiveAccount } from './src/hooks/accounts';
 import Login from './src/screens/app/Login';
+import { AuthProvider, useAuth } from './src/contexts/auth';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
 function InstantiatingComponent() {
   const dispatch = useDispatch();
   const socket = instantiateSocket();
-  const activeAccount = useActiveAccount();
+
+  const { isAuth } = useAuth();
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -57,7 +58,7 @@ function InstantiatingComponent() {
     <NavigationContainer>
       <Navigator>
         <Group screenOptions={{ headerShown: false }}>
-          {!activeAccount ? (
+          {!isAuth ? (
             <>
               <Screen name="walletSetup" component={WalletSetup} />
               <Screen name="createWallet" component={CreateWallet} />
@@ -100,8 +101,10 @@ export default function App() {
   return !fontsLoaded ? (
     <AppLoading />
   ) : (
-    <Provider store={store}>
-      <InstantiatingComponent />
-    </Provider>
+    <AuthProvider>
+      <Provider store={store}>
+        <InstantiatingComponent />
+      </Provider>
+    </AuthProvider>
   );
 }

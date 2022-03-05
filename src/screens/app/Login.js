@@ -1,5 +1,5 @@
 import { ImageBackground, StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppText from '../../components/AppText';
 import AppButton from '../../components/AppButton';
 import AppPasswordInput from '../../components/forms/AppPasswordInput';
@@ -12,6 +12,13 @@ export default function Login({ navigation }) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const activeAccount = useActiveAccount();
+
+  useEffect(() => {
+    return () => {
+      setPassword('');
+    };
+  }, []);
+
   return (
     <ImageBackground source={require('../../../assets/wallet-setupbg.jpg')} style={styles.background}>
       <View style={styles.container}>
@@ -22,7 +29,7 @@ export default function Login({ navigation }) {
           Welcome Back!
         </AppText>
 
-        <AppPasswordInput onChangeText={setPassword} label="Enter password to continue" />
+        <AppPasswordInput onChangeText={setPassword} value={password} label="Enter password to continue" />
         <AppButton
           disable={password.trim().length < 1}
           title="Login"
@@ -32,6 +39,7 @@ export default function Login({ navigation }) {
               setShowAlert(true);
             } else {
               navigation.navigate('home');
+              setPassword('');
             }
           }}
         />

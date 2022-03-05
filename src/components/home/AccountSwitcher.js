@@ -5,11 +5,14 @@ import AppButton from '../AppButton';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 import { useAccounts, useActiveAccount } from '../../hooks/accounts';
+import { _setActiveId } from '../../storage';
+import { useAuth } from '../../contexts/auth';
 
-export default function AccountSwitcher({ showButtons = true }) {
+export default function AccountSwitcher({ showButtons = true, navigation }) {
   const accounts = useAccounts();
   const activeAccount = useActiveAccount();
   const [selectedAccount, setSelectedAccount] = useState(activeAccount?.id);
+  const { signOut } = useAuth();
 
   useEffect(() => {
     if (activeAccount && activeAccount.id.trim().length > 0) setSelectedAccount(activeAccount.id);
@@ -23,7 +26,9 @@ export default function AccountSwitcher({ showButtons = true }) {
             key={account.id}
             style={[styles.row, styles.container]}
             onPress={() => {
-              setSelectedAccount(account.id);
+              _setActiveId(account.id).then(() => {
+                navigation.navigate('login');
+              });
             }}
           >
             <View style={styles.row}>
@@ -38,7 +43,13 @@ export default function AccountSwitcher({ showButtons = true }) {
 
       {showButtons && (
         <>
-          <AppButton title="Create New Account" outlined />
+          <AppButton
+            title="Create New Account"
+            onPress={() => {
+              signOut();
+            }}
+            outlined
+          />
         </>
       )}
     </View>

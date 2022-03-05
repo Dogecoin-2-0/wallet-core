@@ -21,7 +21,9 @@ export default function TransactionSuccessfulComponent({ explorer, hash }) {
           justifyContent: 'space-between'
         }}
       >
-        <Icon size={200} name="file-check" color={colors.green} style={{ marginVertical: 10 }} />
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+          <Icon size={200} name="check-circle-outline" color={colors.green} style={{ marginVertical: 10 }} />
+        </View>
         <AppButton outlined title="View on explorer" onPress={openLink} />
       </View>
     </>

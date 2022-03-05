@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import React, { useRef, useMemo, useCallback, useState, useEffect } from 'react';
 import AppText from '../../components/AppText';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
+import ReusableAlert from '../../components/extras/ReusableAlert';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from '../../components';
@@ -14,6 +15,7 @@ import ScanBarcode from './ScanBarcode';
 import { PortalProvider } from '@gorhom/portal';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import TransferComponent from '../../components/wallet/TransferComponent';
+import TransactionSuccessfulComponent from '../../components/wallet/TransactionSuccessfulComponent';
 import KeyPadComponent from '../../components/wallet/KeypadComponent';
 import { useBalance, useTransaction } from '../../hooks/wallet';
 import { useActiveAccount } from '../../hooks/accounts';
@@ -22,6 +24,8 @@ import colors from '../../constants/colors';
 import * as constants from '../../constants';
 import FeeAdjustmentComponent from '../../components/wallet/FeeAdjustmentComponent';
 import ReusableSpinner from '../../components/extras/ReusableSpinner';
+import Singleton from '../../https/singleton';
+import { _addToRecentTx } from '../../storage';
 
 export default function SendToken({
   price = '0',
@@ -29,7 +33,8 @@ export default function SendToken({
   isToken = false,
   network = 'self',
   id = 'binance',
-  image
+  image,
+  explorer = ''
 }) {
   const accountSwitcherRef = useRef(null);
   const onOpen = () => {
@@ -43,6 +48,9 @@ export default function SendToken({
   const { balance, getBalance } = useBalance();
   const [fee, setFee] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [txHash, setHash] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const activeAccount = useActiveAccount();
 
   const [suggestedGasPrice, setSuggestedGasPrice] = useState(
@@ -56,6 +64,7 @@ export default function SendToken({
 
   const confirmationBottomSheetRef = useRef(null);
   const updateFeeBottomSheetRef = useRef(null);
+  const txSuccessfulBottomSheetRef = useRef(null);
 
   const onSendNextButtonPress = useCallback(() => {
     confirmationBottomSheetRef.current?.open();
@@ -81,6 +90,11 @@ export default function SendToken({
     updateFeeBottomSheetRef.current?.close();
   });
 
+  const onSuccessShow = useCallback(() => {
+    txSuccessfulBottomSheetRef.current?.open();
+    onConfirmationClose();
+  });
+
   const { transaction, createTransaction, createERC20LikeTransaction } = useTransaction();
 
   useEffect(() => {
@@ -95,6 +109,28 @@ export default function SendToken({
       setFee(fee / 10 ** 9);
     }
   }, [suggestedGasPrice, suggestedTip, gasLimit]);
+
+  useEffect(() => {
+    if (transaction) {
+      setLoading(true);
+      Singleton.getInstance()
+        .broadcastTx(transaction, isToken ? network : id)
+        .then(txId => {
+          setHash(txId);
+          setLoading(false);
+          onSuccessShow();
+          _addToRecentTx(txId, activeAccount.id, network, id).then(() => {
+            console.log('Added to recent txs');
+          });
+        })
+        .catch(error => {
+          setLoading(false);
+          setAlertMessage(error.message);
+          setShowAlert(true);
+          onConfirmationClose();
+        });
+    }
+  }, [transaction]);
 
   const createTx = () => {
     if (!isToken) {
@@ -192,6 +228,24 @@ export default function SendToken({
           }
         />
 
+        <ReusableBottomSheet
+          height={300}
+          ratio={0.8}
+          title="Transaction Successful"
+          modalRef={txSuccessfulBottomSheetRef}
+          children={<TransactionSuccessfulComponent explorer={explorer} hash={txHash} />}
+        />
+
+        <ReusableAlert
+          visible={showAlert}
+          isSuccessful={false}
+          message={alertMessage}
+          close={() => {
+            setShowAlert(false);
+            setAlertMessage('');
+          }}
+        />
+
         {progress === 1 && (
           <TransferComponent
             onOpen={onOpen}
@@ -200,6 +254,7 @@ export default function SendToken({
             onNextClick={() => setProgress(2)}
             onScanPress={onScanPressHandler}
             onClosePress={() => setRecipient('')}
+            recentTxId={id}
           />
         )}
 
