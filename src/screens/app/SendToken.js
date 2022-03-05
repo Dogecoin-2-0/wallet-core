@@ -15,10 +15,11 @@ import { PortalProvider } from '@gorhom/portal';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import TransferComponent from '../../components/wallet/TransferComponent';
 import KeyPadComponent from '../../components/wallet/KeypadComponent';
-import { useBalance } from '../../hooks/wallet';
+import { useBalance, useTransaction } from '../../hooks/wallet';
 import { useActiveAccount } from '../../hooks/accounts';
 import ConfirmationComponent from '../../components/wallet/ConfirmationComponent';
 import colors from '../../constants/colors';
+import * as constants from '../../constants';
 
 export default function SendToken({
   price = '0',
@@ -38,7 +39,11 @@ export default function SendToken({
   const [amountVal, setAmountVal] = useState('0');
   const [scanned, setScanned] = useState(false);
   const { balance, getBalance } = useBalance();
+  const [fee, setFee] = useState(0);
   const activeAccount = useActiveAccount();
+
+  const [suggestedGasPrice, setSuggestedGasPrice] = useState(0);
+  const [suggestedTip, setSuggestedTip] = useState(0);
 
   const barcodeBottomSheetModalRef = useRef(null);
   const barCodeSnapPoints = useMemo(() => ['100%', '100%'], []);
@@ -46,6 +51,7 @@ export default function SendToken({
   const confirmationBottomSheetRef = useRef(null);
 
   const onSendNextButtonPress = useCallback(() => {
+    createTx();
     confirmationBottomSheetRef.current?.open();
   });
 
@@ -61,9 +67,51 @@ export default function SendToken({
     barcodeBottomSheetModalRef.current?.close();
   }, []);
 
+  const { transaction, createTransaction, createERC20LikeTransaction } = useTransaction();
+
   useEffect(() => {
-    if (activeAccount) getBalance(network, id, activeAccount.address);
+    setSuggestedGasPrice(Math.floor(Math.random() * constants.MAX_SUGGESTED_GAS_PRICE));
+    setSuggestedTip(Math.floor(Math.random() * constants.MAX_SUGGESTED_TIP));
+  }, []);
+
+  useEffect(() => {
+    if (activeAccount) {
+      getBalance(network, id, activeAccount.address);
+    }
   }, [activeAccount]);
+
+  useEffect(() => {
+    if (transaction) {
+      const fee = constants.BASE_GAS_LIMIT * (suggestedGasPrice + suggestedTip);
+      setFee(fee / 10 ** 9);
+    }
+  }, [transaction]);
+
+  const createTx = () => {
+    if (!isToken) {
+      createTransaction(
+        id,
+        activeAccount.address,
+        recipient,
+        parseFloat(amountVal),
+        constants.BASE_GAS_LIMIT,
+        suggestedGasPrice + suggestedTip,
+        activeAccount.pk
+      );
+    } else {
+      createERC20LikeTransaction(
+        network,
+        activeAccount.address,
+        id,
+        recipient,
+        parseFloat(amountVal),
+        constants.BASE_GAS_LIMIT,
+        suggestedGasPrice + suggestedTip,
+        activeAccount.pk
+      );
+    }
+  };
+
   return (
     <PortalProvider>
       <BottomSheetModalProvider>
@@ -104,6 +152,7 @@ export default function SendToken({
                   setProgress(1);
                 }}
                 image={image}
+                fee={fee.toString()}
               />
               <AppButton title="Send" />
             </>

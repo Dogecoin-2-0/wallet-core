@@ -39,3 +39,28 @@ export const useBalance = () => {
   );
   return { balance, getBalance };
 };
+
+export const useTransaction = () => {
+  const [tx, setTx] = useState(null);
+  const [deps] = useState(true);
+
+  const createTransaction = useCallback(
+    (network, from, to, value, gasLimit, gasPrice, pk) => {
+      Singleton.getInstance()
+        .createNativeTransaction(network, from, to, value, gasPrice, gasLimit, pk)
+        .then(transaction => setTx(transaction));
+    },
+    [deps]
+  );
+
+  const createERC20LikeTransaction = useCallback(
+    (network, from, token, to, value, gasPrice, gasLimit, pk) => {
+      Singleton.getInstance()
+        .createTokenTransaction(network, token, from, to, value, gasPrice, gasLimit, pk)
+        .then(transaction => setTx(transaction));
+    },
+    [deps]
+  );
+
+  return { transaction: tx, createTransaction, createERC20LikeTransaction };
+};

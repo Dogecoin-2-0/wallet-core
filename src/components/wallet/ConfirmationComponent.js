@@ -123,7 +123,7 @@ export default function ConfirmationComponent({
               }}
             >
               <AppText small style={{ color: colors.grey }}>
-                Network fee
+                Suggested fee
               </AppText>
               <Pressable
                 style={{
@@ -171,7 +171,7 @@ export default function ConfirmationComponent({
             </>
             <>
               <AppText medium bold>
-                {parseFloat(amount) + parseFloat(fee)} {symbol}
+                {(parseFloat(amount) + parseFloat(fee)).toPrecision(4)} {symbol}
               </AppText>
             </>
           </View>

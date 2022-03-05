@@ -18,3 +18,10 @@ export const assetTxChainMap = {
   ethereum: 'ethereum',
   polygon: 'polygon'
 };
+
+export const chainIdMap = {
+  binance: 97,
+  ethereum: 3,
+  avalanche: 43113,
+  polygon: 80001
+};

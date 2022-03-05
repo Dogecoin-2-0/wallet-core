@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-children-prop */
 import { Image, StyleSheet, View, TouchableOpacity, FlatList, BackHandler } from 'react-native';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
@@ -6,17 +7,18 @@ import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
 import Actions from '../../components/home/Actions';
-import TokenCollectiblesSwap from '../../components/home/TokenCollectiblesSwap';
 import TokenCard from '../../components/home/TokenCard';
 import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import ReusableAlert from '../../components/extras/ReusableAlert';
+import ReusableTabSwitch from '../../components/extras/ReusableTabSwitch';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import { fetchChainList, fetchTokensList } from '../../utils';
 import Singleton from '../../https/singleton';
 import { useFocusEffect } from '@react-navigation/native';
 import { useActiveAccount } from '../../hooks/accounts';
+import colors from '../../constants/colors';
 
 export default function Home({ navigation }) {
   const modalRef = useRef(null);
@@ -56,9 +58,6 @@ export default function Home({ navigation }) {
       fetchItems();
 
       return () => {
-        setList([]);
-        setERC20List([]);
-        setBEP20List([]);
         BackHandler.removeEventListener('hardwareBackPress', backHandling);
       };
     }, [])
@@ -79,10 +78,6 @@ export default function Home({ navigation }) {
       }
 
       getBalance();
-
-      return () => {
-        setBalance(0);
-      };
     }, [activeAccount])
   );
 
@@ -111,26 +106,66 @@ export default function Home({ navigation }) {
         balance={balance}
       />
       <Actions />
-      <TokenCollectiblesSwap />
     </>
   );
+
+  const renderEmptyForCollectiblesFlatlist = () => {
+    return (
+      <>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 18
+          }}
+        >
+          <Icon name="clock" size={150} color={colors.lightSmoke} />
+          <AppText grey bold big size={30}>
+            Coming Soon!
+          </AppText>
+        </View>
+      </>
+    );
+  };
 
   return (
     <PortalProvider>
       <ReusableBottomSheet title="Account" modalRef={modalRef} children={<AccountSwitcher />} ratio={0.6} />
       <Screen>
-        <FlatList
-          data={[...list, ...erc20TokensList, ...bep20TokenList]}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <TokenCard
-              id={item.id}
-              network={item.network}
-              onPress={info => navigation.navigate('tokenDetails', info)}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={renderHeader}
+        <ReusableTabSwitch
+          tabs={[
+            {
+              title: 'Assets',
+              component: (
+                <FlatList
+                  data={[...list, ...erc20TokensList, ...bep20TokenList]}
+                  keyExtractor={item => item.id}
+                  renderItem={({ item }) => (
+                    <TokenCard
+                      id={item.id}
+                      network={item.network}
+                      onPress={info => navigation.navigate('tokenDetails', info)}
+                    />
+                  )}
+                  showsVerticalScrollIndicator={false}
+                />
+              )
+            },
+            {
+              title: 'Collectibles',
+              component: (
+                <FlatList
+                  data={[]}
+                  keyExtractor={item => item.id}
+                  ListEmptyComponent={renderEmptyForCollectiblesFlatlist}
+                  showsVerticalScrollIndicator={false}
+                />
+              )
+            }
+          ]}
+          header={renderHeader}
         />
         <ReusableAlert
           message={alertMessage}

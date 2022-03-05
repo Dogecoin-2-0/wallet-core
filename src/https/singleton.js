@@ -1,8 +1,11 @@
+/* eslint-disable no-undef */
 import { Transaction } from '@ethereumjs/tx';
+import Common, { Hardfork } from '@ethereumjs/common';
 import JSBI from 'jsbi';
 import { hexToNumber, numberToHex } from '../utils';
 import { _encodeFunctionData, _getSigHash, _jsonRpcRequest } from './rpc';
 import abi from '../assets/ERC20ABI.json';
+import { chainIdMap } from '../constants/maps';
 
 export default class Singleton {
   static getInstance() {
@@ -25,60 +28,42 @@ export default class Singleton {
     return Promise.resolve(parseFloat(balance).toPrecision(2));
   }
 
-  async obtainNativeBaseFee(network, from, to, value, gasPrice, gasLimit) {
+  async createNativeTransaction(network, from, to, value, gasPrice, gasLimit, pk) {
     const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
-    return Transaction.fromTxData({
-      to,
-      nonce,
-      value: numberToHex(value * 10 ** 18),
-      gasLimit: numberToHex(gasLimit),
-      gasPrice: numberToHex(gasPrice * 10 ** 9)
-    })
-      .getBaseFee()
-      .toString('hex');
+    return Transaction.fromTxData(
+      {
+        to,
+        nonce,
+        value: numberToHex(value * 10 ** 18),
+        gasLimit: numberToHex(gasLimit),
+        gasPrice: numberToHex(gasPrice * 10 ** 9)
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
   }
 
-  async sendNativeTransaction(network, from, to, value, gasPrice, gasLimit, pk) {
-    const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
-    const tx = Transaction.fromTxData({
-      to,
-      nonce,
-      value: numberToHex(value * 10 ** 18),
-      gasLimit: numberToHex(gasLimit),
-      gasPrice: numberToHex(gasPrice * 10 ** 9)
-    });
-
-    // eslint-disable-next-line no-undef
-    const privateKey = Buffer.from(pk, 'hex');
-    const signedTx = tx.sign(privateKey);
-
-    const txSignedHex = `0x${signedTx.serialize().toString('hex')}`;
-    const txHash = await _jsonRpcRequest(network, 'eth_sendRawTransaction', [txSignedHex]);
-    return Promise.resolve(txHash);
-  }
-
-  async sendTokenTransaction(network, token, from, to, value, gasPrice, gasLimit, pk) {
+  async createTokenTransaction(network, token, from, to, value, gasPrice, gasLimit, pk) {
     const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
     const decimalFunctionEncoded = _getSigHash(abi, 'decimals');
     const res = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: decimalFunctionEncoded }, 'latest']);
     const decimals = JSBI.toNumber(JSBI.BigInt(res));
     const funcEncoded = _encodeFunctionData(abi, 'transfer', [to, value * 10 ** decimals]);
-    const tx = Transaction.fromTxData({
-      nonce,
-      to: token,
-      value: '0x0',
-      gasLimit: numberToHex(gasLimit),
-      gasPrice: numberToHex(gasPrice * 10 ** 9),
-      data: funcEncoded
-    });
-    // eslint-disable-next-line no-undef
-    const privateKey = Buffer.from(pk, 'hex');
-    const signedTx = tx.sign(privateKey);
+    return Transaction.fromTxData(
+      {
+        nonce,
+        to: token,
+        value: '0x0',
+        gasLimit: numberToHex(gasLimit),
+        gasPrice: numberToHex(gasPrice * 10 ** 9),
+        data: funcEncoded
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
+  }
 
-    const txSignedHex = `0x${signedTx.serialize().toString('hex')}`;
-    const txHash = await _jsonRpcRequest(network, 'eth_sendRawTransaction', [txSignedHex]);
-
-    return Promise.resolve(txHash);
+  async broadcastTx(transaction, network) {
+    const signedTxHex = `0x${transaction.serialize().toString('hex')}`;
+    return Promise.resolve(_jsonRpcRequest(network, 'eth_sendRawTransaction', [signedTxHex]));
   }
 
   async getTxNonce(network, txHash) {
