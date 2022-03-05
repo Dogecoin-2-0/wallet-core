@@ -42,8 +42,11 @@ export default function SendToken({
   const [fee, setFee] = useState(0);
   const activeAccount = useActiveAccount();
 
-  const [suggestedGasPrice, setSuggestedGasPrice] = useState(0);
-  const [suggestedTip, setSuggestedTip] = useState(0);
+  const [suggestedGasPrice, setSuggestedGasPrice] = useState(
+    Math.floor(Math.random() * constants.MAX_SUGGESTED_GAS_PRICE)
+  );
+  const [suggestedTip, setSuggestedTip] = useState(Math.floor(Math.random() * constants.MAX_SUGGESTED_TIP));
+  const [gasLimit, setGasLimit] = useState(constants.BASE_GAS_LIMIT);
 
   const barcodeBottomSheetModalRef = useRef(null);
   const barCodeSnapPoints = useMemo(() => ['100%', '100%'], []);
@@ -51,7 +54,6 @@ export default function SendToken({
   const confirmationBottomSheetRef = useRef(null);
 
   const onSendNextButtonPress = useCallback(() => {
-    createTx();
     confirmationBottomSheetRef.current?.open();
   });
 
@@ -70,22 +72,17 @@ export default function SendToken({
   const { transaction, createTransaction, createERC20LikeTransaction } = useTransaction();
 
   useEffect(() => {
-    setSuggestedGasPrice(Math.floor(Math.random() * constants.MAX_SUGGESTED_GAS_PRICE));
-    setSuggestedTip(Math.floor(Math.random() * constants.MAX_SUGGESTED_TIP));
-  }, []);
-
-  useEffect(() => {
     if (activeAccount) {
       getBalance(network, id, activeAccount.address);
     }
   }, [activeAccount]);
 
   useEffect(() => {
-    if (transaction) {
+    if (suggestedGasPrice && suggestedTip) {
       const fee = constants.BASE_GAS_LIMIT * (suggestedGasPrice + suggestedTip);
       setFee(fee / 10 ** 9);
     }
-  }, [transaction]);
+  }, [suggestedGasPrice, suggestedTip]);
 
   const createTx = () => {
     if (!isToken) {

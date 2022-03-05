@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import Singleton from '../https/singleton';
-import { generateFromMnemonic } from '../utils';
+import { callGasOracle, generateFromMnemonic } from '../utils';
 
 export const useWalletFromMnemonic = () => {
   const [_wallet, setWallet] = useState(null);
@@ -63,4 +63,20 @@ export const useTransaction = () => {
   );
 
   return { transaction: tx, createTransaction, createERC20LikeTransaction };
+};
+
+export const useGasOracle = () => {
+  const [result, setResult] = useState(null);
+  const [deps] = useState(true);
+
+  const getProposedFees = useCallback(
+    network => {
+      callGasOracle(network).then(response => {
+        setResult(response);
+      });
+    },
+    [deps]
+  );
+
+  return { result, getProposedFees };
 };
