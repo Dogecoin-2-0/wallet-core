@@ -21,6 +21,7 @@ import ConfirmationComponent from '../../components/wallet/ConfirmationComponent
 import colors from '../../constants/colors';
 import * as constants from '../../constants';
 import FeeAdjustmentComponent from '../../components/wallet/FeeAdjustmentComponent';
+import ReusableSpinner from '../../components/extras/ReusableSpinner';
 
 export default function SendToken({
   price = '0',
@@ -41,6 +42,7 @@ export default function SendToken({
   const [scanned, setScanned] = useState(false);
   const { balance, getBalance } = useBalance();
   const [fee, setFee] = useState(0);
+  const [loading, setLoading] = useState(false);
   const activeAccount = useActiveAccount();
 
   const [suggestedGasPrice, setSuggestedGasPrice] = useState(
@@ -143,7 +145,7 @@ export default function SendToken({
         />
         <ReusableBottomSheet
           height={600}
-          ratio={0.7}
+          ratio={0.75}
           title="Confirm"
           modalRef={confirmationBottomSheetRef}
           children={
@@ -162,7 +164,10 @@ export default function SendToken({
                 fee={fee.toString()}
                 onFeeEditPress={onFeeEditButtonHandler}
               />
-              <AppButton title="Send" />
+              <View style={{ marginVertical: 3 }}>
+                <ReusableSpinner visible={loading} />
+              </View>
+              <AppButton title="Send" disable={loading} onPress={createTx} />
             </>
           }
           extraStyle={{ backgroundColor: colors.otherGray }}
@@ -183,8 +188,6 @@ export default function SendToken({
               setGasLimit={setGasLimit}
               closeModal={onFeeAdjustmentModalClose}
               price={price}
-              gasPrice={suggestedGasPrice}
-              gasLimit={gasLimit}
             />
           }
         />

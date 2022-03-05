@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { _getAccountById, _getActiveId, _getAllAccounts } from '../storage';
+import { _getAccountById, _getActiveId, _getAllAccounts, _getRecentTx } from '../storage';
 import { fetchTransactions } from '../utils';
 
 export const useAccounts = () => {
@@ -54,4 +54,16 @@ export const useAccountTxs = () => {
   }, []);
 
   return txns;
+};
+
+export const useRecentTxs = () => {
+  const [result, setResult] = useState([]);
+
+  useEffect(() => {
+    _getRecentTx().then(val => {
+      setResult(val);
+    });
+  }, []);
+
+  return result;
 };

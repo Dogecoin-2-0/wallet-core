@@ -11,17 +11,7 @@ import * as constants from '../../constants';
 import { TextInput } from 'react-native-gesture-handler';
 import AppButton from '../AppButton';
 
-export default function FeeAdjustmentComponent({
-  network,
-  symbol,
-  price,
-  gasPrice = constants.MAX_SUGGESTED_GAS_PRICE,
-  gasLimit = constants.BASE_GAS_LIMIT,
-  closeModal,
-  tip,
-  setGasPrice,
-  setGasLimit
-}) {
+export default function FeeAdjustmentComponent({ network, symbol, price, closeModal, tip, setGasPrice, setGasLimit }) {
   const { result, getProposedFees } = useGasOracle();
   const [selected, setSelected] = useState(0);
 
@@ -125,8 +115,8 @@ export default function FeeAdjustmentComponent({
   );
 
   const AdvancedFeeSettingComponent = () => {
-    const [innerGasLimit, changeGasLimit] = useState(gasLimit);
-    const [innerGasPrice, changeGasPrice] = useState(gasPrice);
+    const [innerGasLimit, changeGasLimit] = useState(constants.BASE_GAS_LIMIT);
+    const [innerGasPrice, changeGasPrice] = useState(constants.MAX_SUGGESTED_GAS_PRICE);
     return (
       <>
         <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
