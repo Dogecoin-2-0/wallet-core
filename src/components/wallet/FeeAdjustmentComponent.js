@@ -7,8 +7,21 @@ import { useGasOracle } from '../../hooks/wallet';
 import AppText from '../AppText';
 import ReusableTabSwitch from '../extras/ReusableTabSwitch';
 import RadioButton from '../forms/RadioButton';
+import * as constants from '../../constants';
+import { TextInput } from 'react-native-gesture-handler';
+import AppButton from '../AppButton';
 
-export default function FeeAdjustmentComponent({ network, symbol, price, setFee, setGasLimit }) {
+export default function FeeAdjustmentComponent({
+  network,
+  symbol,
+  price,
+  gasPrice = constants.MAX_SUGGESTED_GAS_PRICE,
+  gasLimit = constants.BASE_GAS_LIMIT,
+  closeModal,
+  tip,
+  setGasPrice,
+  setGasLimit
+}) {
   const { result, getProposedFees } = useGasOracle();
   const [selected, setSelected] = useState(0);
 
@@ -63,7 +76,11 @@ export default function FeeAdjustmentComponent({ network, symbol, price, setFee,
               {!!result && (
                 <View style={{ flexBasis: '60%', flexGrow: 1 }}>
                   <AppText medium grey>
-                    {(parseFloat(result[indexToResultKeyMap[index]]) / 10 ** 9).toPrecision(4)} {symbol}
+                    {(
+                      (constants.BASE_GAS_LIMIT * parseFloat(result[indexToResultKeyMap[index]]) + tip) /
+                      10 ** 9
+                    ).toPrecision(4)}{' '}
+                    {symbol}
                   </AppText>
                 </View>
               )}
@@ -83,7 +100,10 @@ export default function FeeAdjustmentComponent({ network, symbol, price, setFee,
                 <View style={{ flexBasis: '90%', flexGrow: 1 }}>
                   <AppText medium>
                     ${''}
-                    {((parseFloat(result[indexToResultKeyMap[index]]) / 10 ** 9) * parseFloat(price)).toPrecision(4)}
+                    {(
+                      ((constants.BASE_GAS_LIMIT * parseFloat(result[indexToResultKeyMap[index]]) + tip) / 10 ** 9) *
+                      parseFloat(price)
+                    ).toPrecision(4)}
                   </AppText>
                 </View>
               )}
@@ -92,6 +112,8 @@ export default function FeeAdjustmentComponent({ network, symbol, price, setFee,
                   selected={selected === index}
                   onSelect={() => {
                     setSelected(index);
+                    setGasPrice(parseFloat(result[indexToResultKeyMap[index]]));
+                    closeModal();
                   }}
                 />
               </View>
@@ -102,19 +124,70 @@ export default function FeeAdjustmentComponent({ network, symbol, price, setFee,
     </>
   );
 
-  const AdvancedFeeSettingComponent = () => (
-    <>
-      <AppText medium>Lorem Ipsum..... Errrr Nope!</AppText>
-    </>
-  );
+  const AdvancedFeeSettingComponent = () => {
+    const [innerGasLimit, changeGasLimit] = useState(gasLimit);
+    const [innerGasPrice, changeGasPrice] = useState(gasPrice);
+    return (
+      <>
+        <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 4 }}
+          >
+            <View style={{ flexBasis: '40%', flexGrow: 1 }}>
+              <AppText medium grey>
+                Gas Limit
+              </AppText>
+            </View>
+            <View style={{ flexBasis: '20%', flexGrow: 1 }} />
+            <View style={{ flexBasis: '40%', flexGrow: 1 }}>
+              <TextInput
+                keyboardType="number-pad"
+                style={{ backgroundColor: colors.white, borderRadius: 16, padding: 5, fontWeight: 'bold' }}
+                onChangeText={val => changeGasLimit(val.trim().length > 0 ? parseFloat(val) : 0)}
+                value={innerGasLimit.toString()}
+              />
+            </View>
+          </View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 4 }}
+          >
+            <View style={{ flexBasis: '40%', flexGrow: 1 }}>
+              <AppText medium grey>
+                Gas Price (Gwei)
+              </AppText>
+            </View>
+            <View style={{ flexBasis: '20%', flexGrow: 1 }} />
+            <View style={{ flexBasis: '40%', flexGrow: 1 }}>
+              <TextInput
+                keyboardType="number-pad"
+                style={{ backgroundColor: colors.white, borderRadius: 16, padding: 5, fontWeight: 'bold' }}
+                onChangeText={val => changeGasPrice(val.trim().length > 0 ? parseFloat(val) : 0)}
+                value={innerGasPrice.toString()}
+              />
+            </View>
+          </View>
+          <AppButton
+            title="Ok"
+            onPress={() => {
+              setGasPrice(innerGasPrice);
+              setGasLimit(innerGasLimit);
+              closeModal();
+            }}
+          />
+          <View style={{ flex: 1 }} />
+        </View>
+      </>
+    );
+  };
+
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <ReusableTabSwitch
         tabs={[
           { title: 'Basic', component: <OracleSuggestedFeeComponent /> },
           { title: 'Advanced', component: <AdvancedFeeSettingComponent /> }
         ]}
       />
-    </>
+    </View>
   );
 }

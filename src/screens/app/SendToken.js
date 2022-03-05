@@ -75,6 +75,10 @@ export default function SendToken({
     updateFeeBottomSheetRef.current?.open();
   });
 
+  const onFeeAdjustmentModalClose = useCallback(() => {
+    updateFeeBottomSheetRef.current?.close();
+  });
+
   const { transaction, createTransaction, createERC20LikeTransaction } = useTransaction();
 
   useEffect(() => {
@@ -84,11 +88,11 @@ export default function SendToken({
   }, [activeAccount]);
 
   useEffect(() => {
-    if (suggestedGasPrice && suggestedTip) {
-      const fee = constants.BASE_GAS_LIMIT * (suggestedGasPrice + suggestedTip);
+    if (suggestedGasPrice && suggestedTip && gasLimit) {
+      const fee = gasLimit * (suggestedGasPrice + suggestedTip);
       setFee(fee / 10 ** 9);
     }
-  }, [suggestedGasPrice, suggestedTip]);
+  }, [suggestedGasPrice, suggestedTip, gasLimit]);
 
   const createTx = () => {
     if (!isToken) {
@@ -170,7 +174,19 @@ export default function SendToken({
           ratio={0.5}
           title=""
           modalRef={updateFeeBottomSheetRef}
-          children={<FeeAdjustmentComponent symbol={symbol} network={isToken ? network : id} price={price} />}
+          children={
+            <FeeAdjustmentComponent
+              symbol={symbol}
+              network={isToken ? network : id}
+              tip={suggestedTip}
+              setGasPrice={setSuggestedGasPrice}
+              setGasLimit={setGasLimit}
+              closeModal={onFeeAdjustmentModalClose}
+              price={price}
+              gasPrice={suggestedGasPrice}
+              gasLimit={gasLimit}
+            />
+          }
         />
 
         {progress === 1 && (
