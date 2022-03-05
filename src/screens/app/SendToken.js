@@ -20,6 +20,7 @@ import { useActiveAccount } from '../../hooks/accounts';
 import ConfirmationComponent from '../../components/wallet/ConfirmationComponent';
 import colors from '../../constants/colors';
 import * as constants from '../../constants';
+import FeeAdjustmentComponent from '../../components/wallet/FeeAdjustmentComponent';
 
 export default function SendToken({
   price = '0',
@@ -52,6 +53,7 @@ export default function SendToken({
   const barCodeSnapPoints = useMemo(() => ['100%', '100%'], []);
 
   const confirmationBottomSheetRef = useRef(null);
+  const updateFeeBottomSheetRef = useRef(null);
 
   const onSendNextButtonPress = useCallback(() => {
     confirmationBottomSheetRef.current?.open();
@@ -68,6 +70,10 @@ export default function SendToken({
   const onScanClosePressHandler = useCallback(() => {
     barcodeBottomSheetModalRef.current?.close();
   }, []);
+
+  const onFeeEditButtonHandler = useCallback(() => {
+    updateFeeBottomSheetRef.current?.open();
+  });
 
   const { transaction, createTransaction, createERC20LikeTransaction } = useTransaction();
 
@@ -150,11 +156,21 @@ export default function SendToken({
                 }}
                 image={image}
                 fee={fee.toString()}
+                onFeeEditPress={onFeeEditButtonHandler}
               />
               <AppButton title="Send" />
             </>
           }
           extraStyle={{ backgroundColor: colors.otherGray }}
+        />
+
+        <ReusableBottomSheet
+          extraStyle={{ backgroundColor: colors.otherGray }}
+          height={200}
+          ratio={0.5}
+          title=""
+          modalRef={updateFeeBottomSheetRef}
+          children={<FeeAdjustmentComponent symbol={symbol} network={isToken ? network : id} price={price} />}
         />
 
         {progress === 1 && (

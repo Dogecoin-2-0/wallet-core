@@ -123,7 +123,7 @@ export default function ConfirmationComponent({
               }}
             >
               <AppText small style={{ color: colors.grey }}>
-                Suggested fee
+                Network fee
               </AppText>
               <Pressable
                 style={{
