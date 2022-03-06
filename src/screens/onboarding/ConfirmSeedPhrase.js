@@ -12,11 +12,12 @@ import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import Screen from '../../components/Screen';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateName, clearPropagatebleState } from '../../redux/initializationSlice';
-import { _saveAccount, _setActiveId } from '../../storage';
+import { _saveAccount } from '../../storage';
 import { useWalletFromMnemonic } from '../../hooks/wallet';
 import { saveData } from '../../utils';
 import ReusableSpinner from '../../components/extras/ReusableSpinner';
 import ReusableAlert from '../../components/extras/ReusableAlert';
+import { useAuth } from '../../contexts/auth';
 
 export default function ConfirmSeedPhrase({ navigation }) {
   const modalRef = useRef(null);
@@ -28,6 +29,7 @@ export default function ConfirmSeedPhrase({ navigation }) {
   const { phrase } = useSelector(state => state.phraseReducer);
   const dispatch = useDispatch();
   const { _wallet, mnemonicWallet } = useWalletFromMnemonic();
+  const { signIn } = useAuth();
 
   const open = () => {
     modalRef.current?.open();
@@ -74,13 +76,9 @@ export default function ConfirmSeedPhrase({ navigation }) {
                   saveData(_wallet?.address)
                     .then(data => {
                       _saveAccount(hashedPw, name, _wallet?.address, phrase, _wallet?.privateKey).then(id => {
-                        _setActiveId(id).then(() => {
-                          console.log('Account ID: ', id);
-                          console.log('Data from server: ', data);
-                          setSpinnerShown(false);
-                          dispatch(clearPropagatebleState());
-                          navigation.navigate('home');
-                        });
+                        signIn(id);
+                        clearPropagatebleState();
+                        console.log('Data from server: ', data);
                       });
                     })
                     .catch(err => {

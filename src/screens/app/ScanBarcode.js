@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
 import AppText from '../../components/AppText';
 import AppButton from '../../components/AppButton';
 import { Icon, TouchableOpacity } from '../../components';
 import colors from '../../constants/colors';
 
-export default function ScanBarcode({ handleBarCodeScanned, scanned, setScanned, onCancel }) {
+export default function ScanBarcode({ handleBarCodeScan, scanned, setScanned, onCancel }) {
   const [hasPermission, setHasPermission] = useState(null);
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -24,8 +24,14 @@ export default function ScanBarcode({ handleBarCodeScanned, scanned, setScanned,
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+      <Camera
+        onBarCodeScanned={props => {
+          if (!scanned) return handleBarCodeScan(props);
+          return undefined;
+        }}
+        barCodeScannerSettings={{
+          barcodeTypes: ['qr']
+        }}
         style={StyleSheet.absoluteFillObject}
       />
       <TouchableOpacity onPress={onCancel} style={styles.closeButton}>

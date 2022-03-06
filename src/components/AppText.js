@@ -13,7 +13,6 @@ export default function AppText({
   green,
   red,
   centered,
-  size,
   yellow,
   blue,
   small,

@@ -1,16 +1,28 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import React from 'react';
+import _ from 'lodash';
 import colors from '../../constants/colors';
 import AccountCard from './AccountCard';
 import AppText from '../AppText';
 import { Icon } from '..';
 import RecentTransactionCard from './RecentTransactionCard';
 import AppButton from '../AppButton';
+import { useRecentTxs } from '../../hooks/accounts';
+import { FlatList } from 'react-native-gesture-handler';
 
-export default function TransferComponent({ setRecipient, onOpen, recipient, onNextClick, onScanPress, onClosePress }) {
+export default function TransferComponent({
+  setRecipient,
+  recipient,
+  onNextClick,
+  onScanPress,
+  onClosePress,
+  recentTxId
+}) {
+  const recentTxs = useRecentTxs();
   return (
     <>
-      <AccountCard onPress={onOpen} />
+      <AccountCard />
       <View style={styles.inputArea}>
         <AppText bold>To</AppText>
 
@@ -46,7 +58,19 @@ export default function TransferComponent({ setRecipient, onOpen, recipient, onN
 
       {recipient.trim().length > 0 && <AppButton title="Next" onPress={onNextClick} />}
 
-      {recipient.trim().length === 0 && [1, 2, 3].map(i => <RecentTransactionCard key={i} />)}
+      <FlatList
+        data={_.filter(recentTxs, item => item.id === recentTxId)}
+        keyExtractor={item => item.hash}
+        renderItem={({ item }) => <RecentTransactionCard id={item.accountId} />}
+        ListEmptyComponent={() => (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 7 }}>
+            <Icon name="gauge-empty" size={100} color={colors.lightSmoke} />
+            <AppText medium grey>
+              No Data
+            </AppText>
+          </View>
+        )}
+      />
     </>
   );
 }

@@ -68,3 +68,44 @@ export const _getActiveId = () => {
       .catch(reject);
   });
 };
+
+export const _addToRecentTx = (hash, accountId, network, id) => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem('recent_transactions').then(val => {
+      if (!val) {
+        const newData = [{ hash, accountId, network, id }];
+
+        AsyncStorage.setItem('recent_transactions', JSON.stringify(newData))
+          .then(() => resolve())
+          .catch(reject);
+      } else {
+        let data = [...JSON.parse(val)];
+        let filtered = data.filter(item => {
+          return item.id === id;
+        });
+
+        if (filtered.length === 3) filtered.shift();
+
+        filtered = [...filtered, { hash, accountId, network, id }];
+
+        for (const f of filtered) if (!data.map(i => i.hash).includes(f.hash)) data = [...data, f];
+
+        AsyncStorage.setItem('recent_transactions', JSON.stringify(data))
+          .then(() => resolve())
+          .catch(reject);
+      }
+    });
+  });
+};
+
+export const _getRecentTx = () => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem('recent_transactions')
+      .then(val => {
+        if (!val) resolve([]);
+
+        resolve([...JSON.parse(val)]);
+      })
+      .catch(reject);
+  });
+};

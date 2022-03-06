@@ -18,3 +18,17 @@ export const assetTxChainMap = {
   ethereum: 'ethereum',
   polygon: 'polygon'
 };
+
+export const chainIdMap = {
+  binance: 97,
+  ethereum: 3,
+  avalanche: 43113,
+  polygon: 80001
+};
+
+export const gasOraclesMap = {
+  binance: 'https://api.bscscan.com/api?module=gastracker&action=gasoracle',
+  ethereum: 'https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=9VIBB7Y17AR7Z7A2YBTMYG67S91XC7MKHY',
+  polygon: 'https://api.polygonscan.com/api?module=gastracker&action=gasoracle',
+  avalanche: 'https://api.bscscan.com/api?module=gastracker&action=gasoracle'
+};

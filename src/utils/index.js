@@ -3,6 +3,7 @@ import { Wallet } from '@ethersproject/wallet';
 import bcrypt from 'react-native-bcrypt';
 import isaac from 'isaac';
 import * as constants from '../constants';
+import { gasOraclesMap } from '../constants/maps';
 
 bcrypt.setRandomFallback(len => {
   const buf = new Uint8Array(len);
@@ -68,6 +69,12 @@ export const fetchTransactions = async address => {
   if (txResponse.status >= 400) throw new Error(txResponseJson.error || `Server responded with ${txResponse.status}`);
 
   return { ...txResponseJson.result };
+};
+
+export const callGasOracle = async network => {
+  const gasResponse = await fetch(gasOraclesMap[network], { method: 'GET', headers: { Accept: 'application/json' } });
+  const gasResponseJson = await gasResponse.json();
+  return { ...gasResponseJson.result };
 };
 
 export const saveData = async address => {
