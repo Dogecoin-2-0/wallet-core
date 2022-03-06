@@ -20,4 +20,4 @@ jobs:
           expo-cache: true
           token: ${{ secrets.EXPO_TOKEN }}
       - run: yarn install
-      - run: eas build --platform all --non-interactive
+      - run: eas build --platform android --non-interactive
