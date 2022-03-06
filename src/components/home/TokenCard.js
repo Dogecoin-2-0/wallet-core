@@ -52,18 +52,21 @@ function TokenCard({ id, network, onPress }) {
         </View>
         <View>
           <View style={styles.row}>
-            <View style={{ flexBasis: 180 }}>
+            <View style={{ flexBasis: '40%', flexGrow: 1 }}>
               <AppText medium>{info.name} </AppText>
             </View>
+            <View style={{ flexBasis: '60%', flexGrow: 1}}>
             <AppText medium>
               {' '}
               {balance} {info.symbol}{' '}
             </AppText>
+            </View>
           </View>
           <View style={styles.row}>
+            <View style={{ flexBasis: '20%', flexGrow: 1}}>
             <AppText grey>
               {' '}
-              ${' '}
+              ${''}
               {network === 'self'
                 ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
                   ? parseFloat(priceParsed[assetPriceKeyMap[id]].price).toPrecision(5)
@@ -72,7 +75,9 @@ function TokenCard({ id, network, onPress }) {
                 ? parseFloat(priceParsed[id].price).toPrecision(5)
                 : 0}{' '}
             </AppText>
-            <View style={styles.row}>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flexBasis: '80%', flexGrow: 1 }}>
+              <View style={{ flexBasis: '90%', flexGrow: 1, flexDirection: 'row', justifyContent: 'center'}}>
               <Icon
                 name={
                   network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
@@ -124,6 +129,8 @@ function TokenCard({ id, network, onPress }) {
                   : 0}
                 {'%'}
               </AppText>
+              </View>
+              <View style={{ flexBasis: '10%', flexGrow: 1}} />
             </View>
           </View>
         </View>

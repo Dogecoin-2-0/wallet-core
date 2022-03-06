@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "dogecoin2dot0-core-wallet",
-    "slug": "dogecoin2point0-core-wallet",
+    "name": "Doge2.0 DeFi Wallet",
+    "slug": "doge2-core-wallet",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,13 +15,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "org.doge2.wallet",
+      "buildNumber": "1.0.0"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "org.doge2.wallet",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

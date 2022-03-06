@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import AppText from '../AppText';
@@ -12,7 +13,7 @@ export default function TokenDetailHeader({ name, image, goBack }) {
       <AppText bold medium>
         {name}{' '}
       </AppText>
-      <Image source={image && { uri: image }} />
+      <Image style={{ width: 40, height: 40 }} source={image && { uri: image }} />
     </View>
   );
 }

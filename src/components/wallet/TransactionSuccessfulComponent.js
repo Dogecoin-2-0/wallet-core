@@ -10,7 +10,7 @@ import AppText from '../AppText';
 export default function TransactionSuccessfulComponent({ explorer, hash, recipient, amount, symbol }) {
   const activeAccount = useActiveAccount();
   const openLink = () => {
-    Linking.openURL(`${explorer}${hash}`).then(console.log);
+    Linking.openURL(`${explorer}tx/${hash}`).then(console.log);
   };
 
   return (
@@ -26,7 +26,7 @@ export default function TransactionSuccessfulComponent({ explorer, hash, recipie
         }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-          <Icon size={100} name="file-check" color={colors.green} style={{ marginVertical: 10 }} />
+          <Icon size={100} name="file-check-outline" color={colors.green} style={{ marginVertical: 10 }} />
         </View>
         <View
           style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3 }}
