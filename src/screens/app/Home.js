@@ -21,6 +21,7 @@ import Singleton from '../../https/singleton';
 import { useFocusEffect } from '@react-navigation/native';
 import { useActiveAccount } from '../../hooks/accounts';
 import colors from '../../constants/colors';
+import { StatusBar } from 'expo-status-bar';
 
 export default function Home({ navigation }) {
   const modalRef = useRef(null);
@@ -150,6 +151,7 @@ export default function Home({ navigation }) {
 
   return (
     <PortalProvider>
+      <StatusBar style="transluscent" />
       <ReusableBottomSheet
         title="Account"
         modalRef={modalRef}
