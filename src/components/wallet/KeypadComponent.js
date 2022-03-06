@@ -23,7 +23,7 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
           key={s}
         >
           <TouchableOpacity style={{ width: '100%' }} onPress={() => onKeyClick(s)}>
-            <AppText big grey>
+            <AppText big grey centered>
               {s}
             </AppText>
           </TouchableOpacity>
@@ -40,7 +40,7 @@ export default function KeyPadComponent({ onKeyClick, onBackSpacePress }) {
         }}
       >
         <TouchableOpacity style={{ width: '100%' }} onPress={onBackSpacePress}>
-          <Icon name="backspace-outline" color={colors.grey} />
+          <Icon name="backspace-outline" color={colors.grey} style={{ alignItems: 'center' }} />
         </TouchableOpacity>
       </View>
     </View>
@@ -52,8 +52,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    height: 296,
     marginVertical: 12,
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'center'
   }
 });

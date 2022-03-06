@@ -52,7 +52,9 @@ function TokenCard({ id, network, onPress }) {
         </View>
         <View>
           <View style={styles.row}>
-            <AppText medium> {info.name} </AppText>
+            <View style={{ flexBasis: 180 }}>
+              <AppText medium>{info.name} </AppText>
+            </View>
             <AppText medium>
               {' '}
               {balance} {info.symbol}{' '}
