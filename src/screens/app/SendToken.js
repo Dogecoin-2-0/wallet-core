@@ -233,7 +233,15 @@ export default function SendToken({
           ratio={0.8}
           title="Transaction Successful"
           modalRef={txSuccessfulBottomSheetRef}
-          children={<TransactionSuccessfulComponent explorer={explorer} hash={txHash} />}
+          children={
+            <TransactionSuccessfulComponent
+              explorer={explorer}
+              hash={txHash}
+              recipient={recipient}
+              amount={amountVal}
+              symbol={symbol}
+            />
+          }
         />
 
         <ReusableAlert

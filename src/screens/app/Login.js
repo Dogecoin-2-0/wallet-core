@@ -1,11 +1,12 @@
 import { ImageBackground, StyleSheet, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import AppText from '../../components/AppText';
 import AppButton from '../../components/AppButton';
 import AppPasswordInput from '../../components/forms/AppPasswordInput';
 import ReusableAlert from '../../components/extras/ReusableAlert';
 import { useActiveAccount } from '../../hooks/accounts';
 import { comparePassword } from '../../utils';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Login({ navigation }) {
   const [password, setPassword] = useState('');
@@ -13,11 +14,13 @@ export default function Login({ navigation }) {
   const [alertMessage, setAlertMessage] = useState('');
   const activeAccount = useActiveAccount();
 
-  useEffect(() => {
-    return () => {
-      setPassword('');
-    };
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setPassword('');
+      };
+    }, [])
+  );
 
   return (
     <ImageBackground source={require('../../../assets/wallet-setupbg.jpg')} style={styles.background}>
@@ -38,8 +41,7 @@ export default function Login({ navigation }) {
               setAlertMessage('Incorrect password!');
               setShowAlert(true);
             } else {
-              navigation.navigate('home');
-              setPassword('');
+              navigation.replace('home');
             }
           }}
         />

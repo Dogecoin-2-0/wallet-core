@@ -3,9 +3,12 @@ import React from 'react';
 import { Linking, View } from 'react-native';
 import { Icon } from '..';
 import colors from '../../constants/colors';
+import { useActiveAccount } from '../../hooks/accounts';
 import AppButton from '../AppButton';
+import AppText from '../AppText';
 
-export default function TransactionSuccessfulComponent({ explorer, hash }) {
+export default function TransactionSuccessfulComponent({ explorer, hash, recipient, amount, symbol }) {
+  const activeAccount = useActiveAccount();
   const openLink = () => {
     Linking.openURL(`${explorer}${hash}`).then(console.log);
   };
@@ -18,11 +21,62 @@ export default function TransactionSuccessfulComponent({ explorer, hash }) {
           flexDirection: 'column',
           backgroundColor: colors.white,
           marginVertical: 16,
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          width: '100%'
         }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-          <Icon size={200} name="check-circle-outline" color={colors.green} style={{ marginVertical: 10 }} />
+          <Icon size={100} name="file-check" color={colors.green} style={{ marginVertical: 10 }} />
+        </View>
+        <View
+          style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3 }}
+        >
+          <View style={{ flexBasis: '40%', flexGrow: 1 }}>
+            <AppText small grey>
+              From
+            </AppText>
+          </View>
+          <View style={{ flexBasis: '60%', flexGrow: 1 }}>
+            <AppText medium>
+              {(
+                activeAccount?.address?.slice(0, 8) +
+                '...' +
+                activeAccount?.address?.slice(activeAccount?.address?.length - 11, activeAccount?.address?.length)
+              ).toLowerCase()}
+            </AppText>
+          </View>
+        </View>
+        <View
+          style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3 }}
+        >
+          <View style={{ flexBasis: '40%', flexGrow: 1 }}>
+            <AppText small grey>
+              To
+            </AppText>
+          </View>
+          <View style={{ flexBasis: '60%', flexGrow: 1 }}>
+            <AppText medium>
+              {(
+                recipient?.slice(0, 8) +
+                '...' +
+                recipient?.slice(recipient?.length - 11, recipient?.length)
+              ).toLowerCase()}
+            </AppText>
+          </View>
+        </View>
+        <View
+          style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3 }}
+        >
+          <View style={{ flexBasis: '40%', flexGrow: 1 }}>
+            <AppText small grey>
+              Amount
+            </AppText>
+          </View>
+          <View style={{ flexBasis: '60%', flexGrow: 1 }}>
+            <AppText medium>
+              {amount} {symbol}
+            </AppText>
+          </View>
         </View>
         <AppButton outlined title="View on explorer" onPress={openLink} />
       </View>

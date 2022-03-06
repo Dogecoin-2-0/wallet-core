@@ -17,6 +17,7 @@ export default function AccountSwitcher({ showButtons = true, navigation }) {
   useEffect(() => {
     if (activeAccount && activeAccount.id.trim().length > 0) setSelectedAccount(activeAccount.id);
   }, [activeAccount]);
+
   return (
     <View>
       {/* <ScrollView> */}
@@ -27,7 +28,7 @@ export default function AccountSwitcher({ showButtons = true, navigation }) {
             style={[styles.row, styles.container]}
             onPress={() => {
               _setActiveId(account.id).then(() => {
-                navigation.navigate('login');
+                setTimeout(() => navigation.navigate('login'), 500);
               });
             }}
           >
