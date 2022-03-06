@@ -16,8 +16,7 @@ jobs:
       - uses: expo/expo-github-action@v7
         with:
           expo-version: 4.x
-          eas-version: latest
           expo-cache: true
           token: ${{ secrets.EXPO_TOKEN }}
       - run: yarn install
-      - run: eas build --platform android --non-interactive
+      - run: expo build:android -t apk
