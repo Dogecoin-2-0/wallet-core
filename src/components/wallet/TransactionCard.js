@@ -13,9 +13,11 @@ export default function TransactionCard({ price, amount, date, type, status, onP
           <View style={styles.row}>
             <Image
               source={
-                type === 'SENT'
-                  ? require('../../../assets/actions/send.png')
-                  : require('../../../assets/actions/receive.png')
+                status === 'Pending'
+                  ? require('../../../assets/transactions/pending.png')
+                  : status === 'Confirmed'
+                  ? require('../../../assets/transactions/confirmed.png')
+                  : require('../../../assets/transactions/failed.png')
               }
               style={styles.icon}
             />

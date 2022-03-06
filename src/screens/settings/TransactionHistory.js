@@ -34,7 +34,7 @@ export default function TransactionHistory({ navigation }) {
       price: '65.00',
       amount: '6.00',
       date: '2020-01-056',
-      type: 'RECIEVED',
+      type: 'Pending',
       status: 'Pending',
       symbol: 'BNB'
     },
