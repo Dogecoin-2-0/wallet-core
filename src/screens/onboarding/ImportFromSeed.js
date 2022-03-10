@@ -14,7 +14,6 @@ export default function ImportFromSeed({ navigation }) {
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
         <AppText medium bold>
-          {' '}
           Import From Seed
         </AppText>
 

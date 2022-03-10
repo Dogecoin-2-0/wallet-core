@@ -1,27 +1,54 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, TouchableOpacityBase, View } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import React from 'react';
+import React, { useState } from 'react';
 import AppTextInput from './AppTextInput';
 import colors from '../../constants/colors';
+import AppText from '../AppText';
+import Icon from '../Icon';
 
-export default function AppSeedWalletIn({ touched }) {
+export default function AppSeedWalletIn({ navigation }) {
+  const [focused, setFocused] = useState(false);
+  const [isSecure, setIsSecure] = useState(true);
+  const toggleSecure = () => setIsSecure(previousState => !previousState);
   return (
     <View>
-      {touched ? (
-        <View style={styles.border}>
-          <AppTextInput icons={['eye-outline', 'qrcode-scan']} placeholder="Seed Phrase" />
-        </View>
-      ) : (
-        <AppTextInput icons={['eye-outline', 'scan-helper']} placeholder="Seed Phrase" />
+      {focused && (
+        <AppText grey small>
+          Seed Phrase
+        </AppText>
       )}
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Seed phrase"
+          secureTextEntry={isSecure}
+          onFocus={() => {
+            setFocused(true);
+          }}
+        />
+        <TouchableOpacity onPress={toggleSecure}>
+          <Icon name={isSecure ? 'eye-outline' : 'eye-off-outline'} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  border: {
-    borderColor: colors.black,
-    borderWidth: 1,
-    borderRadius: 16
+  container: {
+    marginVertical: 10
+  },
+
+  inputContainer: {
+    backgroundColor: '#fff5ff',
+    borderRadius: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 12.5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    fontSize: 25
+  },
+  input: {
+    fontSize: 16,
+    width: '75%'
   }
 });
