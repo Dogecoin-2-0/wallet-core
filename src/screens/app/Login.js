@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import { Image, ImageBackground, StyleSheet, View } from 'react-native';
 import React, { useCallback, useState } from 'react';
 import AppText from '../../components/AppText';
 import AppButton from '../../components/AppButton';
@@ -25,6 +25,7 @@ export default function Login({ navigation }) {
   return (
     <ImageBackground source={require('../../../assets/wallet-setupbg.jpg')} style={styles.background}>
       <View style={styles.container}>
+        <Image source={require('../../../assets/dogeroundedLogo.png')} style={styles.logo} />
         <AppText big bold padded white>
           Login
         </AppText>
@@ -32,7 +33,18 @@ export default function Login({ navigation }) {
           Welcome Back!
         </AppText>
 
-        <AppPasswordInput onChangeText={setPassword} value={password} label="Enter password to continue" />
+        <AppText grey> Enter your password below to continue</AppText>
+
+        <AppPasswordInput
+          onChangeText={setPassword}
+          value={password}
+          placeholder="Enter your password"
+          // label="Enter password to continue"
+          containerStyles={{
+            borderRadius: 24
+          }}
+        />
+
         <AppButton
           disable={password.trim().length < 1}
           title="Login"
@@ -69,5 +81,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     marginHorizontal: 20
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    alignSelf: 'flex-end',
+    marginBottom: 70
   }
 });
