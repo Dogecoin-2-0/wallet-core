@@ -58,7 +58,7 @@ function InstantiatingComponent() {
     <NavigationContainer>
       <Navigator>
         <Group screenOptions={{ headerShown: false }}>
-          {isAuth ? (
+          {!isAuth ? (
             <>
               <Screen name="walletSetup" component={WalletSetup} />
               <Screen name="createWallet" component={CreateWallet} />
