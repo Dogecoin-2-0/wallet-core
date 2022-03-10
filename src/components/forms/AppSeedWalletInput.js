@@ -1,8 +1,5 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, TouchableOpacityBase, View } from 'react-native';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
-import AppTextInput from './AppTextInput';
-import colors from '../../constants/colors';
 import AppText from '../AppText';
 import Icon from '../Icon';
 
@@ -20,10 +17,10 @@ export default function AppSeedWalletIn({ handleScanPress }) {
       <View style={[styles.container, focused && styles.focused]}>
         <View style={styles.inputContainer}>
           <TextInput
-            // multiline
+            // multiline  // for multiline text but it disables the secure textentry prop 
             autoCapitalize="none"
             autoCorrect={false}
-            // numberOfLines={4}
+            // numberOfLines={4} // not working as well
             placeholder="Seed phrase"
             secureTextEntry={isSecure}
             onFocus={() => {
