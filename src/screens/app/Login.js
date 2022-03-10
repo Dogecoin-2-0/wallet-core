@@ -86,6 +86,6 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     alignSelf: 'flex-end',
-    marginBottom: 70
+    marginBottom: 50
   }
 });
