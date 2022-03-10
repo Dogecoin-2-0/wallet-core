@@ -35,7 +35,6 @@ export default function ImportFromSeed({ navigation }) {
           <AppText small> By proceeding, you agree to these</AppText>
           <TouchableOpacity>
             <AppText small blue underlined>
-              {' '}
               Terms and conditions
             </AppText>
           </TouchableOpacity>
