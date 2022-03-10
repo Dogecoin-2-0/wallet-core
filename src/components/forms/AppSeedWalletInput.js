@@ -6,49 +6,76 @@ import colors from '../../constants/colors';
 import AppText from '../AppText';
 import Icon from '../Icon';
 
-export default function AppSeedWalletIn({ navigation }) {
+export default function AppSeedWalletIn({ handleScanPress }) {
   const [focused, setFocused] = useState(false);
   const [isSecure, setIsSecure] = useState(true);
   const toggleSecure = () => setIsSecure(previousState => !previousState);
   return (
-    <View>
+    <>
       {focused && (
         <AppText grey small>
           Seed Phrase
         </AppText>
       )}
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Seed phrase"
-          secureTextEntry={isSecure}
-          onFocus={() => {
-            setFocused(true);
-          }}
-        />
-        <TouchableOpacity onPress={toggleSecure}>
-          <Icon name={isSecure ? 'eye-outline' : 'eye-off-outline'} />
-        </TouchableOpacity>
+      <View style={[styles.container, focused && styles.focused]}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            // multiline
+            autoCapitalize="none"
+            autoCorrect={false}
+            // numberOfLines={4}
+            placeholder="Seed phrase"
+            secureTextEntry={isSecure}
+            onFocus={() => {
+              setFocused(true);
+            }}
+            onBlur={() => {
+              setFocused(false);
+            }}
+            style={styles.input}
+          />
+          <View style={styles.icons}>
+            <TouchableOpacity onPress={toggleSecure}>
+              <Icon name={isSecure ? 'eye-outline' : 'eye-off-outline'} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleScanPress}>
+              <Icon name={'scan-helper'} size={20} style={styles.icon} />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10
+    marginVertical: 15,
+    paddingHorizontal: 5,
+    justifyContent: 'center',
+    backgroundColor: '#f3f3f3'
   },
 
   inputContainer: {
-    backgroundColor: '#fff5ff',
-    borderRadius: 5,
-    paddingHorizontal: 5,
-    paddingVertical: 12.5,
+    // marginVertical: 5,
+    paddingVertical: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    fontSize: 25
+    alignItems: 'center'
   },
   input: {
     fontSize: 16,
-    width: '75%'
+    width: '80%'
+  },
+  icons: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  icon: {
+    marginHorizontal: 5
+  },
+  focused: {
+    borderWidth: 0.8,
+    borderRadius: 20
   }
 });
