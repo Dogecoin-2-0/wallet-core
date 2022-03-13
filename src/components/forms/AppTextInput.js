@@ -4,11 +4,11 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import AppText from '../AppText';
 import Icon from '../Icon';
 
-export default function AppTextInput({ label, icon, icons, iconAction, placeholder, ...otherProps }) {
+export default function AppTextInput({ label, icon, icons, iconAction, placeholder, containerStyles, ...otherProps }) {
   return (
     <View style={styles.container}>
       {label && <AppText grey> {label} </AppText>}
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, containerStyles && containerStyles]}>
         <TextInput style={styles.input} placeholder={placeholder} {...otherProps} />
         {icons && icons.map((icon, index) => <Icon key={index} name={icon} />)}
         {icon && <Icon name={icon} onPress={iconAction} />}
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: '#fff5ff',
     borderRadius: 5,
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     paddingVertical: 12.5,
     flexDirection: 'row',
     justifyContent: 'space-between',
