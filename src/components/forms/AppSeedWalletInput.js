@@ -1,9 +1,10 @@
+/* eslint-disable react-native/no-color-literals */
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import AppText from '../AppText';
 import Icon from '../Icon';
 
-export default function AppSeedWalletIn({ handleScanPress }) {
+export default function AppSeedWalletInput({ handleSeedEnter, value = '' }) {
   const [focused, setFocused] = useState(false);
   const [isSecure, setIsSecure] = useState(true);
   const toggleSecure = () => setIsSecure(previousState => !previousState);
@@ -17,11 +18,11 @@ export default function AppSeedWalletIn({ handleScanPress }) {
       <View style={[styles.container, focused && styles.focused]}>
         <View style={styles.inputContainer}>
           <TextInput
-            // multiline  // for multiline text but it disables the secure textentry prop 
+            // multiline  // for multiline text but it disables the secure textentry prop
             autoCapitalize="none"
             autoCorrect={false}
             // numberOfLines={4} // not working as well
-            placeholder="Seed phrase"
+            placeholder="Enter seed phrase"
             secureTextEntry={isSecure}
             onFocus={() => {
               setFocused(true);
@@ -30,13 +31,12 @@ export default function AppSeedWalletIn({ handleScanPress }) {
               setFocused(false);
             }}
             style={styles.input}
+            onChangeText={val => handleSeedEnter(val)}
+            value={value}
           />
           <View style={styles.icons}>
             <TouchableOpacity onPress={toggleSecure}>
               <Icon name={isSecure ? 'eye-outline' : 'eye-off-outline'} style={styles.icon} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleScanPress}>
-              <Icon name={'scan-helper'} size={20} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </View>

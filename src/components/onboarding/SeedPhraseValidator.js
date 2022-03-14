@@ -87,8 +87,8 @@ export default function SeedPhraseValidator({ enableNavigate }) {
               onPress={() => {
                 if (unshuffled[targetIndex] === word) {
                   addCorrectEntry(index);
-                  addKeyToPickedList(unshuffled.indexOf(word));
-                  setShuffled(shuffled.filter(item => item !== word));
+                  addKeyToPickedList(targetIndex);
+                  setShuffled(shuffled.filter((val, index) => index !== shuffled.findIndex(item => item === word)));
                   if (targetIndex < unshuffled.length - 1) {
                     setTargetIndex(targetIndex + 1);
                   }

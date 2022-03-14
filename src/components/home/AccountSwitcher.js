@@ -26,6 +26,7 @@ export default function AccountSwitcher({ showButtons = true, navigation }) {
           <Pressable
             key={account.id}
             style={[styles.row, styles.container]}
+            disabled={selectedAccount === account.id}
             onPress={() => {
               _setActiveId(account.id).then(() => {
                 setTimeout(() => navigation.navigate('login'), 500);
@@ -36,7 +37,7 @@ export default function AccountSwitcher({ showButtons = true, navigation }) {
               <Image source={require('../../../assets/avatar.png')} style={styles.avatar} />
               <AppText> {account.name}</AppText>
             </View>
-            {selectedAccount == account.id && <Icon name="check" color={colors.green} />}
+            {selectedAccount === account.id && <Icon name="check" color={colors.green} />}
           </Pressable>
         );
       })}

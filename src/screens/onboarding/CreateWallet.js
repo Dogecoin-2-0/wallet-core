@@ -84,7 +84,7 @@ export default function CreateWallet({ navigation }) {
         <View style={styles.faceIdPromptContainer}>
           <CheckBox checked={isChecked} onPress={toggleCheckBox} />
           <AppText style={{ fontSize: 14, padding: 25 }}>
-            I understand that the Doge2 Foundation cannot recover this password for me. Learn more{' '}
+            I understand that the Doge2 Foundation cannot recover this password for me.
           </AppText>
         </View>
 

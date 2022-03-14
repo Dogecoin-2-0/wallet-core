@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Linking, View } from 'react-native';
+import * as ethAddress from 'eth-address';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 import { useActiveAccount } from '../../hooks/accounts';
@@ -37,13 +38,7 @@ export default function TransactionSuccessfulComponent({ explorer, hash, recipie
             </AppText>
           </View>
           <View style={{ flexBasis: '60%', flexGrow: 1 }}>
-            <AppText medium>
-              {(
-                activeAccount?.address?.slice(0, 8) +
-                '...' +
-                activeAccount?.address?.slice(activeAccount?.address?.length - 11, activeAccount?.address?.length)
-              ).toLowerCase()}
-            </AppText>
+            <AppText medium>{ethAddress.formatEthAddress(activeAccount?.address, 8).toLowerCase()}</AppText>
           </View>
         </View>
         <View
@@ -55,13 +50,7 @@ export default function TransactionSuccessfulComponent({ explorer, hash, recipie
             </AppText>
           </View>
           <View style={{ flexBasis: '60%', flexGrow: 1 }}>
-            <AppText medium>
-              {(
-                recipient?.slice(0, 8) +
-                '...' +
-                recipient?.slice(recipient?.length - 11, recipient?.length)
-              ).toLowerCase()}
-            </AppText>
+            <AppText medium>{ethAddress.formatEthAddress(recipient, 8).toLowerCase()}</AppText>
           </View>
         </View>
         <View

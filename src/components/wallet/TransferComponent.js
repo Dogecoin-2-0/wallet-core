@@ -6,20 +6,13 @@ import colors from '../../constants/colors';
 import AccountCard from './AccountCard';
 import AppText from '../AppText';
 import { Icon } from '..';
-import RecentTransactionCard from './RecentTransactionCard';
 import AppButton from '../AppButton';
-import { useRecentTxs } from '../../hooks/accounts';
+import { useAccounts, useActiveAccount } from '../../hooks/accounts';
 import { FlatList } from 'react-native-gesture-handler';
 
-export default function TransferComponent({
-  setRecipient,
-  recipient,
-  onNextClick,
-  onScanPress,
-  onClosePress,
-  recentTxId
-}) {
-  const recentTxs = useRecentTxs();
+export default function TransferComponent({ setRecipient, recipient, onNextClick, onScanPress, onClosePress }) {
+  const accounts = useAccounts();
+  const activeAccount = useActiveAccount();
   return (
     <>
       <AccountCard />
@@ -43,25 +36,26 @@ export default function TransferComponent({
           </Pressable>
         </View>
 
-        {recipient.trim().length === 0 && (
+        {recipient.trim().length === 0 && accounts.length > 0 && (
           <AppText centered blue bold underlined padded>
             Transfer Between My Accounts
           </AppText>
         )}
       </View>
 
-      {recipient.trim().length === 0 && (
-        <AppText bold medium>
-          Recent
-        </AppText>
-      )}
-
       {recipient.trim().length > 0 && <AppButton title="Next" onPress={onNextClick} />}
 
       <FlatList
-        data={_.filter(recentTxs, item => item.id === recentTxId)}
-        keyExtractor={item => item.hash}
-        renderItem={({ item }) => <RecentTransactionCard id={item.accountId} />}
+        data={_.filter(accounts, item => item.id !== activeAccount?.id)}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <AccountCard
+            account={item}
+            onPress={() => {
+              setRecipient(item.address);
+            }}
+          />
+        )}
         ListEmptyComponent={() => (
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 7 }}>
             <Icon name="gauge-empty" size={100} color={colors.lightSmoke} />
