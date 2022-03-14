@@ -47,6 +47,7 @@
     "react-native-expo-fancy-alerts": "^2.1.0",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-get-random-values": "^1.7.2",
+    "react-native-hyperlink": "^0.0.19",
     "react-native-modalize": "^2.0.13",
     "react-native-qrcode-svg": "^6.1.2",
     "react-native-reanimated": "^2.4.1",

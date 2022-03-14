@@ -56,7 +56,7 @@ export default function CreateWallet({ navigation }) {
         <AppText bold medium>
           Create Password
         </AppText>
-        <AppText grey> This password will unlock your Air wallet only on this service.</AppText>
+        <AppText grey>This password will unlock your wallet only on this service.</AppText>
 
         <AppPasswordInput label="New password" onChangeText={setPassword} value={password} />
         <AppText grey> Password Strength: </AppText>
