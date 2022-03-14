@@ -159,7 +159,7 @@ export default function Home({ navigation }) {
         ratio={0.6}
       />
       <ReusableBottomSheet
-        ratio={0.9}
+        ratio={0.7}
         // height={}
         title="Send BNB"
         modalRef={sendModalRef}

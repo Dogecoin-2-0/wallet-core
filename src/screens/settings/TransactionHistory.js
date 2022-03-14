@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import React from 'react';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import Screen from '../../components/Screen';

@@ -55,82 +55,82 @@ function TokenCard({ id, network, onPress }) {
             <View style={{ flexBasis: '40%', flexGrow: 1 }}>
               <AppText medium>{info.name} </AppText>
             </View>
-            <View style={{ flexBasis: '60%', flexGrow: 1}}>
-            <AppText medium>
-              {' '}
-              {balance} {info.symbol}{' '}
-            </AppText>
+            <View style={{ flexBasis: '60%', flexGrow: 1 }}>
+              <AppText medium>
+                {' '}
+                {balance} {info.symbol}{' '}
+              </AppText>
             </View>
           </View>
           <View style={styles.row}>
-            <View style={{ flexBasis: '20%', flexGrow: 1}}>
-            <AppText grey>
-              {' '}
-              ${''}
-              {network === 'self'
-                ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                  ? parseFloat(priceParsed[assetPriceKeyMap[id]].price).toPrecision(5)
-                  : 0
-                : priceParsed[id]
-                ? parseFloat(priceParsed[id].price).toPrecision(5)
-                : 0}{' '}
-            </AppText>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flexBasis: '80%', flexGrow: 1 }}>
-              <View style={{ flexBasis: '90%', flexGrow: 1, flexDirection: 'row', justifyContent: 'center'}}>
-              <Icon
-                name={
-                  network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                    ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
-                      ? 'arrow-top-right'
-                      : 'arrow-bottom-left'
-                    : priceParsed[id]
-                    ? priceParsed[id]._type === 'INCREASE'
-                      ? 'arrow-top-right'
-                      : 'arrow-bottom-left'
-                    : 'arrow-top-right'
-                }
-                color={
-                  network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                    ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
-                      ? colors.green
-                      : colors.red
-                    : priceParsed[id]
-                    ? priceParsed[id]._type === 'INCREASE'
-                      ? colors.green
-                      : colors.red
-                    : colors.green
-                }
-                size={20}
-              />
-              <AppText
-                green={
-                  network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                    ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
-                    : priceParsed[id]
-                    ? priceParsed[id]._type === 'INCREASE'
-                    : true
-                }
-                red={
-                  network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                    ? priceParsed[assetPriceKeyMap[id]]._type === 'DECREASE'
-                    : priceParsed[id]
-                    ? priceParsed[id]._type === 'DECREASE'
-                    : false
-                }
-              >
+            <View style={{ flexBasis: '20%', flexGrow: 1 }}>
+              <AppText grey>
                 {' '}
+                ${''}
                 {network === 'self'
                   ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                    ? parseFloat(priceParsed[assetPriceKeyMap[id]]._percentage).toPrecision(2)
+                    ? parseFloat(priceParsed[assetPriceKeyMap[id]].price).toPrecision(5)
                     : 0
                   : priceParsed[id]
-                  ? parseFloat(priceParsed[id]._percentage).toPrecision(2)
-                  : 0}
-                {'%'}
+                  ? parseFloat(priceParsed[id].price).toPrecision(5)
+                  : 0}{' '}
               </AppText>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flexBasis: '80%', flexGrow: 1 }}>
+              <View style={{ flexBasis: '90%', flexGrow: 1, flexDirection: 'row', justifyContent: 'center' }}>
+                <Icon
+                  name={
+                    network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                      ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
+                        ? 'arrow-top-right'
+                        : 'arrow-bottom-left'
+                      : priceParsed[id]
+                      ? priceParsed[id]._type === 'INCREASE'
+                        ? 'arrow-top-right'
+                        : 'arrow-bottom-left'
+                      : 'arrow-top-right'
+                  }
+                  color={
+                    network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                      ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
+                        ? colors.green
+                        : colors.red
+                      : priceParsed[id]
+                      ? priceParsed[id]._type === 'INCREASE'
+                        ? colors.green
+                        : colors.red
+                      : colors.green
+                  }
+                  size={20}
+                />
+                <AppText
+                  green={
+                    network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                      ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
+                      : priceParsed[id]
+                      ? priceParsed[id]._type === 'INCREASE'
+                      : true
+                  }
+                  red={
+                    network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                      ? priceParsed[assetPriceKeyMap[id]]._type === 'DECREASE'
+                      : priceParsed[id]
+                      ? priceParsed[id]._type === 'DECREASE'
+                      : false
+                  }
+                >
+                  {' '}
+                  {network === 'self'
+                    ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
+                      ? parseFloat(priceParsed[assetPriceKeyMap[id]]._percentage).toPrecision(2)
+                      : 0
+                    : priceParsed[id]
+                    ? parseFloat(priceParsed[id]._percentage).toPrecision(2)
+                    : 0}
+                  {'%'}
+                </AppText>
               </View>
-              <View style={{ flexBasis: '10%', flexGrow: 1}} />
+              <View style={{ flexBasis: '10%', flexGrow: 1 }} />
             </View>
           </View>
         </View>

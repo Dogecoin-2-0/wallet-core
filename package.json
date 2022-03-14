@@ -26,6 +26,7 @@
     "@react-navigation/native-stack": "^6.2.5",
     "@reduxjs/toolkit": "^1.7.1",
     "bip39": "^3.0.4",
+    "eth-address": "^1.0.1",
     "ethers": "^5.5.2",
     "expo": "~43.0.2",
     "expo-app-loading": "~1.2.1",

@@ -1,8 +1,8 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+/* eslint-disable react-native/no-unused-styles */
+import { FlatList, Image, StyleSheet, View } from 'react-native';
 import React from 'react';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
-import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import SettingItem from '../../components/settings/SettingItem';
 
 export default function Settings({ navigation }) {
@@ -12,12 +12,6 @@ export default function Settings({ navigation }) {
       label: 'Account',
       icon: 'account-circle-outline',
       link: 'comingSoon'
-    },
-    {
-      id: 2,
-      label: 'Transaction History',
-      link: 'transactionHistory',
-      icon: 'file-refresh-outline'
     },
     {
       id: 3,

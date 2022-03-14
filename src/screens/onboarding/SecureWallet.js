@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-unused-styles */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
@@ -26,12 +27,12 @@ export default function SecureWallet({ navigation }) {
           </AppText>
         </View>
 
-        <View style={styles.faceIdPromptContainer}></View>
+        {/* <View style={styles.faceIdPromptContainer}></View> */}
 
-        <AppText underlined yellow bold centered style={{ marginVertical: 20 }}>
+        {/* <AppText underlined yellow bold centered style={{ marginVertical: 20 }}>
           Remind me Later
-        </AppText>
-        <View style={{}}>
+        </AppText> */}
+        <View style={{ margin: 0 }}>
           <AppButton title="Start" onPress={() => navigation.navigate('seedScreenInfo')} />
         </View>
       </View>
@@ -41,7 +42,8 @@ export default function SecureWallet({ navigation }) {
 
 const styles = StyleSheet.create({
   formArea: {
-    marginTop: 40
+    marginTop: 40,
+    flex: 1
   },
   lockedImage: {
     width: 217,

@@ -262,7 +262,6 @@ export default function SendToken({
             onNextClick={() => setProgress(2)}
             onScanPress={onScanPressHandler}
             onClosePress={() => setRecipient('')}
-            recentTxId={id}
           />
         )}
 
