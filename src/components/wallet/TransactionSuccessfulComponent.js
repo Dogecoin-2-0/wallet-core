@@ -38,7 +38,9 @@ export default function TransactionSuccessfulComponent({ explorer, hash, recipie
             </AppText>
           </View>
           <View style={{ flexBasis: '60%', flexGrow: 1 }}>
-            <AppText medium>{ethAddress.formatEthAddress(activeAccount?.address, 8).toLowerCase()}</AppText>
+            <AppText medium>
+              {activeAccount && ethAddress.formatEthAddress(activeAccount?.address, 8).toLowerCase()}
+            </AppText>
           </View>
         </View>
         <View

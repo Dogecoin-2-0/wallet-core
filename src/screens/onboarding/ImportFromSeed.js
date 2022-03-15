@@ -121,7 +121,11 @@ export default function ImportFromSeed() {
         </View> */}
           <ReusableSpinner visible={walletInitialized} />
           <AppButton
-            disable={!pwMatch || seedPhrase.split(' ').length !== 12}
+            disable={
+              !pwMatch ||
+              seedPhrase.split(' ').length !== 12 ||
+              (seedPhrase.split(' ').length === 12 && seedPhrase.split(' ')[11].trim().length === 0)
+            }
             title="Import"
             onPress={() => {
               setWalletInitialized(true);
@@ -161,18 +165,18 @@ export default function ImportFromSeed() {
                     });
                 }}
               />
-              <ReusableAlert
-                visible={alertShown}
-                isSuccessful={false}
-                message={alertMessage}
-                close={() => {
-                  setAlertShown(false);
-                  setAlertMessage('');
-                }}
-              />
               <ReusableSpinner visible={spinnerShown} />
             </>
           }
+        />
+        <ReusableAlert
+          visible={alertShown}
+          isSuccessful={false}
+          message={alertMessage}
+          close={() => {
+            setAlertShown(false);
+            setAlertMessage('');
+          }}
         />
       </View>
     </PortalProvider>
