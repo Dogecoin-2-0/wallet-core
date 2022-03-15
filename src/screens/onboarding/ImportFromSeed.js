@@ -1,11 +1,11 @@
+/* eslint-disable react-native/no-unused-styles */
 /* eslint-disable react/no-children-prop */
 /* eslint-disable react-native/no-inline-styles */
-import { StyleSheet, Switch, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import _ from 'lodash';
 import AppText from '../../components/AppText';
 import AppPasswordInput from '../../components/forms/AppPasswordInput';
-import colors from '../../constants/colors';
 import AppSeedWalletInput from '../../components/forms/AppSeedWalletInput';
 import AppButton from '../../components/AppButton';
 import SecurityLevel from '../../components/onboarding/SecurityLevel';
@@ -21,8 +21,6 @@ import { PortalProvider } from '@gorhom/portal';
 import { _saveAccount } from '../../storage';
 
 export default function ImportFromSeed() {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [seedPhrase, setSeedPhrase] = useState('');
   const [level, setLevel] = useState(null);
   const [password, setPassword] = useState('');
@@ -102,7 +100,7 @@ export default function ImportFromSeed() {
               </AppText>
             </>
           )}
-          <View style={styles.row}>
+          {/* <View style={styles.row}>
             <AppText medium> Sign In with Face ID? </AppText>
             <Switch
               trackColor={{ false: colors.grey, true: colors.yellow }}
@@ -110,7 +108,7 @@ export default function ImportFromSeed() {
               onValueChange={toggleSwitch}
               value={isEnabled}
             />
-          </View>
+          </View> */}
         </View>
         <View style={{ flex: 1 }}>
           {/* <View style={styles.row}>

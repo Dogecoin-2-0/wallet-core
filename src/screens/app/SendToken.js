@@ -25,7 +25,6 @@ import * as constants from '../../constants';
 import FeeAdjustmentComponent from '../../components/wallet/FeeAdjustmentComponent';
 import ReusableSpinner from '../../components/extras/ReusableSpinner';
 import Singleton from '../../https/singleton';
-import { _addToRecentTx } from '../../storage';
 
 export default function SendToken({
   price = '0',
@@ -119,9 +118,6 @@ export default function SendToken({
           setHash(txId);
           setLoading(false);
           onSuccessShow();
-          _addToRecentTx(txId, activeAccount.id, network, id).then(() => {
-            console.log('Added to recent txs');
-          });
         })
         .catch(error => {
           setLoading(false);
