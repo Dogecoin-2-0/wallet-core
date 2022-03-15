@@ -110,7 +110,7 @@ It’s the only way to recover your wallet if you get locked out of the app or g
             - Store in multiple secret places
           </AppText>
         </View>
-        <View style={{ marginTop: 100 }}>
+        <View style={{ marginTop: 30 }}>
           <AppButton title="Start" onPress={() => navigation.navigate('revealSeedPhrase')} />
         </View>
       </Screen>

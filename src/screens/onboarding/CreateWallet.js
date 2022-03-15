@@ -1,12 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Switch, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import AppPasswordInput from '../../components/forms/AppPasswordInput';
 import OnboardingProgress from '../../components/onboarding/OnboardingProgress';
-import colors from '../../constants/colors';
 import AppButton from '../../components/AppButton';
 import CheckBox from '../../components/forms/CheckBox';
 import SecurityLevel from '../../components/onboarding/SecurityLevel';
@@ -14,13 +13,11 @@ import { hashPassword, comparePassword } from '../../utils';
 import { updateHashedPw, updatePw } from '../../redux/initializationSlice';
 
 export default function CreateWallet({ navigation }) {
-  const [isEnabled, setIsEnabled] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [level, setLevel] = useState(null);
   const [pwMatch, setPwMatch] = useState(false);
   const dispatch = useDispatch();
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const step = 1;
 
   const [isChecked, setIsChecked] = useState(false);
@@ -70,7 +67,7 @@ export default function CreateWallet({ navigation }) {
           </>
         )}
 
-        <View style={styles.faceIdPromptContainer}>
+        {/* <View style={styles.faceIdPromptContainer}>
           <AppText medium> Sign In with Face ID? </AppText>
 
           <Switch
@@ -79,7 +76,7 @@ export default function CreateWallet({ navigation }) {
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
-        </View>
+        </View> */}
 
         <View style={styles.faceIdPromptContainer}>
           <CheckBox checked={isChecked} onPress={toggleCheckBox} />
