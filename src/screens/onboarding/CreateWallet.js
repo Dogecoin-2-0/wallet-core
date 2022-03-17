@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
@@ -23,6 +23,8 @@ export default function CreateWallet({ navigation }) {
   const [isChecked, setIsChecked] = useState(false);
 
   const toggleCheckBox = () => setIsChecked(!isChecked);
+
+  Alert.alert('Warning', "If you forget your password you won't be able to test beta release until further notice.");
 
   useEffect(() => {
     if (password.trim().length > 0) {
