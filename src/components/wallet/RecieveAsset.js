@@ -26,11 +26,6 @@ export default function RecieveAsset({ qrValue = '0x', address = '0x' }) {
   };
 
   useEffect(() => {
-    const subscription = Clipboard.addClipboardListener(({ content }) => {
-      openAlert(`${content} copied!`);
-      setTimeout(() => closeAlert(), 4000);
-    });
-
     return () => {
       Clipboard.removeClipboardListener(subscription);
     };
