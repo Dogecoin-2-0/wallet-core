@@ -14,11 +14,7 @@
   },
   "submit": {
     "production": {
-      "ios": {
-        "appleId": "jobhutng@gmail.com",
-        "ascAppId": "1614431907",
-        "appleTeamId": "CNQHW5B6M7"
-      }
+      
     }
   }
 }
