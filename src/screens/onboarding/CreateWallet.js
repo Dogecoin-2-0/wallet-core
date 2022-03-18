@@ -43,7 +43,8 @@ export default function CreateWallet({ navigation }) {
       const hash = hashPassword(password);
       const comparison = comparePassword(confirmPassword, hash);
       setPwMatch(comparison);
-    }``
+    }
+    ``;
   }, [confirmPassword, password]);
 
   useEffect(() => {
