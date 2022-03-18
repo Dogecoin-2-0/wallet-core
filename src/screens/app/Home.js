@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-children-prop */
-import { Image, StyleSheet, View, TouchableOpacity, FlatList, BackHandler } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity, FlatList, BackHandler, Alert } from 'react-native';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Screen from '../../components/Screen';
@@ -38,10 +38,12 @@ export default function Home({ navigation }) {
   const [balance, setBalance] = useState('0');
   const activeAccount = useActiveAccount();
 
-  Alert.alert(
-    'Important Warning',
-    'DOGE2 DeFi Wallet is currently in Beta and using Testnet. Please do not send any Mainnet coins or tokens. Any Mainnet coins or tokens will be lost and not recoverable'
-  );
+  useEffect(() => {
+    Alert.alert(
+      'Important Warning',
+      'DOGE2 DeFi Wallet is currently in Beta and using Testnet. Please do not send any Mainnet coins or tokens. Any Mainnet coins or tokens will be lost and not recoverable'
+    );
+  }, []);
 
   const onOpen = () => {
     modalRef.current?.open();
