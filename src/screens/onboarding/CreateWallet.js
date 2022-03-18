@@ -24,8 +24,6 @@ export default function CreateWallet({ navigation }) {
 
   const toggleCheckBox = () => setIsChecked(!isChecked);
 
-  Alert.alert('Warning', "If you forget your password you won't be able to test beta release until further notice.");
-
   useEffect(() => {
     if (password.trim().length > 0) {
       if (password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/)) setLevel('STRONG');
@@ -46,7 +44,12 @@ export default function CreateWallet({ navigation }) {
       const comparison = comparePassword(confirmPassword, hash);
       setPwMatch(comparison);
     }
+    ``;
   }, [confirmPassword, password]);
+
+  useEffect(() => {
+    Alert.alert('Warning', "If you forget your password you won't be able to test beta release until further notice.");
+  }, []);
 
   return (
     <Screen>

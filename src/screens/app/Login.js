@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { Image, ImageBackground, StyleSheet, View } from 'react-native';
 import React, { useCallback, useState } from 'react';
 import AppText from '../../components/AppText';
