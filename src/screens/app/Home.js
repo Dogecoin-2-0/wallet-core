@@ -38,10 +38,6 @@ export default function Home({ navigation }) {
   const [balance, setBalance] = useState('0');
   const activeAccount = useActiveAccount();
 
-  Alert.alert(
-    'Important Warning',
-    'DOGE2 DeFi Wallet is currently in Beta and using Testnet. Please do not send any Mainnet coins or tokens. Any Mainnet coins or tokens will be lost and not recoverable'
-  );
 
   const onOpen = () => {
     modalRef.current?.open();
