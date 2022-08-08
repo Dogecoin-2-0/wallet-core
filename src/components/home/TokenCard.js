@@ -8,7 +8,6 @@ import AppText from '../AppText';
 import colors from '../../constants/colors';
 import ReusableAlert from '../extras/ReusableAlert';
 import { fetchBlockchainInfo, fetchTokenInfo } from '../../utils';
-import { assetPriceKeyMap } from '../../constants/maps';
 import { useBalance } from '../../hooks/wallet';
 import { useActiveAccount } from '../../hooks/accounts';
 
@@ -43,10 +42,7 @@ function TokenCard({ id, network, onPress }) {
 
   return (
     <View>
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => onPress({ ...info, isToken: network !== 'self', network, id })}
-      >
+      <TouchableOpacity style={styles.container} onPress={() => onPress({ ...info, network, id })}>
         <View style={styles.avatar}>
           <Image source={{ uri: info.image }} style={{ height: '100%', width: '100%' }} />
         </View>
@@ -67,66 +63,30 @@ function TokenCard({ id, network, onPress }) {
               <AppText grey>
                 {' '}
                 ${''}
-                {network === 'self'
-                  ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                    ? parseFloat(priceParsed[assetPriceKeyMap[id]].price).toPrecision(5)
-                    : 0
-                  : priceParsed[id]
-                  ? parseFloat(priceParsed[id].price).toPrecision(5)
-                  : 0}{' '}
+                {info.coinGeckoID && priceParsed[info.coinGeckoID].price}
               </AppText>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flexBasis: '80%', flexGrow: 1 }}>
               <View style={{ flexBasis: '90%', flexGrow: 1, flexDirection: 'row', justifyContent: 'center' }}>
                 <Icon
                   name={
-                    network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                      ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
-                        ? 'arrow-top-right'
-                        : 'arrow-bottom-left'
-                      : priceParsed[id]
-                      ? priceParsed[id]._type === 'INCREASE'
-                        ? 'arrow-top-right'
-                        : 'arrow-bottom-left'
-                      : 'arrow-top-right'
+                    info.coinGeckoID && priceParsed[info.coinGeckoID].rateType === 'INCREASE'
+                      ? 'arrow-top-right'
+                      : 'arrow-bottom-left'
                   }
                   color={
-                    network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                      ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
-                        ? colors.green
-                        : colors.red
-                      : priceParsed[id]
-                      ? priceParsed[id]._type === 'INCREASE'
-                        ? colors.green
-                        : colors.red
-                      : colors.green
+                    info.coinGeckoID && priceParsed[info.coinGeckoID].rateType === 'INCREASE'
+                      ? colors.green
+                      : colors.red
                   }
                   size={20}
                 />
                 <AppText
-                  green={
-                    network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                      ? priceParsed[assetPriceKeyMap[id]]._type === 'INCREASE'
-                      : priceParsed[id]
-                      ? priceParsed[id]._type === 'INCREASE'
-                      : true
-                  }
-                  red={
-                    network === 'self' && assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                      ? priceParsed[assetPriceKeyMap[id]]._type === 'DECREASE'
-                      : priceParsed[id]
-                      ? priceParsed[id]._type === 'DECREASE'
-                      : false
-                  }
+                  green={info.coinGeckoID && priceParsed[info.coinGeckoID].rateType === 'INCREASE'}
+                  red={!info.coinGeckoID || priceParsed[info.coinGeckoID].rateType === 'DECREASE'}
                 >
                   {' '}
-                  {network === 'self'
-                    ? assetPriceKeyMap[id] && priceParsed[assetPriceKeyMap[id]]
-                      ? parseFloat(priceParsed[assetPriceKeyMap[id]]._percentage).toPrecision(2)
-                      : 0
-                    : priceParsed[id]
-                    ? parseFloat(priceParsed[id]._percentage).toPrecision(2)
-                    : 0}
+                  {info.coinGeckoID && priceParsed[info.coinGeckoID].percentageChange.toFixed(3)}
                   {'%'}
                 </AppText>
               </View>

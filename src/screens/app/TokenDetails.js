@@ -9,7 +9,6 @@ import TransactionCard from '../../components/wallet/TransactionCard';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import Actions from '../../components/home/Actions';
-import { assetPriceKeyMap, assetTxChainMap } from '../../constants/maps';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import TransactionDetailPopup from '../../components/wallet/TransactionDetailPopup';
 import Icon from '../../components/Icon';
@@ -55,22 +54,17 @@ export default function TokenDetails({ route, navigation }) {
   }, [price]);
 
   useEffect(() => {
-    if (Object.keys(priceParsed).length > 0)
-      setPrice(
-        route.params?.isToken
-          ? priceParsed[route.params?.id].price
-          : priceParsed[assetPriceKeyMap[route.params?.id]].price
-      );
+    if (Object.keys(priceParsed).length > 0) setPrice(priceParsed[route.params?.coinGeckoID].price);
   }, [priceParsed]);
 
   useEffect(() => {
-    const getBalance = async () => {
+    (async () => {
       let bal = '0';
       if (activeAccount) {
         if (route.params?.isToken) {
           bal = await Singleton.getInstance().getTokenBalance(
             route.params?.network,
-            route.params?.id,
+            route.params?.contractAddress,
             activeAccount.address
           );
         } else {
@@ -78,44 +72,32 @@ export default function TokenDetails({ route, navigation }) {
         }
         setBalance(bal);
       }
-    };
-    getBalance();
+    })();
   }, [activeAccount]);
 
   useEffect(async () => {
     try {
-      let mutableArr = [];
-
-      for (const key of Object.keys(txns).filter(key => {
-        if (route.params?.isToken)
-          return (
-            txns[key]._chain === assetTxChainMap[route.params?.network] &&
-            route.params?.id.toLowerCase() === txns[key].contract_address?.toLowerCase()
-          );
-        return txns[key]._chain === assetTxChainMap[route.params?.id];
-      })) {
-        const item = txns[key];
-        setTimeout(() => {}, 10000);
-        const nonce = await Singleton.getInstance().getTxNonce(
-          route.params?.network === 'self' ? route.params?.id : route.params?.network,
-          key
-        );
-        mutableArr = [
-          ...mutableArr,
-          {
-            date: new Date(item.timestamp).toUTCString(),
-            type: item.from.toLowerCase() === activeAccount.address.toLowerCase() ? 'SENT' : 'RECEIVED',
-            amount: `${item.amount} ${route.params?.symbol}`,
-            price: (parseFloat(item.amount) * p).toPrecision(4),
-            status: 'Confirmed',
-            id: key,
-            from: item.from,
-            to: item.to,
-            nonce
-          }
-        ];
-      }
-      setMappedTxns(mutableArr);
+      const mappedArr = await Promise.all(
+        txns
+          .filter(tx => {
+            if (route.params?.isToken) {
+              return (
+                tx.isERC20LikeSpec && tx.tokenAddress.toLowerCase() === route.params?.contractAddress.toLowerCase()
+              );
+            } else {
+              return !tx.isERC20LikeSpec && tx.tokenName.toLowerCase().includes(route.params?.name.toLowerCase());
+            }
+          })
+          .map(tx => ({ ...tx, date: new Date(parseInt(tx.timeStamp)).toUTCString(), price: tx.amount * p }))
+          .map(async tx => {
+            const nonce = await Singleton.getInstance().getTxNonce(
+              route.params.network === 'self' ? route.params.id : route.params.network,
+              tx.txId
+            );
+            return { ...tx, nonce };
+          })
+      );
+      setMappedTxns(mappedArr);
     } catch (error) {
       console.log(error.message);
     }
@@ -131,15 +113,9 @@ export default function TokenDetails({ route, navigation }) {
 
         <TokenPrice
           percentage={
-            route.params?.isToken
-              ? priceParsed[route.params?.id]?._percentage.toPrecision(2)
-              : priceParsed[assetPriceKeyMap[route.params?.id]]?._percentage.toPrecision(2)
+            Object.keys(priceParsed).length > 0 ? priceParsed[route.params.coinGeckoID].percentageChange.toFixed(3) : 0
           }
-          type={
-            route.params?.isToken
-              ? priceParsed[route.params?.id]?._type
-              : priceParsed[assetPriceKeyMap[route.params?.id]]?._type
-          }
+          type={Object.keys(priceParsed).length > 0 ? priceParsed[route.params.coinGeckoID].rateType : 'DECREASE'}
           balance={balance}
           price={p.toPrecision(5) || 0}
           symbol={route.params?.symbol}
@@ -176,9 +152,7 @@ export default function TokenDetails({ route, navigation }) {
         height={550}
         title="Transaction Detail"
         modalRef={modalRef}
-        children={
-          <TransactionDetailPopup selectedId={selectedId} txns={mappedTxns} explorer={route.params?.explorer} />
-        }
+        children={<TransactionDetailPopup selectedId={selectedId} txns={mappedTxns} />}
       />
       <ReusableBottomSheet
         ratio={0.9}
@@ -212,15 +186,16 @@ export default function TokenDetails({ route, navigation }) {
       <Screen>
         <FlatList
           data={mappedTxns}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.txId}
           renderItem={({ item }) => (
             <TransactionCard
               onPress={() => {
-                setSelectedId(item.id);
+                setSelectedId(item.txId);
                 onOpen();
               }}
               {...item}
               symbol={route.params?.symbol}
+              type={activeAccount?.address.toLowerCase() === item.from.toLowerCase() ? 'SENT' : 'RECEIVED'}
             />
           )}
           ListHeaderComponent={renderHeader}

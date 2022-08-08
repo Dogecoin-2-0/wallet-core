@@ -75,7 +75,7 @@ export default function ConfirmSeedPhrase({ navigation }) {
                   setSpinnerShown(true);
                   saveData(_wallet?.address)
                     .then(data => {
-                      _saveAccount(hashedPw, name, _wallet?.address, phrase, _wallet?.privateKey).then(id => {
+                      _saveAccount(hashedPw, name, _wallet?.address, phrase, _wallet?.privateKey, data.id).then(id => {
                         signIn(id);
                         clearPropagatebleState();
                         console.log('Data from server: ', data);

@@ -1,15 +1,8 @@
-export const assetPriceKeyMap = {
-  binance: 'binancecoin',
-  avalanche: 'avalanche-2',
-  ethereum: 'ethereum',
-  polygon: 'matic-network'
-};
-
 export const assetProvidersMap = {
-  avalanche: 'https://speedy-nodes-nyc.moralis.io/558120230227a848a2bb7043/avalanche/testnet',
-  binance: 'https://speedy-nodes-nyc.moralis.io/558120230227a848a2bb7043/bsc/testnet',
-  ethereum: 'https://speedy-nodes-nyc.moralis.io/558120230227a848a2bb7043/eth/ropsten',
-  polygon: 'https://speedy-nodes-nyc.moralis.io/558120230227a848a2bb7043/polygon/mumbai'
+  avalanche: 'https://rpc.ankr.com/avalanche_fuji',
+  binance: 'https://bsctestapi.terminet.io/rpc',
+  ethereum: 'https://rpc.ankr.com/eth_ropsten',
+  polygon: 'https://matic-mumbai.chainstacklabs.com'
 };
 
 export const assetTxChainMap = {
@@ -31,4 +24,11 @@ export const gasOraclesMap = {
   ethereum: 'https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=9VIBB7Y17AR7Z7A2YBTMYG67S91XC7MKHY',
   polygon: 'https://api.polygonscan.com/api?module=gastracker&action=gasoracle',
   avalanche: 'https://api.bscscan.com/api?module=gastracker&action=gasoracle'
+};
+
+export const transactionProxyContractsMap = {
+  binance: '0x25072e9d140B184cd801aB7B97590e2205F643cb',
+  avalanche: '0x2A631765beBF4131471Ff02DE98203A1D48F2ba3',
+  polygon: '0xD8b7e53036d9e454b2D350C2Fb6c7a3d7923b390',
+  ethereum: '0x33888922465aE600E9Db751D90B74d220072B242'
 };
