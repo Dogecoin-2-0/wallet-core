@@ -42,22 +42,6 @@ export default function Tabs() {
         }}
       />
       <Tab.Screen
-        name="Therapy"
-        component={Home}
-        options={{
-          tabBarLabel: 'Swap',
-          tabBarIcon: ({ color }) => <Icon name="swap-horizontal" color={color} size={24} />
-        }}
-      />
-      <Tab.Screen
-        name="Notes"
-        component={ScanBarcode}
-        options={{
-          tabBarLabel: 'Scan',
-          tabBarIcon: ({ color }) => <Icon name="qrcode-scan" color={color} size={24} />
-        }}
-      />
-      <Tab.Screen
         name="Settings"
         component={Settings}
         options={{

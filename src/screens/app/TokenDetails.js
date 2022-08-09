@@ -10,6 +10,7 @@ import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import TokenPrice from '../../components/wallet/TokenPrice';
 import Actions from '../../components/home/Actions';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
+import PriceChartAndLegend from '../../components/PriceChartAndLegend';
 import TransactionDetailPopup from '../../components/wallet/TransactionDetailPopup';
 import Icon from '../../components/Icon';
 import colors from '../../constants/colors';
@@ -192,6 +193,12 @@ export default function TokenDetails({ route, navigation }) {
             address={activeAccount?.address ? activeAccount.address : '0x0'}
           />
         }
+      />
+      <ReusableBottomSheet
+        // height={520}
+        ratio={0.58}
+        modalRef={chartModalRef}
+        children={<PriceChartAndLegend info={route.params} />}
       />
       <Screen>
         <FlatList

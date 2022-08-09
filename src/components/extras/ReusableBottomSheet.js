@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import { Portal } from '@gorhom/portal';
@@ -12,7 +13,7 @@ export default function ReusableBottomSheet({ modalRef, title, children, ratio, 
     <Portal>
       <Modalize ref={modalRef} modalHeight={ratio ? responsiveHeight : height ? height : modalHeight}>
         <View style={[styles.content, extraStyle && { ...extraStyle }]}>
-          <View>
+          <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <AppText bold medium padded>
               {title}
             </AppText>
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     // height: modalHeight,
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
     paddingVertical: 32
   }
 });
