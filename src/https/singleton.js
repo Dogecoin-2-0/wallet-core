@@ -16,7 +16,7 @@ export default class Singleton {
   getNativeBalance(network, address) {
     return new Promise((resolve, reject) => {
       _jsonRpcRequest(network, 'eth_getBalance', [address, 'latest'])
-        .then(val => resolve(formatEther(val)))
+        .then(val => resolve(parseFloat(formatEther(val)).toFixed(3)))
         .catch(reject);
     });
   }
@@ -29,7 +29,7 @@ export default class Singleton {
     ]);
     const balanceOfEncoded = _encodeFunctionData(erc20Abi, 'balanceOf', [address]);
     const bal = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: balanceOfEncoded }, 'latest']);
-    return formatUnits(bal, decimalsRes);
+    return parseFloat(formatUnits(bal, decimalsRes)).toFixed(3);
   }
 
   async createNativeTransaction(network, from, to, value, gasPrice, gasLimit, pk) {

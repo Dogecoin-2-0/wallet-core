@@ -39,6 +39,12 @@ export default function TokenDetails({ route, navigation }) {
     recieveModalRef.current?.open();
   };
 
+  const chartModalRef = useRef(null);
+
+  const onChartModalOpen = () => {
+    chartModalRef.current?.open();
+  };
+
   const activeAccount = useActiveAccount();
   const txns = useAccountTxs();
 
@@ -120,7 +126,11 @@ export default function TokenDetails({ route, navigation }) {
           price={p.toPrecision(5) || 0}
           symbol={route.params?.symbol}
         />
-        <Actions onSendIconPress={onSendModalOpen} onRecieveIconPress={onRecieveModalOpen} />
+        <Actions
+          onSendIconPress={onSendModalOpen}
+          onRecieveIconPress={onRecieveModalOpen}
+          onChartIconPress={onChartModalOpen}
+        />
       </>
     );
   };

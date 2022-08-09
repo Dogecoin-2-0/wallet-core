@@ -1,56 +1,41 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import AppText from '../AppText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Icon } from '..';
+import colors from '../../constants/colors';
 
-const actions = [
-  {
-    name: 'Send',
-    backgroundColor: '#E8FAE0',
-    icon: require('../../../assets/actions/send.png')
-  },
-  {
-    name: 'Receive',
-    icon: require('../../../assets/actions/receive.png'),
-    backgroundColor: '#DCE8FC'
-  },
-  {
-    name: 'Buy',
-    icon: require('../../../assets/actions/buy.png'),
-    backgroundColor: '#FEF0D7'
-  }
-];
-export default function Actions({ showBuy = true, onSendIconPress, onRecieveIconPress, onBuyIconPress }) {
+export default function Actions({ onSendIconPress, onRecieveIconPress, onChartIconPress }) {
   return (
     <View style={styles.container}>
       {/* {actions.map((action, index) => ( */}
       <TouchableOpacity style={[styles.actionContainer]} onPress={onSendIconPress}>
         {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
-        <Image source={actions[0].icon} style={styles.action} />
+        <Icon name="arrow-right-circle-outline" color={colors.green} style={styles.action} />
         {/* </View> */}
         <AppText bold style={{ overflow: 'hidden' }} centered>
-          {actions[0].name}
+          Send
         </AppText>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.actionContainer]} onPress={onRecieveIconPress}>
         {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
-        <Image source={actions[1].icon} style={styles.action} />
+        <Icon name="wallet-plus-outline" color={colors.blue} style={styles.action} />
         {/* </View> */}
         <AppText bold style={{ overflow: 'hidden' }} centered>
-          {actions[1].name}
+          Receive
         </AppText>
       </TouchableOpacity>
-      {showBuy && (
-        <TouchableOpacity style={[styles.actionContainer]} onPress={onBuyIconPress}>
-          {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
-          <Image source={actions[2].icon} style={styles.action} />
-          {/* </View> */}
-          <AppText bold style={{ overflow: 'hidden' }} centered>
-            {actions[2].name}
-          </AppText>
-        </TouchableOpacity>
-      )}
+
+      <TouchableOpacity style={[styles.actionContainer]} onPress={onChartIconPress}>
+        {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
+        <Icon name="chart-bar" color={colors.yellow} style={styles.action} />
+        {/* </View> */}
+        <AppText bold style={{ overflow: 'hidden' }} centered>
+          Charts
+        </AppText>
+      </TouchableOpacity>
+
       {/* ))} */}
     </View>
   );

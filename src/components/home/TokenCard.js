@@ -48,25 +48,27 @@ function TokenCard({ id, network, onPress }) {
         </View>
         <View>
           <View style={styles.row}>
-            <View style={{ flexBasis: '40%', flexGrow: 1 }}>
+            <View style={{ flexBasis: '30%', flexGrow: 1 }}>
               <AppText medium>{info.name} </AppText>
             </View>
-            <View style={{ flexBasis: '60%', flexGrow: 1 }}>
-              <AppText medium>
+            <View style={{ flexBasis: '10%', flex: 1 }}></View>
+            <View style={{ flexBasis: '20%', flexGrow: 1 }}>
+              <AppText small>
                 {' '}
                 {balance} {info.symbol}{' '}
               </AppText>
             </View>
           </View>
           <View style={styles.row}>
-            <View style={{ flexBasis: '20%', flexGrow: 1 }}>
-              <AppText grey>
+            <View style={{ flexBasis: '30%', flexGrow: 1 }}>
+              <AppText grey small>
                 {' '}
                 ${''}
-                {info.coinGeckoID && priceParsed[info.coinGeckoID].price}
+                {info.coinGeckoID && priceParsed[info.coinGeckoID].price.toFixed(5)}
               </AppText>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flexBasis: '80%', flexGrow: 1 }}>
+            <View style={{ flexBasis: '10%', flexGrow: 1 }}></View>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flexBasis: '40%', flexGrow: 1 }}>
               <View style={{ flexBasis: '90%', flexGrow: 1, flexDirection: 'row', justifyContent: 'center' }}>
                 <Icon
                   name={
@@ -84,6 +86,7 @@ function TokenCard({ id, network, onPress }) {
                 <AppText
                   green={info.coinGeckoID && priceParsed[info.coinGeckoID].rateType === 'INCREASE'}
                   red={!info.coinGeckoID || priceParsed[info.coinGeckoID].rateType === 'DECREASE'}
+                  small
                 >
                   {' '}
                   {info.coinGeckoID && priceParsed[info.coinGeckoID].percentageChange.toFixed(3)}
