@@ -2,14 +2,14 @@ import { Image, StyleSheet, View, TouchableOpacity, Linking } from 'react-native
 import React, { useEffect, useState } from 'react';
 import AppText from '../AppText';
 
-export default function TransactionDetailPopup({ selectedId, txns = [], explorer = 'http://google.com' }) {
+export default function TransactionDetailPopup({ selectedId, txns = [] }) {
   // transaction status
   // change to 'confirmed' to see the ui of a successful transaction
-  const status = 'confirmed';
+  const status = 'Confirmed';
   const [txn, setTxn] = useState({});
 
   useEffect(() => {
-    if (selectedId !== '0x') setTxn(txns.find(tx => tx.id === selectedId));
+    if (selectedId !== '0x') setTxn(txns.find(tx => tx.txId === selectedId));
   }, [selectedId]);
 
   return (
@@ -18,8 +18,8 @@ export default function TransactionDetailPopup({ selectedId, txns = [], explorer
         <Image
           source={
             status === 'Confirmed'
-              ? require('../../../assets/failed-icon.png')
-              : require('../../../assets/confirmed-icon.png')
+              ? require('../../../assets/confirmed-icon.png')
+              : require('../../../assets/failed-icon.png')
           }
         />
         <AppText bold> {status === 'failed' ? 'Failed' : 'Confirmed'}</AppText>
@@ -30,7 +30,7 @@ export default function TransactionDetailPopup({ selectedId, txns = [], explorer
           <AppText>{txn.amount}</AppText>
           <AppText>
             ${''}
-            {txn.price || 0}
+            {txn?.price?.toFixed(3) || 0}
           </AppText>
         </View>
       </View>
@@ -66,7 +66,7 @@ export default function TransactionDetailPopup({ selectedId, txns = [], explorer
       {status != 'failed' ? (
         <TouchableOpacity
           onPress={() => {
-            Linking.openURL(`${explorer}tx/${selectedId}`).then(console.log);
+            Linking.openURL(txn.explorerUrl).then(console.log);
           }}
           style={styles.cta}
         >

@@ -38,7 +38,7 @@ export const useAccountTxs = () => {
     try {
       _getActiveId().then(id => {
         _getAccountById(id).then(acc => {
-          fetchTransactions(acc.address)
+          fetchTransactions(acc.walletId)
             .then(transactions => setTxns(transactions))
             .catch(err => {
               console.log(err.message);

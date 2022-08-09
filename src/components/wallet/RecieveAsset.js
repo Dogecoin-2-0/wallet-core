@@ -1,6 +1,7 @@
 import { StyleSheet, View, Share } from 'react-native';
+import { formatEthAddress } from 'eth-address';
 import * as Clipboard from 'expo-clipboard';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SvgQRCode from 'react-native-qrcode-svg';
 import AppText from '../AppText';
 import AppButton from '../AppButton';
@@ -11,10 +12,10 @@ export default function RecieveAsset({ qrValue = '0x', address = '0x' }) {
   const [alertMessage, setAlertMessage] = useState('');
 
   const copyAddress = () => Clipboard.setString(address);
-  const openAlert = message => {
-    setAlertMessage(message);
-    setAlertDisplayed(true);
-  };
+  // const openAlert = message => {
+  //   setAlertMessage(message);
+  //   setAlertDisplayed(true);
+  // };
   const closeAlert = () => {
     setAlertDisplayed(false);
     setAlertMessage('');
@@ -25,11 +26,11 @@ export default function RecieveAsset({ qrValue = '0x', address = '0x' }) {
     });
   };
 
-  useEffect(() => {
-    return () => {
-      Clipboard.removeClipboardListener(subscription);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     Clipboard.removeClipboardListener(subscription);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -38,13 +39,7 @@ export default function RecieveAsset({ qrValue = '0x', address = '0x' }) {
         <AppText grey> Scan address to receive payment</AppText>
       </View>
       <View style={styles.row}>
-        <AppButton
-          title={(address.slice(0, 2) + '...' + address.slice(address.length - 8, address.length)).toLowerCase()}
-          outlined
-          half
-          icon="content-copy"
-          onPress={copyAddress}
-        />
+        <AppButton title={formatEthAddress(address)} outlined half icon="content-copy" onPress={copyAddress} />
         <AppButton title="Share" outlined half icon="share-variant" onPress={share} />
         <ReusableAlert close={closeAlert} isSuccessful={true} message={alertMessage} visible={alertDisplayed} />
       </View>

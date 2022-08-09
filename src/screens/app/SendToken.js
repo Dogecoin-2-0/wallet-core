@@ -4,6 +4,7 @@
 /* eslint-disable react/no-children-prop */
 import { StyleSheet, View } from 'react-native';
 import React, { useRef, useMemo, useCallback, useState, useEffect } from 'react';
+import { formatUnits } from '@ethersproject/units';
 import AppText from '../../components/AppText';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import ReusableAlert from '../../components/extras/ReusableAlert';
@@ -105,7 +106,7 @@ export default function SendToken({
   useEffect(() => {
     if (suggestedGasPrice && suggestedTip && gasLimit) {
       const fee = gasLimit * (suggestedGasPrice + suggestedTip);
-      setFee(fee / 10 ** 9);
+      setFee(parseFloat(formatUnits(fee.toString(), 'gwei')));
     }
   }, [suggestedGasPrice, suggestedTip, gasLimit]);
 
@@ -135,7 +136,7 @@ export default function SendToken({
         activeAccount.address,
         recipient,
         parseFloat(amountVal),
-        constants.BASE_GAS_LIMIT,
+        gasLimit,
         suggestedGasPrice + suggestedTip,
         activeAccount.pk
       );
@@ -146,7 +147,7 @@ export default function SendToken({
         id,
         recipient,
         parseFloat(amountVal),
-        constants.BASE_GAS_LIMIT,
+        gasLimit,
         suggestedGasPrice + suggestedTip,
         activeAccount.pk
       );

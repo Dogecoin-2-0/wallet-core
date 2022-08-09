@@ -10,5 +10,6 @@ export default {
   otherGray: '#FAFAFA',
   ghostWhite: '#F5F5F5',
   weirdBlack: '#0A0A0A',
-  weirdYellow: '#FFF8DA'
+  weirdYellow: '#FFF8DA',
+  weirdWhite: '#F2F2F2'
 };

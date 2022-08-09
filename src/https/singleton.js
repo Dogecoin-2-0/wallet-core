@@ -1,74 +1,119 @@
 /* eslint-disable no-undef */
 import { Transaction } from '@ethereumjs/tx';
 import Common, { Hardfork } from '@ethereumjs/common';
-import JSBI from 'jsbi';
+import { formatEther, formatUnits, parseEther, parseUnits } from '@ethersproject/units';
 import { hexToNumber, numberToHex } from '../utils';
 import { _encodeFunctionData, _getSigHash, _jsonRpcRequest } from './rpc';
-import abi from '../assets/ERC20ABI.json';
-import { chainIdMap } from '../constants/maps';
+import erc20Abi from '../assets/ERC20ABI.json';
+import transactionProxyAbi from '../assets/TransactionProxyABI.json';
+import { chainIdMap, transactionProxyContractsMap } from '../constants/maps';
 
 export default class Singleton {
   static getInstance() {
     return new Singleton();
   }
 
-  async getNativeBalance(network, address) {
-    const bal = await _jsonRpcRequest(network, 'eth_getBalance', [address, 'latest']);
-    const balance = hexToNumber(bal) / 10 ** 18;
-    return Promise.resolve(parseFloat(balance).toPrecision(2));
+  getNativeBalance(network, address) {
+    return new Promise((resolve, reject) => {
+      _jsonRpcRequest(network, 'eth_getBalance', [address, 'latest'])
+        .then(val => resolve(parseFloat(formatEther(val)).toFixed(3)))
+        .catch(reject);
+    });
   }
 
   async getTokenBalance(network, token, address) {
-    const decimalFunctionEncoded = _getSigHash(abi, 'decimals');
-    const res = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: decimalFunctionEncoded }, 'latest']);
-    const decimals = hexToNumber(res === '0x' ? '0x12' : res);
-    const balanceOfEncoded = _encodeFunctionData(abi, 'balanceOf', [address]);
+    const decimalFunctionEncoded = _getSigHash(erc20Abi, 'decimals');
+    const decimalsRes = await _jsonRpcRequest(network, 'eth_call', [
+      { to: token, data: decimalFunctionEncoded },
+      'latest'
+    ]);
+    const balanceOfEncoded = _encodeFunctionData(erc20Abi, 'balanceOf', [address]);
     const bal = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: balanceOfEncoded }, 'latest']);
-    const balance = hexToNumber(bal === '0x' ? '0x0' : bal) / 10 ** decimals;
-    return Promise.resolve(parseFloat(balance).toPrecision(2));
+    return parseFloat(formatUnits(bal, decimalsRes)).toFixed(3);
   }
 
   async createNativeTransaction(network, from, to, value, gasPrice, gasLimit, pk) {
     const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+
+    value = parseEther(value.toString()).toHexString();
+    gasLimit = numberToHex(gasLimit);
+    gasPrice = parseUnits(gasPrice.toString(), 'gwei').toHexString();
+
+    console.log(value, gasLimit);
+
+    const data = _encodeFunctionData(transactionProxyAbi, 'proxyTransferEther', [to]);
+
     return Transaction.fromTxData(
       {
-        to,
+        to: transactionProxyContractsMap[network],
         nonce,
-        value: numberToHex(value * 10 ** 18),
-        gasLimit: numberToHex(gasLimit),
-        gasPrice: numberToHex(gasPrice * 10 ** 9)
+        value,
+        gasLimit,
+        gasPrice,
+        data
       },
       { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
     ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
   }
 
   async createTokenTransaction(network, token, from, to, value, gasPrice, gasLimit, pk) {
-    const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
-    const decimalFunctionEncoded = _getSigHash(abi, 'decimals');
-    const res = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: decimalFunctionEncoded }, 'latest']);
-    const decimals = JSBI.toNumber(JSBI.BigInt(res));
-    const funcEncoded = _encodeFunctionData(abi, 'transfer', [to, value * 10 ** decimals]);
+    const nonce1 = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+    const decimalFunctionEncoded = _getSigHash(erc20Abi, 'decimals');
+    const decimalsRes = await _jsonRpcRequest(network, 'eth_call', [
+      { to: token, data: decimalFunctionEncoded },
+      'latest'
+    ]);
+
+    value = parseUnits(value.toString(), decimalsRes).toHexString();
+    gasLimit = numberToHex(gasLimit);
+    gasPrice = parseUnits(gasPrice.toString(), 'gwei').toHexString();
+
+    // Approval
+    const d = _encodeFunctionData(erc20Abi, 'approve', [transactionProxyContractsMap[network], value]);
+    const approvalT = Transaction.fromTxData(
+      {
+        nonce: nonce1,
+        to: token,
+        data: d
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
+
+    await this.broadcastTx(approvalT, network);
+
+    // Proxy transaction
+    const nonce2 = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+    const data = _encodeFunctionData(transactionProxyAbi, 'proxyTransferERC20', [token, to, value]);
     return Transaction.fromTxData(
       {
-        nonce,
-        to: token,
+        nonce: nonce2,
+        to: transactionProxyContractsMap[network],
         value: '0x0',
-        gasLimit: numberToHex(gasLimit),
-        gasPrice: numberToHex(gasPrice * 10 ** 9),
-        data: funcEncoded
+        gasLimit,
+        gasPrice,
+        data
       },
       { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
     ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
   }
 
-  async broadcastTx(transaction, network) {
+  broadcastTx(transaction, network) {
     const signedTxHex = `0x${transaction.serialize().toString('hex')}`;
-    return Promise.resolve(_jsonRpcRequest(network, 'eth_sendRawTransaction', [signedTxHex]));
+    return new Promise((resolve, reject) => {
+      _jsonRpcRequest(network, 'eth_sendRawTransaction', [signedTxHex])
+        .then(val => resolve(val))
+        .catch(reject);
+    });
   }
 
-  async getTxNonce(network, txHash) {
-    let { nonce } = await _jsonRpcRequest(network, 'eth_getTransactionByHash', [txHash]);
-    nonce = hexToNumber(nonce);
-    return Promise.resolve(nonce);
+  getTxNonce(network, txHash) {
+    return new Promise((resolve, reject) => {
+      _jsonRpcRequest(network, 'eth_getTransactionByHash', [txHash])
+        .then(({ nonce }) => {
+          const nonceAsNum = hexToNumber(nonce);
+          resolve(nonceAsNum);
+        })
+        .catch(reject);
+    });
   }
 }

@@ -27,7 +27,6 @@ import RevealSeedPhrase from './src/screens/onboarding/RevealSeedPhrase';
 import ConfirmSeedPhrase from './src/screens/onboarding/ConfirmSeedPhrase';
 import DoneWithSeedPhrase from './src/screens/onboarding/DoneWithSeedPhrase';
 import TokenDetails from './src/screens/app/TokenDetails';
-import { instantiateSocket } from './src/socket';
 import SendToken from './src/screens/app/SendToken';
 import Tabs from './src/routes/Tabs';
 import TransactionHistory from './src/screens/settings/TransactionHistory';
@@ -36,22 +35,25 @@ import GeneralSettings from './src/screens/settings/GeneralSettings';
 import ComingSoon from './src/screens/settings/ComingSoon';
 import Login from './src/screens/app/Login';
 import { AuthProvider, useAuth } from './src/contexts/auth';
+import { fetchPrices } from './src/utils';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 
 function InstantiatingComponent() {
   const dispatch = useDispatch();
-  const socket = instantiateSocket();
-
   const { isAuth } = useAuth();
 
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Socket connected: ', socket.id);
-    });
-    socket.on('price', data => {
-      dispatch(updatePrice(data));
-    });
+    (async () => {
+      const pricesImmediate = await fetchPrices();
+      console.log(pricesImmediate);
+      dispatch(updatePrice(JSON.stringify(pricesImmediate)));
+
+      setInterval(async () => {
+        const pricesInterval = await fetchPrices();
+        dispatch(updatePrice(JSON.stringify(pricesInterval)));
+      }, 60 * 60 * 1000);
+    })();
   }, []);
 
   return (

@@ -30,6 +30,8 @@ export default function Home({ navigation }) {
   const [list, setList] = useState([]);
   const [erc20TokensList, setERC20List] = useState([]);
   const [bep20TokenList, setBEP20List] = useState([]);
+  const [avaxTokenList, setAvaxTokenList] = useState([]);
+  const [maticTokenList, setMaticTokenList] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const { price } = useSelector(state => state.priceReducer);
@@ -67,10 +69,14 @@ export default function Home({ navigation }) {
           const l = await fetchChainList();
           const erc20L = await fetchTokensList('ethereum');
           const bep20L = await fetchTokensList('binance');
+          const avaxL = await fetchTokensList('avalanche');
+          const maticL = await fetchTokensList('polygon');
           const i = await fetchBlockchainInfo('binance');
           setList(l);
           setERC20List(erc20L);
           setBEP20List(bep20L);
+          setAvaxTokenList(avaxL);
+          setMaticTokenList(maticL);
           setInfo(i);
         } catch (error) {
           setAlertMessage(error.message);
@@ -84,6 +90,8 @@ export default function Home({ navigation }) {
         setList([]);
         setERC20List([]);
         setBEP20List([]);
+        setAvaxTokenList([]);
+        setMaticTokenList([]);
         BackHandler.removeEventListener('hardwareBackPress', backHandling);
       };
     }, [])
@@ -127,8 +135,8 @@ export default function Home({ navigation }) {
       </View>
       <TokenPrice
         price={priceParsed['binancecoin']?.price.toPrecision(5) || 0}
-        percentage={priceParsed['binancecoin']?._percentage.toPrecision(2) || 0}
-        type={priceParsed['binancecoin']?._type}
+        percentage={priceParsed['binancecoin']?.percentageChange.toPrecision(2) || 0}
+        type={priceParsed['binancecoin']?.rateType}
         balance={balance}
       />
       <Actions onSendIconPress={openSendModal} onRecieveIconPress={openReceiveModal} />
@@ -201,7 +209,7 @@ export default function Home({ navigation }) {
               title: 'Assets',
               component: (
                 <FlatList
-                  data={[...list, ...erc20TokensList, ...bep20TokenList]}
+                  data={[...list, ...erc20TokensList, ...bep20TokenList, ...avaxTokenList, ...maticTokenList]}
                   keyExtractor={item => item.id}
                   renderItem={({ item }) => (
                     <TokenCard

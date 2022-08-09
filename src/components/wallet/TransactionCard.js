@@ -11,14 +11,16 @@ export default function TransactionCard({ price, amount, date, type, status, onP
         <AppText grey> {date}</AppText>
         <View style={styles.row}>
           <View style={styles.row}>
-            <Image
-              source={
-                type === 'SENT'
-                  ? require('../../../assets/transactions/confirmed.png')
-                  : require('../../../assets/transactions/arrow-circle.png')
-              }
-              style={styles.icon}
-            />
+            <View>
+              <Image
+                source={
+                  type === 'SENT'
+                    ? require('../../../assets/transactions/confirmed.png')
+                    : require('../../../assets/transactions/arrow-circle.png')
+                }
+                style={styles.icon}
+              />
+            </View>
             <View>
               <AppText medium>{type === 'SENT' ? `SENT ${symbol}` : `Received ${symbol}`}</AppText>
               <AppText yellow={status === 'Pending'} green={status === 'Confirmed'} red={status === 'Failed'} bold>
@@ -27,8 +29,10 @@ export default function TransactionCard({ price, amount, date, type, status, onP
             </View>
           </View>
           <View>
-            <AppText medium>{amount}</AppText>
-            <AppText grey>${price}</AppText>
+            <AppText small>{amount}</AppText>
+            <AppText grey small>
+              ${price.toFixed(3)}
+            </AppText>
           </View>
         </View>
       </TouchableOpacity>
@@ -50,8 +54,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     justifyContent: 'center'
   }
 });
