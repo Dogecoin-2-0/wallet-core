@@ -16,26 +16,6 @@ export default function InnerSettings({ navigation }) {
       title: 'Security and Privacy',
       description: 'Currency conversion, primary currency, language and search engine ',
       link: 'comingSoon'
-    },
-    {
-      title: 'Advanced',
-      description: 'Currency conversion, primary currency, language and search engine ',
-      link: 'comingSoon'
-    },
-    {
-      title: 'Contacts',
-      description: 'Currency conversion, primary currency, language and search engine ',
-      link: 'comingSoon'
-    },
-    {
-      title: 'Networks',
-      description: 'Currency conversion, primary currency, language and search engine ',
-      link: 'comingSoon'
-    },
-    {
-      title: 'Experimental',
-      description: 'Currency conversion, primary currency, language and search engine ',
-      link: 'comingSoon'
     }
   ];
   return (

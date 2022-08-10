@@ -63,7 +63,7 @@ export default function PriceChartAndLegend({ info }) {
             { key: '1', title: '24hr' },
             { key: '7', title: '7d' },
             { key: '30', title: '30d' },
-            { key: '365', title: '365d' }
+            { key: '365', title: '1yr' }
           ],
           item => (
             <Pressable
@@ -78,7 +78,7 @@ export default function PriceChartAndLegend({ info }) {
               onPress={() => setTimeframe(item.key)}
               key={item.key}
             >
-              <AppText small bold>
+              <AppText small bold white={timeframe === item.key}>
                 {item.title}
               </AppText>
             </Pressable>
@@ -100,7 +100,15 @@ export default function PriceChartAndLegend({ info }) {
           </CandlestickChart>
         </CandlestickChart.Provider>
       </View>
-      <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingVertical: 6
+        }}
+      >
         <View
           style={{
             display: 'flex',
@@ -166,7 +174,7 @@ export default function PriceChartAndLegend({ info }) {
           <View style={{ flexGrow: 1 }}></View>
           <View>
             <AppText grey small>
-              ${marketCap}
+              $ {marketCap}
             </AppText>
           </View>
         </View>
