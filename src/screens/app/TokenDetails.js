@@ -3,6 +3,7 @@
 import { FlatList } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
 import TransactionCard from '../../components/wallet/TransactionCard';
@@ -82,32 +83,34 @@ export default function TokenDetails({ route, navigation }) {
     })();
   }, [activeAccount]);
 
-  useEffect(async () => {
-    try {
-      const mappedArr = await Promise.all(
-        txns
-          .filter(tx => {
-            if (route.params?.isToken) {
-              return (
-                tx.isERC20LikeSpec && tx.tokenAddress.toLowerCase() === route.params?.contractAddress.toLowerCase()
+  useEffect(() => {
+    (async () => {
+      try {
+        const mappedArr = await Promise.all(
+          txns
+            .filter(tx => {
+              if (route.params?.isToken) {
+                return (
+                  tx.isERC20LikeSpec && tx.tokenAddress.toLowerCase() === route.params?.contractAddress.toLowerCase()
+                );
+              } else {
+                return !tx.isERC20LikeSpec && tx.tokenName.toLowerCase().includes(route.params?.name.toLowerCase());
+              }
+            })
+            .map(tx => ({ ...tx, date: new Date(parseInt(tx.timeStamp)).toUTCString(), price: tx.amount * p }))
+            .map(async tx => {
+              const nonce = await Singleton.getInstance().getTxNonce(
+                route.params.network === 'self' ? route.params.id : route.params.network,
+                tx.txId
               );
-            } else {
-              return !tx.isERC20LikeSpec && tx.tokenName.toLowerCase().includes(route.params?.name.toLowerCase());
-            }
-          })
-          .map(tx => ({ ...tx, date: new Date(parseInt(tx.timeStamp)).toUTCString(), price: tx.amount * p }))
-          .map(async tx => {
-            const nonce = await Singleton.getInstance().getTxNonce(
-              route.params.network === 'self' ? route.params.id : route.params.network,
-              tx.txId
-            );
-            return { ...tx, nonce };
-          })
-      );
-      setMappedTxns(mappedArr);
-    } catch (error) {
-      console.log(error.message);
-    }
+              return { ...tx, nonce };
+            })
+        );
+        setMappedTxns(mappedArr);
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
     return () => {
       setMappedTxns([]);
     };
@@ -157,7 +160,7 @@ export default function TokenDetails({ route, navigation }) {
     );
   };
 
-  return (
+  const TokenDetailsGH = gestureHandlerRootHOC(() => (
     <PortalProvider>
       <ReusableBottomSheet
         height={550}
@@ -221,5 +224,6 @@ export default function TokenDetails({ route, navigation }) {
         />
       </Screen>
     </PortalProvider>
-  );
+  ));
+  return <TokenDetailsGH />;
 }

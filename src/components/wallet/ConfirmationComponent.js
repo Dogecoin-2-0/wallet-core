@@ -1,10 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 import AppText from '../AppText';
 import AccountCard from './AccountCard';
+import RadioButton from '../forms/RadioButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,8 +25,16 @@ export default function ConfirmationComponent({
   fee = '1.00',
   price = '1.00',
   onXPress,
-  onFeeEditPress
+  onFeeEditPress,
+  setIsLockedTx
 }) {
+  const showDateTimePicker = () => {
+    DateTimePickerAndroid.open({
+      mode: 'date',
+      value: new Date(Date.now())
+    });
+  };
+
   return (
     <View style={[styles.container]}>
       <View style={{ marginBottom: 16 }}>
@@ -191,6 +201,55 @@ export default function ConfirmationComponent({
               ${''}
               {((parseFloat(amount) + parseFloat(fee)) * parseFloat(price)).toPrecision(4)}
             </AppText>
+          </View>
+        </View>
+        <View
+          style={{
+            paddingHorizontal: 24,
+            paddingVertical: 0,
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+            marginBottom: 24
+          }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              display: 'flex',
+              width: '100%'
+            }}
+          >
+            <>
+              <AppText medium>Locked Until</AppText>
+            </>
+            <>
+              <AppText medium yellow>
+                Lock Transaction
+              </AppText>
+            </>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingHorizontal: 10,
+              display: 'flex',
+              width: '100%'
+            }}
+          >
+            <View style={{ flexBasis: '28%', flexGrow: 1 }}>
+              <Pressable onPress={showDateTimePicker}>
+                <AppText small>{Date.now()}</AppText>
+              </Pressable>
+            </View>
+            <View style={{ flexBasis: '33.3333%', flexGrow: 1 }} />
+            <View style={{ flexBasis: '38%', flexGrow: 1 }} />
+            <RadioButton onSelect={setIsLockedTx} selected={true} />
           </View>
         </View>
       </View>

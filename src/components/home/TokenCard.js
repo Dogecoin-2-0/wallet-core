@@ -20,24 +20,28 @@ function TokenCard({ id, network, onPress }) {
   const { price } = useSelector(state => state.priceReducer);
   const [priceParsed, setPriceParsed] = useState({});
 
-  useEffect(async () => {
-    try {
-      const i = network === 'self' ? await fetchBlockchainInfo(id) : await fetchTokenInfo(network, id);
-      setInfo(i);
-    } catch (error) {
-      setAlertMessage(error.message);
-      setAlertVisible(true);
-    }
+  useEffect(() => {
+    (async () => {
+      try {
+        const i = network === 'self' ? await fetchBlockchainInfo(id) : await fetchTokenInfo(network, id);
+        setInfo(i);
+      } catch (error) {
+        setAlertMessage(error.message);
+        setAlertVisible(true);
+      }
+    })();
   }, []);
 
   useEffect(() => {
     setPriceParsed(JSON.parse(price));
   }, [price]);
 
-  useEffect(async () => {
-    if (activeAccount) {
-      getBalance(network, id, activeAccount.address);
-    }
+  useEffect(() => {
+    (async () => {
+      if (activeAccount) {
+        getBalance(network, id, activeAccount.address);
+      }
+    })();
   }, [activeAccount]);
 
   return (

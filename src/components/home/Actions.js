@@ -1,14 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
 import AppText from '../AppText';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 
 export default function Actions({ onSendIconPress, onRecieveIconPress, onChartIconPress }) {
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       {/* {actions.map((action, index) => ( */}
       <TouchableOpacity style={[styles.actionContainer]} onPress={onSendIconPress}>
         {/* <View style={[styles.actionContainer, { backgroundColor: action.backgroundColor }]}> */}
@@ -37,7 +37,7 @@ export default function Actions({ onSendIconPress, onRecieveIconPress, onChartIc
       </TouchableOpacity>
 
       {/* ))} */}
-    </View>
+    </GestureHandlerRootView>
   );
 }
 

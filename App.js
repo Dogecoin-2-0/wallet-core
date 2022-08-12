@@ -2,6 +2,7 @@
 import './global';
 import 'react-native-get-random-values'; // This should be imported first to provide `crypto.getRandomValues` to components that depend on it
 import '@ethersproject/shims'; // Polyfill for ethers.js
+import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updatePrice } from './src/redux/priceSlice';
@@ -46,7 +47,6 @@ function InstantiatingComponent() {
   useEffect(() => {
     (async () => {
       const pricesImmediate = await fetchPrices();
-      console.log(pricesImmediate);
       dispatch(updatePrice(JSON.stringify(pricesImmediate)));
 
       setInterval(async () => {

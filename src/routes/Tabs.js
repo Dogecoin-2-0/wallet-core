@@ -41,6 +41,14 @@ export default function Tabs() {
         }}
       />
       <Tab.Screen
+        name="Swap"
+        component={InnerSettings}
+        options={{
+          tabBarLabel: 'Swap',
+          tabBarIcon: ({ color }) => <Icon name="swap-horizontal" color={color} size={24} />
+        }}
+      />
+      <Tab.Screen
         name="Settings"
         component={InnerSettings}
         options={{

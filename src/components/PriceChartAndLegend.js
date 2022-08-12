@@ -117,7 +117,7 @@ export default function PriceChartAndLegend({ info }) {
             paddingHorizontal: 7,
             paddingVertical: 7,
             borderTopColor: colors.weirdWhite,
-            borderWidth: 0.91
+            borderWidth: 0.5
           }}
         >
           <View>
@@ -140,7 +140,7 @@ export default function PriceChartAndLegend({ info }) {
             paddingHorizontal: 7,
             paddingVertical: 7,
             borderTopColor: colors.weirdWhite,
-            borderWidth: 0.91
+            borderWidth: 0.5
           }}
         >
           <View>
@@ -163,7 +163,7 @@ export default function PriceChartAndLegend({ info }) {
             paddingHorizontal: 7,
             paddingVertical: 7,
             borderTopColor: colors.weirdWhite,
-            borderTopWidth: 0.91
+            borderTopWidth: 0.5
           }}
         >
           <View>

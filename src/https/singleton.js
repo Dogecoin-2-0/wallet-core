@@ -22,14 +22,18 @@ export default class Singleton {
   }
 
   async getTokenBalance(network, token, address) {
-    const decimalFunctionEncoded = _getSigHash(erc20Abi, 'decimals');
-    const decimalsRes = await _jsonRpcRequest(network, 'eth_call', [
-      { to: token, data: decimalFunctionEncoded },
-      'latest'
-    ]);
-    const balanceOfEncoded = _encodeFunctionData(erc20Abi, 'balanceOf', [address]);
-    const bal = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: balanceOfEncoded }, 'latest']);
-    return parseFloat(formatUnits(bal, decimalsRes)).toFixed(3);
+    try {
+      const decimalFunctionEncoded = _getSigHash(erc20Abi, 'decimals');
+      const decimalsRes = await _jsonRpcRequest(network, 'eth_call', [
+        { to: token, data: decimalFunctionEncoded },
+        'latest'
+      ]);
+      const balanceOfEncoded = _encodeFunctionData(erc20Abi, 'balanceOf', [address]);
+      const bal = await _jsonRpcRequest(network, 'eth_call', [{ to: token, data: balanceOfEncoded }, 'latest']);
+      return parseFloat(formatUnits(bal, decimalsRes)).toFixed(3);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async createNativeTransaction(network, from, to, value, gasPrice, gasLimit, pk) {

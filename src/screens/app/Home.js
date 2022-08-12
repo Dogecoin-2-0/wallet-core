@@ -3,6 +3,7 @@
 import { Image, StyleSheet, View, TouchableOpacity, FlatList, BackHandler, Alert } from 'react-native';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
@@ -12,6 +13,7 @@ import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import ReusableAlert from '../../components/extras/ReusableAlert';
 import ReusableTabSwitch from '../../components/extras/ReusableTabSwitch';
+import PriceChartAndLegend from '../../components/PriceChartAndLegend';
 import SendToken from './SendToken';
 import RecieveAsset from '../../components/wallet/RecieveAsset';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
@@ -27,6 +29,7 @@ export default function Home({ navigation }) {
   const modalRef = useRef(null);
   const sendModalRef = useRef(null);
   const receiveModalRef = useRef(null);
+  const chartModalRef = useRef(null);
   const [list, setList] = useState([]);
   const [erc20TokensList, setERC20List] = useState([]);
   const [bep20TokenList, setBEP20List] = useState([]);
@@ -57,6 +60,10 @@ export default function Home({ navigation }) {
 
   const openReceiveModal = () => {
     receiveModalRef.current?.open();
+  };
+
+  const openChartModal = () => {
+    chartModalRef.current?.open();
   };
 
   useFocusEffect(
@@ -139,7 +146,11 @@ export default function Home({ navigation }) {
         type={priceParsed['binancecoin']?.rateType}
         balance={balance}
       />
-      <Actions onSendIconPress={openSendModal} onRecieveIconPress={openReceiveModal} />
+      <Actions
+        onSendIconPress={openSendModal}
+        onRecieveIconPress={openReceiveModal}
+        onChartIconPress={openChartModal}
+      />
     </>
   );
 
@@ -164,7 +175,7 @@ export default function Home({ navigation }) {
     );
   };
 
-  return (
+  const HomeGH = gestureHandlerRootHOC(() => (
     <PortalProvider>
       <StatusBar style="transluscent" />
       <ReusableBottomSheet
@@ -201,6 +212,12 @@ export default function Home({ navigation }) {
             address={activeAccount?.address ? activeAccount.address : '0x0'}
           />
         }
+      />
+      <ReusableBottomSheet
+        // height={520}
+        ratio={0.58}
+        modalRef={chartModalRef}
+        children={<PriceChartAndLegend info={info} />}
       />
       <Screen>
         <ReusableTabSwitch
@@ -247,7 +264,9 @@ export default function Home({ navigation }) {
         />
       </Screen>
     </PortalProvider>
-  );
+  ));
+
+  return <HomeGH />;
 }
 
 const styles = StyleSheet.create({
