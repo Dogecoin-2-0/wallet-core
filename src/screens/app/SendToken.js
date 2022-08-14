@@ -59,6 +59,9 @@ export default function SendToken({
   const [suggestedTip, setSuggestedTip] = useState(Math.floor(Math.random() * constants.MAX_SUGGESTED_TIP));
   const [gasLimit, setGasLimit] = useState(constants.BASE_GAS_LIMIT);
 
+  const [lockTime, setLockTime] = useState(new Date(Date.now()));
+  const [isLockedTx, setIsLockedTx] = useState(false);
+
   const barcodeBottomSheetModalRef = useRef(null);
   const barCodeSnapPoints = useMemo(() => ['100%', '100%'], []);
 
@@ -95,7 +98,13 @@ export default function SendToken({
     onConfirmationClose();
   });
 
-  const { transaction, createTransaction, createERC20LikeTransaction } = useTransaction();
+  const {
+    transaction,
+    createTransaction,
+    createERC20LikeTransaction,
+    createLockedTransaction,
+    createLockedERC20LikeTransaction
+  } = useTransaction();
 
   useEffect(() => {
     if (activeAccount) {
@@ -131,26 +140,53 @@ export default function SendToken({
 
   const createTx = () => {
     if (!isToken) {
-      createTransaction(
-        id,
-        activeAccount.address,
-        recipient,
-        parseFloat(amountVal),
-        gasLimit,
-        suggestedGasPrice + suggestedTip,
-        activeAccount.pk
-      );
+      if (isLockedTx) {
+        createLockedTransaction(
+          id,
+          activeAccount.address,
+          recipient,
+          parseFloat(amountVal),
+          Math.floor(lockTime.getTime() / 1000),
+          gasLimit,
+          suggestedGasPrice + suggestedTip,
+          activeAccount.pk
+        );
+      } else {
+        createTransaction(
+          id,
+          activeAccount.address,
+          recipient,
+          parseFloat(amountVal),
+          gasLimit,
+          suggestedGasPrice + suggestedTip,
+          activeAccount.pk
+        );
+      }
     } else {
-      createERC20LikeTransaction(
-        network,
-        activeAccount.address,
-        id,
-        recipient,
-        parseFloat(amountVal),
-        gasLimit,
-        suggestedGasPrice + suggestedTip,
-        activeAccount.pk
-      );
+      if (isLockedTx) {
+        createLockedERC20LikeTransaction(
+          network,
+          id,
+          activeAccount.address,
+          recipient,
+          parseFloat(amountVal),
+          Math.floor(lockTime.getTime() / 1000),
+          gasLimit,
+          suggestedGasPrice + suggestedTip,
+          activeAccount.pk
+        );
+      } else {
+        createERC20LikeTransaction(
+          network,
+          activeAccount.address,
+          id,
+          recipient,
+          parseFloat(amountVal),
+          gasLimit,
+          suggestedGasPrice + suggestedTip,
+          activeAccount.pk
+        );
+      }
     }
   };
 
@@ -196,6 +232,10 @@ export default function SendToken({
                 image={image}
                 fee={fee.toString()}
                 onFeeEditPress={onFeeEditButtonHandler}
+                lockTime={lockTime}
+                setIsLockedTx={() => setIsLockedTx(!isLockedTx)}
+                isLocked={isLockedTx}
+                setLockTime={setLockTime}
               />
               <View style={{ marginVertical: 3 }}>
                 <ReusableSpinner visible={loading} />

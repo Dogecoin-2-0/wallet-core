@@ -62,7 +62,31 @@ export const useTransaction = () => {
     [deps]
   );
 
-  return { transaction: tx, createTransaction, createERC20LikeTransaction };
+  const createLockedTransaction = useCallback(
+    (network, from, to, value, lockTime, gasLimit, gasPrice, pk) => {
+      Singleton.getInstance()
+        .createLockedNativeTransaction(network, from, to, value, lockTime, gasLimit, gasPrice, pk)
+        .then(transaction => setTx(transaction));
+    },
+    [deps]
+  );
+
+  const createLockedERC20LikeTransaction = useCallback(
+    (network, token, from, to, value, lockTime, gasLimit, gasPrice, pk) => {
+      Singleton.getInstance()
+        .createLockedTokenTransaction(network, token, from, to, value, lockTime, gasLimit, gasPrice, pk)
+        .then(transaction => setTx(transaction));
+    },
+    [deps]
+  );
+
+  return {
+    transaction: tx,
+    createTransaction,
+    createERC20LikeTransaction,
+    createLockedTransaction,
+    createLockedERC20LikeTransaction
+  };
 };
 
 export const useGasOracle = () => {

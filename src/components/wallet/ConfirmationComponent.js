@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import { StyleSheet, View, Pressable } from 'react-native';
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import React, { useState } from 'react';
+import { StyleSheet, View, Pressable, Platform } from 'react-native';
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { Icon } from '..';
 import colors from '../../constants/colors';
 import AppText from '../AppText';
@@ -26,13 +26,23 @@ export default function ConfirmationComponent({
   price = '1.00',
   onXPress,
   onFeeEditPress,
-  setIsLockedTx
+  setIsLockedTx,
+  isLocked = false,
+  lockTime = new Date(Date.now()),
+  setLockTime
 }) {
+  const [showDateTimePickerNonAndroid, setShowDateTimePickerNonAndroid] = useState(false);
   const showDateTimePicker = () => {
-    DateTimePickerAndroid.open({
-      mode: 'date',
-      value: new Date(Date.now())
-    });
+    if (Platform.OS === 'android') {
+      setShowDateTimePickerNonAndroid(false);
+      DateTimePickerAndroid.open({
+        mode: 'date',
+        value: lockTime,
+        onChange: (ev, date) => setLockTime(date)
+      });
+    } else {
+      setShowDateTimePickerNonAndroid(true);
+    }
   };
 
   return (
@@ -243,13 +253,27 @@ export default function ConfirmationComponent({
             }}
           >
             <View style={{ flexBasis: '28%', flexGrow: 1 }}>
-              <Pressable onPress={showDateTimePicker}>
-                <AppText small>{Date.now()}</AppText>
-              </Pressable>
+              {isLocked && (
+                <>
+                  <Pressable onPress={showDateTimePicker}>
+                    <AppText small>{lockTime.toLocaleString()}</AppText>
+                  </Pressable>
+                  {showDateTimePickerNonAndroid && (
+                    <DateTimePicker
+                      mode={Platform.OS === 'ios' ? 'datetime' : 'date'}
+                      onChange={(ev, date) => {
+                        setLockTime(date);
+                        setShowDateTimePickerNonAndroid(false);
+                      }}
+                      value={lockTime}
+                    />
+                  )}
+                </>
+              )}
             </View>
             <View style={{ flexBasis: '33.3333%', flexGrow: 1 }} />
             <View style={{ flexBasis: '38%', flexGrow: 1 }} />
-            <RadioButton onSelect={setIsLockedTx} selected={true} />
+            <RadioButton onSelect={setIsLockedTx} selected={isLocked} />
           </View>
         </View>
       </View>

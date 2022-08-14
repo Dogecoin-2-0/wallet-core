@@ -1,12 +1,12 @@
 import { Image, StyleSheet, View } from 'react-native';
 import React from 'react';
 import AppText from '../AppText';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, GestureHandlerRootView } from 'react-native-gesture-handler';
 import colors from '../../constants/colors';
 
 export default function TransactionCard({ price, amount, date, type, status, onPress, symbol = 'BNB' }) {
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <TouchableOpacity onPress={onPress}>
         <AppText grey> {date}</AppText>
         <View style={styles.row}>
@@ -36,7 +36,7 @@ export default function TransactionCard({ price, amount, date, type, status, onP
           </View>
         </View>
       </TouchableOpacity>
-    </View>
+    </GestureHandlerRootView>
   );
 }
 

@@ -32,3 +32,10 @@ export const transactionProxyContractsMap = {
   polygon: '0xD8b7e53036d9e454b2D350C2Fb6c7a3d7923b390',
   ethereum: '0x33888922465aE600E9Db751D90B74d220072B242'
 };
+
+export const timelockedSmartContractsMap = {
+  binance: '0x6278a3564d748e4c7308c5e3a69301eb7c26d3b4',
+  avalanche: '0x9CdC35e63C79c0e83f656929aD52CC9fc02EA3B4',
+  polygon: '0x7Ff2dc014305A0E0bb629b7C7ac96bA7eA5332b3',
+  ethereum: '0x122Ee522cD0aC0bc6c67e8C99b6153D6c898dafd'
+};

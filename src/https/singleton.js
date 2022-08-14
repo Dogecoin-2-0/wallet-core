@@ -6,7 +6,8 @@ import { hexToNumber, numberToHex } from '../utils';
 import { _encodeFunctionData, _getSigHash, _jsonRpcRequest } from './rpc';
 import erc20Abi from '../assets/ERC20ABI.json';
 import transactionProxyAbi from '../assets/TransactionProxyABI.json';
-import { chainIdMap, transactionProxyContractsMap } from '../constants/maps';
+import timelockedAbi from '../assets/TimelockABI.json';
+import { chainIdMap, timelockedSmartContractsMap, transactionProxyContractsMap } from '../constants/maps';
 
 export default class Singleton {
   static getInstance() {
@@ -60,6 +61,30 @@ export default class Singleton {
     ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
   }
 
+  async createLockedNativeTransaction(network, from, to, value, lockTime, gasLimit, gasPrice, pk) {
+    const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+
+    value = parseEther(value.toString()).toHexString();
+    gasLimit = numberToHex(gasLimit);
+    gasPrice = parseUnits(gasPrice.toString(), 'gwei').toHexString();
+
+    console.log(value, gasLimit);
+
+    const data = _encodeFunctionData(timelockedAbi, '_lockEtherForLater', [numberToHex(lockTime), to]);
+
+    return Transaction.fromTxData(
+      {
+        to: timelockedSmartContractsMap[network],
+        nonce,
+        value,
+        gasLimit,
+        gasPrice,
+        data
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
+  }
+
   async createTokenTransaction(network, token, from, to, value, gasPrice, gasLimit, pk) {
     const nonce1 = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
     const decimalFunctionEncoded = _getSigHash(erc20Abi, 'decimals');
@@ -99,6 +124,59 @@ export default class Singleton {
       },
       { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
     ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
+  }
+
+  async createLockedTokenTransaction(network, token, from, to, value, lockTime, gasLimit, gasPrice, pk) {
+    const nonce1 = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+    const decimalFunctionEncoded = _getSigHash(erc20Abi, 'decimals');
+    const decimalsRes = await _jsonRpcRequest(network, 'eth_call', [
+      { to: token, data: decimalFunctionEncoded },
+      'latest'
+    ]);
+
+    value = parseUnits(value.toString(), decimalsRes).toHexString();
+    gasLimit = numberToHex(gasLimit);
+    gasPrice = parseUnits(gasPrice.toString(), 'gwei').toHexString();
+
+    // Approval
+    const d = _encodeFunctionData(erc20Abi, 'approve', [timelockContractsMap[network], value]);
+    const approvalT = Transaction.fromTxData(
+      {
+        nonce: nonce1,
+        to: token,
+        data: d
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
+
+    await this.broadcastTx(approvalT, network);
+
+    // Calculate fee
+    const encodedFeeCalcFunc = _encodeFunctionData(timelockedAbi, '_calculateFee', [numberToHex(lockTime), value]);
+    const fee = await _jsonRpcRequest(network, 'eth_call', [
+      { to: timelockedSmartContractsMap[network], data: encodedFeeCalcFunc },
+      'latest'
+    ]);
+
+    // Locked transaction
+    const nonce2 = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+    const data = _encodeFunctionData(timelockedAbi, '_lockTokenForLater', [token, numberToHex(lockTime), to, value]);
+    return Transaction.fromTxData(
+      {
+        nonce: nonce2,
+        to: timelockedSmartContractsMap[network],
+        value: fee,
+        gasLimit,
+        gasPrice,
+        data
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
+  }
+
+  async processLockedTx(tx) {
+    const network = Object.keys(chainIdMap).find(key => chainIdMap[key] === hexToNumber(tx.chainId));
+    const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [tx.from, 'latest']);
   }
 
   broadcastTx(transaction, network) {
