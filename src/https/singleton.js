@@ -174,9 +174,56 @@ export default class Singleton {
     ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
   }
 
-  async processLockedTx(tx) {
+  async processLockedTx(tx, gasPrice = '71') {
     const network = Object.keys(chainIdMap).find(key => chainIdMap[key] === hexToNumber(tx.chainId));
     const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [tx.from, 'latest']);
+    const data = _encodeFunctionData(timelockedAbi, '_proceedWithTx', [tx.id]);
+    const gasLimit = await _jsonRpcRequest(network, 'eth_estimateGas', [
+      {
+        from: tx.from,
+        to: timelockedSmartContractsMap[network],
+        value: '0x0',
+        data,
+        nonce
+      },
+      'latest'
+    ]);
+
+    const transaction = Transaction.fromTxData({
+      to: timelockedSmartContractsMap[network],
+      nonce,
+      value: '0x0',
+      gasLimit,
+      gasPrice: parseUnits(gasPrice, 'gwei').toHexString(),
+      data
+    });
+    return Promise.resolve(this.broadcastTx(transaction, network));
+  }
+
+  async cancelLockedTx(tx, gasPrice = '71') {
+    const network = Object.keys(chainIdMap).find(key => chainIdMap[key] === hexToNumber(tx.chainId));
+    const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [tx.from, 'latest']);
+    const data = _encodeFunctionData(timelockedAbi, '_cancelTx', [tx.id]);
+    const gasLimit = await _jsonRpcRequest(network, 'eth_estimateGas', [
+      {
+        from: tx.from,
+        to: timelockedSmartContractsMap[network],
+        value: '0x0',
+        data,
+        nonce
+      },
+      'latest'
+    ]);
+
+    const transaction = Transaction.fromTxData({
+      to: timelockedSmartContractsMap[network],
+      nonce,
+      value: '0x0',
+      gasLimit,
+      gasPrice: parseUnits(gasPrice, 'gwei').toHexString(),
+      data
+    });
+    return Promise.resolve(this.broadcastTx(transaction, network));
   }
 
   broadcastTx(transaction, network) {

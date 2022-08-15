@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarnpkg add react-native-gesture-handler@~2.5.0
+  /usr/bin/node /usr/bin/yarn add @ethersproject/constant
 
 PATH: 
-  /home/kingsley/Code-Projects/doge2-wallet-core/node_modules/.bin:/home/kingsley/Code-Projects/node_modules/.bin:/home/kingsley/node_modules/.bin:/home/node_modules/.bin:/node_modules/.bin:/usr/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/home/kingsley/Code-Projects/doge2-wallet-core/node_modules/.bin:/home/kingsley/.sdkman/candidates/springboot/current/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 
 Yarn version: 
   1.22.18
@@ -14,7 +14,17 @@ Platform:
   linux x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/home/kingsley/Code-Projects/doge2-wallet-core/node_modules/.yarn-integrity'
+  Error: https://registry.yarnpkg.com/@ethersproject%2fconstant: Not found
+      at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66138:18)
+      at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:140883:22)
+      at Request.emit (node:events:527:28)
+      at Request.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141855:10)
+      at Request.emit (node:events:527:28)
+      at IncomingMessage.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141777:12)
+      at Object.onceWrapper (node:events:641:28)
+      at IncomingMessage.emit (node:events:539:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
 
 npm manifest: 
   {
@@ -42,6 +52,7 @@ npm manifest:
       "@gorhom/bottom-sheet": "^4.1.5",
       "@gorhom/portal": "^1.0.11",
       "@react-native-async-storage/async-storage": "~1.17.3",
+      "@react-native-community/datetimepicker": "6.2.0",
       "@react-native-cryptocurrencies/bip39": "^3.1.5",
       "@react-navigation/bottom-tabs": "^6.2.0",
       "@react-navigation/native": "^6.0.6",
@@ -2486,6 +2497,13 @@ Lockfile:
       minimist "^1.2.0"
       prompts "^2.4.0"
       semver "^6.3.0"
+  
+  "@react-native-community/datetimepicker@6.2.0":
+    version "6.2.0"
+    resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-6.2.0.tgz#50bc629e70e4030c48205c01efbc65a8f35d82d4"
+    integrity sha512-w1ZS+wYO3qSASliRp+B7mPphOhtVm++rhSbj1WsgXdgLgDXSkDxpMnAXXQu9M0XdcgBwVJ6wDExeIwuzU5Jtfg==
+    dependencies:
+      invariant "^2.2.4"
   
   "@react-native-cryptocurrencies/bip39@^3.1.5":
     version "3.1.5"
@@ -9040,7 +9058,7 @@ Lockfile:
   
   react-native-gesture-handler@~2.5.0:
     version "2.5.0"
-    resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.5.0.tgz"
+    resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.5.0.tgz#61385583570ed0a45a9ed142425e35f8fe8274fb"
     integrity sha512-djZdcprFf08PZC332D+AeG5wcGeAPhzfCJtB3otUgOgTlvjVXmg/SLFdPJSpzLBqkRAmrC77tM79QgKbuLxkfw==
     dependencies:
       "@egjs/hammerjs" "^2.0.17"

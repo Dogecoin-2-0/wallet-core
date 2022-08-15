@@ -88,6 +88,16 @@ export const fetchTransactions = id => {
   });
 };
 
+export const fetchLockedTransactions = id => {
+  return new Promise((resolve, reject) => {
+    processesClient
+      .get(`/locked_transactions/${id}`)
+      .then(res => res.data)
+      .then(({ result }) => resolve(result))
+      .catch(err => reject(new Error(err.response?.data?.error || err.message)));
+  });
+};
+
 export const callGasOracle = network => {
   return new Promise((resolve, reject) => {
     axios

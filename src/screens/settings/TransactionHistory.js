@@ -67,5 +67,3 @@ export default function TransactionHistory({ navigation }) {
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({});

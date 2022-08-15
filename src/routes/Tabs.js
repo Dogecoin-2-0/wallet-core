@@ -4,6 +4,7 @@ import colors from '../constants/colors';
 import Home from '../screens/app/Home';
 import { Icon } from '../components';
 import InnerSettings from '../screens/settings/InnerSettings';
+import LockedTransactions from '../screens/app/LockedTransactions';
 
 // import Home from '../screens/wallet/Home';
 
@@ -46,6 +47,14 @@ export default function Tabs() {
         options={{
           tabBarLabel: 'Swap',
           tabBarIcon: ({ color }) => <Icon name="swap-horizontal" color={color} size={24} />
+        }}
+      />
+      <Tab.Screen
+        name="Locked Transactions"
+        component={LockedTransactions}
+        options={{
+          tabBarLabel: 'Locked Txns',
+          tabBarIcon: ({ color }) => <Icon name="sort-variant-lock" color={color} size={24} />
         }}
       />
       <Tab.Screen

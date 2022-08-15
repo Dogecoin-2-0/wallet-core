@@ -210,8 +210,8 @@ export default function TokenDetails({ route, navigation }) {
           renderItem={({ item }) => (
             <TransactionCard
               onPress={() => {
-                setSelectedId(item.txId);
                 onOpen();
+                setSelectedId(item.txId);
               }}
               {...item}
               symbol={route.params?.symbol}

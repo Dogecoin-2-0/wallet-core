@@ -153,10 +153,12 @@ export default function ImportFromSeed() {
                   setSpinnerShown(true);
                   saveData(_wallet?.address)
                     .then(data => {
-                      _saveAccount(hashedPw, name, _wallet?.address, seedPhrase, _wallet?.privateKey).then(id => {
-                        signIn(id);
-                        console.log('Data from server: ', data);
-                      });
+                      _saveAccount(hashedPw, name, _wallet?.address, seedPhrase, _wallet?.privateKey, data.id).then(
+                        id => {
+                          signIn(id);
+                          console.log('Data from server: ', data);
+                        }
+                      );
                     })
                     .catch(err => {
                       setAlertMessage(err.message);
