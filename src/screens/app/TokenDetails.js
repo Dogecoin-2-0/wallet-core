@@ -3,7 +3,6 @@
 import { FlatList } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { PortalProvider } from '@gorhom/portal';
 import Screen from '../../components/Screen';
 import TransactionCard from '../../components/wallet/TransactionCard';
@@ -160,7 +159,7 @@ export default function TokenDetails({ route, navigation }) {
     );
   };
 
-  const TokenDetailsGH = gestureHandlerRootHOC(() => (
+  return (
     <PortalProvider>
       <ReusableBottomSheet
         height={550}
@@ -224,6 +223,5 @@ export default function TokenDetails({ route, navigation }) {
         />
       </Screen>
     </PortalProvider>
-  ));
-  return <TokenDetailsGH />;
+  );
 }

@@ -5,6 +5,7 @@ import '@ethersproject/shims'; // Polyfill for ethers.js
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { updatePrice } from './src/redux/priceSlice';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -62,28 +63,28 @@ function InstantiatingComponent() {
         <Group screenOptions={{ headerShown: false }}>
           {!isAuth ? (
             <>
-              <Screen name="walletSetup" component={WalletSetup} />
-              <Screen name="createWallet" component={CreateWallet} />
-              <Screen name="secureWallet" component={SecureWallet} />
-              <Screen name="seedScreenInfo" component={SeedScreenInfo} />
-              <Screen name="revealSeedPhrase" component={RevealSeedPhrase} />
-              <Screen name="confirmSeedPhrase" component={ConfirmSeedPhrase} />
-              <Screen name="onboardingDone" component={DoneWithSeedPhrase} />
+              <Screen name="walletSetup" component={gestureHandlerRootHOC(WalletSetup)} />
+              <Screen name="createWallet" component={gestureHandlerRootHOC(CreateWallet)} />
+              <Screen name="secureWallet" component={gestureHandlerRootHOC(SecureWallet)} />
+              <Screen name="seedScreenInfo" component={gestureHandlerRootHOC(SeedScreenInfo)} />
+              <Screen name="revealSeedPhrase" component={gestureHandlerRootHOC(RevealSeedPhrase)} />
+              <Screen name="confirmSeedPhrase" component={gestureHandlerRootHOC(ConfirmSeedPhrase)} />
+              <Screen name="onboardingDone" component={gestureHandlerRootHOC(DoneWithSeedPhrase)} />
             </>
           ) : (
             <>
               {/* Auth Routes */}
-              <Screen name="login" component={Login} />
+              <Screen name="login" component={gestureHandlerRootHOC(Login)} />
 
-              <Screen name="home" component={Tabs} />
-              <Screen name="tokenDetails" component={TokenDetails} />
-              <Screen name="sendToken" component={SendToken} />
+              <Screen name="home" component={gestureHandlerRootHOC(Tabs)} />
+              <Screen name="tokenDetails" component={gestureHandlerRootHOC(TokenDetails)} />
+              <Screen name="sendToken" component={gestureHandlerRootHOC(SendToken)} />
 
               {/* Settings */}
-              <Screen name="transactionHistory" component={TransactionHistory} />
-              <Screen name="innerSettings" component={InnerSettings} />
-              <Screen name="generalSettings" component={GeneralSettings} />
-              <Screen name="comingSoon" component={ComingSoon} />
+              <Screen name="transactionHistory" component={gestureHandlerRootHOC(TransactionHistory)} />
+              <Screen name="innerSettings" component={gestureHandlerRootHOC(InnerSettings)} />
+              <Screen name="generalSettings" component={gestureHandlerRootHOC(GeneralSettings)} />
+              <Screen name="comingSoon" component={gestureHandlerRootHOC(ComingSoon)} />
             </>
           )}
         </Group>

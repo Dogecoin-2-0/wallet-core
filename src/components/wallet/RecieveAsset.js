@@ -11,7 +11,7 @@ export default function RecieveAsset({ qrValue = '0x', address = '0x' }) {
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
-  const copyAddress = () => Clipboard.setString(address);
+  const copyAddress = () => Clipboard.setStringAsync(address);
   // const openAlert = message => {
   //   setAlertMessage(message);
   //   setAlertDisplayed(true);

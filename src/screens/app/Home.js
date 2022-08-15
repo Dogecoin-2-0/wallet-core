@@ -3,7 +3,6 @@
 import { Image, StyleSheet, View, TouchableOpacity, FlatList, BackHandler, Alert } from 'react-native';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import Screen from '../../components/Screen';
 import AppText from '../../components/AppText';
 import Icon from '../../components/Icon';
@@ -175,7 +174,7 @@ export default function Home({ navigation }) {
     );
   };
 
-  const HomeGH = gestureHandlerRootHOC(() => (
+  return (
     <PortalProvider>
       <StatusBar style="transluscent" />
       <ReusableBottomSheet
@@ -264,9 +263,7 @@ export default function Home({ navigation }) {
         />
       </Screen>
     </PortalProvider>
-  ));
-
-  return <HomeGH />;
+  );
 }
 
 const styles = StyleSheet.create({

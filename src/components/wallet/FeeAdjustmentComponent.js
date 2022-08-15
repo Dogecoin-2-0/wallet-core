@@ -8,7 +8,7 @@ import AppText from '../AppText';
 import ReusableTabSwitch from '../extras/ReusableTabSwitch';
 import RadioButton from '../forms/RadioButton';
 import * as constants from '../../constants';
-import { TextInput, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { TextInput } from 'react-native-gesture-handler';
 import AppButton from '../AppButton';
 
 export default function FeeAdjustmentComponent({ network, symbol, price, closeModal, tip, setGasPrice, setGasLimit }) {
@@ -119,9 +119,7 @@ export default function FeeAdjustmentComponent({ network, symbol, price, closeMo
     const [innerGasPrice, changeGasPrice] = useState(constants.MAX_SUGGESTED_GAS_PRICE);
     return (
       <>
-        <GestureHandlerRootView
-          style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', flex: 1 }}
-        >
+        <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
           <View
             style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 4 }}
           >
@@ -167,7 +165,7 @@ export default function FeeAdjustmentComponent({ network, symbol, price, closeMo
             }}
           />
           <View style={{ flex: 1 }} />
-        </GestureHandlerRootView>
+        </View>
       </>
     );
   };

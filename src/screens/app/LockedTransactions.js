@@ -7,11 +7,12 @@ import { AddressZero } from '@ethersproject/constants';
 import React, { useRef, useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import CountDown from 'react-native-countdown-component';
-import { gestureHandlerRootHOC, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import AppText from '../../components/AppText';
 import { Icon } from '../../components';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import ReusableSpinner from '../../components/extras/ReusableSpinner';
+import ReusableAlert from '../../components/extras/ReusableAlert';
 import Screen from '../../components/Screen';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import colors from '../../constants/colors';
@@ -20,6 +21,8 @@ import { fetchBlockchainInfo, fetchLockedTransactions } from '../../utils';
 import { chainIdMap } from '../../constants/maps';
 import erc20Abi from '../../assets/ERC20ABI.json';
 import { _jsonRpcRequest } from '../../https/rpc';
+import AppButton from '../../components/AppButton';
+import Singleton from '../../https/singleton';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,6 +45,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.ghostWhite,
     textAlign: 'center',
     alignItems: 'center'
+  },
+  cta: {
+    marginVertical: 30
   }
 });
 
@@ -50,6 +56,10 @@ export default function LockedTransactions({ navigation }) {
   const [txList, setTxList] = useState([]);
   const [selectedTx, setSelectedTx] = useState(null);
   const [now, setNow] = useState(Math.floor(Date.now() / 1000));
+  const [showAlert, setShowAlert] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const modalRef = useRef(null);
 
@@ -57,10 +67,52 @@ export default function LockedTransactions({ navigation }) {
     modalRef.current?.open();
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
+  const cancelTransaction = () => {
+    setIsLoading(true);
+    Singleton.getInstance()
+      .cancelLockedTx(selectedTx, activeAccount.pk)
+      .then(hash => {
+        modalRef.current?.close();
+        setIsLoading(false);
+        setIsSuccessful(true);
+        setMessage(`Transaction completed with hash: ${hash}`);
+        setShowAlert(true);
+        setTxList(txList.filter(tx => selectedTx.id !== tx.id));
+      })
+      .catch(err => {
+        modalRef.current?.close();
+        setIsLoading(false);
+        setIsSuccessful(false);
+        setMessage(err.message);
+        setShowAlert(true);
+      });
+  };
+
+  const proceedWithTransaction = () => {
+    setIsLoading(true);
+    Singleton.getInstance()
+      .processLockedTx(selectedTx, activeAccount.pk)
+      .then(hash => {
+        modalRef.current?.close();
+        setIsSuccessful(true);
+        setIsLoading(false);
+        setMessage(`Transaction completed with hash: ${hash}`);
+        setShowAlert(true);
+        setTxList(txList.filter(tx => selectedTx.id !== tx.id));
+      })
+      .catch(err => {
+        modalRef.current?.close();
+        setIsLoading(false);
+        setIsSuccessful(false);
+        setMessage(err.message);
+        setShowAlert(true);
+      });
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -108,7 +160,7 @@ export default function LockedTransactions({ navigation }) {
     );
   };
 
-  const LTGH = gestureHandlerRootHOC(() => (
+  return (
     <PortalProvider>
       <Screen>
         <TokenDetailHeader name="Locked Transactions" goBack={() => navigation.goBack()} />
@@ -117,66 +169,11 @@ export default function LockedTransactions({ navigation }) {
             data={txList}
             keyExtractor={item => item.id}
             ListEmptyComponent={renderEmpty}
-            ListFooterComponent={() => (
-              <>
-                <ReusableBottomSheet
-                  ratio={0.7}
-                  // height={}
-                  title="Locked Transaction Detail"
-                  modalRef={modalRef}
-                  children={
-                    <>
-                      {!!selectedTx && (
-                        <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-                          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Icon size={100} name="timer-outline" />
-                          </View>
-                          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <CountDown
-                              id={selectedTx.id}
-                              until={Math.floor(parseInt(selectedTx.lockTime) / 1000 - now)}
-                              digitStyle={{ backgroundColor: colors.lightSmoke }}
-                            />
-                          </View>
-                          <View style={styles.row}>
-                            <AppText> Amount</AppText>
-                            <View>
-                              <AppText>
-                                {selectedTx.amount} {selectedTx.symbol}
-                              </AppText>
-                            </View>
-                          </View>
-                          <View style={styles.row}>
-                            <AppText small grey>
-                              From
-                            </AppText>
-                            <AppText>{formatEthAddress(selectedTx.from)}</AppText>
-                          </View>
-                          <View style={styles.row}>
-                            <AppText small grey>
-                              To
-                            </AppText>
-                            <AppText>{formatEthAddress(selectedTx.to)}</AppText>
-                          </View>
-                          <View style={styles.row}>
-                            <AppText small grey>
-                              Date
-                            </AppText>
-                            <AppText>{selectedTx.createdAt}</AppText>
-                          </View>
-                        </View>
-                      )}
-                    </>
-                  }
-                />
-              </>
-            )}
             renderItem={({ item }) => (
               <View style={styles.container}>
                 <TouchableOpacity
                   onPress={() => {
                     setSelectedTx(item);
-                    setNow(Math.floor(Date.now() / 1000));
                     showInfoModal();
                   }}
                 >
@@ -210,8 +207,76 @@ export default function LockedTransactions({ navigation }) {
           />
         </View>
       </Screen>
+      <ReusableBottomSheet
+        ratio={0.9}
+        // height={}
+        title="Locked Transaction Detail"
+        modalRef={modalRef}
+        children={
+          <>
+            {!!selectedTx && (
+              <View style={{ flex: 1, justifyContent: 'space-between' }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Icon size={100} name="timer-outline" />
+                </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <CountDown
+                    id={selectedTx.id}
+                    until={Math.floor(parseInt(selectedTx.lockTime) / 1000 - now)}
+                    digitStyle={{ backgroundColor: colors.lightSmoke }}
+                  />
+                </View>
+                <View style={[styles.row, styles.container]}>
+                  <AppText> Amount</AppText>
+                  <View>
+                    <AppText>
+                      {selectedTx.amount} {selectedTx.symbol}
+                    </AppText>
+                  </View>
+                </View>
+                <View style={[styles.row, styles.container]}>
+                  <AppText small grey>
+                    From
+                  </AppText>
+                  <AppText>{formatEthAddress(selectedTx.from)}</AppText>
+                </View>
+                <View style={[styles.row, styles.container]}>
+                  <AppText small grey>
+                    To
+                  </AppText>
+                  <AppText>{formatEthAddress(selectedTx.to)}</AppText>
+                </View>
+                <View style={[styles.row, styles.container]}>
+                  <AppText small grey>
+                    Date
+                  </AppText>
+                  <AppText>{selectedTx.createdAt}</AppText>
+                </View>
+                <TouchableOpacity onPress={cancelTransaction} style={styles.cta}>
+                  <AppText underlined bold yellow centered>
+                    Cancel Transaction
+                  </AppText>
+                </TouchableOpacity>
+                <AppButton onPress={proceedWithTransaction} title="Proceed With Transaction" />
+                {isLoading && (
+                  <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <ReusableSpinner visible={isLoading} />
+                  </View>
+                )}
+              </View>
+            )}
+          </>
+        }
+      />
+      <ReusableAlert
+        isSuccessful={isSuccessful}
+        visible={showAlert}
+        message={message}
+        close={() => {
+          setShowAlert(false);
+          setMessage('');
+        }}
+      />
     </PortalProvider>
-  ));
-
-  return <LTGH />;
+  );
 }

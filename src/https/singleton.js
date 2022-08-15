@@ -174,7 +174,7 @@ export default class Singleton {
     ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
   }
 
-  async processLockedTx(tx, gasPrice = '71') {
+  async processLockedTx(tx, pk, gasPrice = '71') {
     const network = Object.keys(chainIdMap).find(key => chainIdMap[key] === hexToNumber(tx.chainId));
     const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [tx.from, 'latest']);
     const data = _encodeFunctionData(timelockedAbi, '_proceedWithTx', [tx.id]);
@@ -189,18 +189,21 @@ export default class Singleton {
       'latest'
     ]);
 
-    const transaction = Transaction.fromTxData({
-      to: timelockedSmartContractsMap[network],
-      nonce,
-      value: '0x0',
-      gasLimit,
-      gasPrice: parseUnits(gasPrice, 'gwei').toHexString(),
-      data
-    });
+    const transaction = Transaction.fromTxData(
+      {
+        to: timelockedSmartContractsMap[network],
+        nonce,
+        value: '0x0',
+        gasLimit,
+        gasPrice: parseUnits(gasPrice, 'gwei').toHexString(),
+        data
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
     return Promise.resolve(this.broadcastTx(transaction, network));
   }
 
-  async cancelLockedTx(tx, gasPrice = '71') {
+  async cancelLockedTx(tx, pk, gasPrice = '71') {
     const network = Object.keys(chainIdMap).find(key => chainIdMap[key] === hexToNumber(tx.chainId));
     const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [tx.from, 'latest']);
     const data = _encodeFunctionData(timelockedAbi, '_cancelTx', [tx.id]);
@@ -215,14 +218,17 @@ export default class Singleton {
       'latest'
     ]);
 
-    const transaction = Transaction.fromTxData({
-      to: timelockedSmartContractsMap[network],
-      nonce,
-      value: '0x0',
-      gasLimit,
-      gasPrice: parseUnits(gasPrice, 'gwei').toHexString(),
-      data
-    });
+    const transaction = Transaction.fromTxData(
+      {
+        to: timelockedSmartContractsMap[network],
+        nonce,
+        value: '0x0',
+        gasLimit,
+        gasPrice: parseUnits(gasPrice, 'gwei').toHexString(),
+        data
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
     return Promise.resolve(this.broadcastTx(transaction, network));
   }
 

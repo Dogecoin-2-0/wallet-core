@@ -128,7 +128,7 @@ export default function PriceChartAndLegend({ info }) {
           <View style={{ flexGrow: 1 }}></View>
           <View>
             <AppText grey small>
-              {info.website}
+              {info?.website}
             </AppText>
           </View>
         </View>
@@ -151,7 +151,7 @@ export default function PriceChartAndLegend({ info }) {
           <View style={{ flexGrow: 1 }}></View>
           <View>
             <AppText grey small>
-              {info.explorer}
+              {info?.explorer}
             </AppText>
           </View>
         </View>
