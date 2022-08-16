@@ -22,7 +22,7 @@ export default function TransactionCard({ price, amount, date, type, status, onP
               />
             </View>
             <View>
-              <AppText medium>{type === 'SENT' ? `SENT ${symbol}` : `Received ${symbol}`}</AppText>
+              <AppText medium>{type === 'SENT' ? `Sent ${symbol}` : `Received ${symbol}`}</AppText>
               <AppText yellow={status === 'Pending'} green={status === 'Confirmed'} red={status === 'Failed'} bold>
                 {status}
               </AppText>

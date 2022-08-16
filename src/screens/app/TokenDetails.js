@@ -96,7 +96,7 @@ export default function TokenDetails({ route, navigation }) {
                 return !tx.isERC20LikeSpec && tx.tokenName.toLowerCase().includes(route.params?.name.toLowerCase());
               }
             })
-            .map(tx => ({ ...tx, date: new Date(parseInt(tx.timeStamp)).toUTCString(), price: tx.amount * p }))
+            .map(tx => ({ ...tx, date: new Date(parseInt(tx.timeStamp)).toDateString(), price: tx.amount * p }))
             .map(async tx => {
               const nonce = await Singleton.getInstance().getTxNonce(
                 route.params.network === 'self' ? route.params.id : route.params.network,

@@ -21,7 +21,7 @@ export default function AccountCreator({ onProceedClick, onChangeText }) {
         <AppTextInput
           onChangeText={onChangeText}
           placeholder="Enter Account Name"
-          icon="face"
+          icon="face-man-profile"
           label="Enter Account Name"
         />
         <AppButton onPress={onProceedClick} title="Continue" />
