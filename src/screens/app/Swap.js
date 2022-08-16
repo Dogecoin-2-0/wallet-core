@@ -233,7 +233,7 @@ export default function Swap({ navigation }) {
                 </AppText>
               </View>
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setAmount1(selectedToken1.balance)}>
                   <AppText yellow small bold>
                     Use Max
                   </AppText>
