@@ -9,6 +9,7 @@ import { gasOraclesMap } from '../constants/maps';
 
 const assetsClient = axios.create({ baseURL: constants.ASSETS_ROOT });
 const processesClient = axios.create({ baseURL: constants.PROCESS_ROOT });
+const swapClient = axios.create({ baseURL: constants.SWAP_ROOT });
 
 (() => {
   bcrypt.setRandomFallback(len => {
@@ -122,6 +123,47 @@ export const fetchPrices = () => {
   return new Promise((resolve, reject) => {
     processesClient
       .get('/prices')
+      .then(res => res.data)
+      .then(({ result }) => resolve(result))
+      .catch(err => reject(new Error(err.response?.data?.error || err.message)));
+  });
+};
+
+export const fetchMinSwapAmount = (fromCurrency, toCurrency, fromNetwork, toNetwork) => {
+  return new Promise((resolve, reject) => {
+    swapClient
+      .get(
+        `/minimalExchangeAmount?fromCurrency=${fromCurrency}&toCurrency=${toCurrency}&fromNetwork=${fromNetwork}&toNetwork=${toNetwork}`
+      )
+      .then(res => res.data)
+      .then(({ result }) => resolve(result))
+      .catch(err => reject(new Error(err.response?.data?.error || err.message)));
+  });
+};
+
+export const fetchEstimatedExchangeAmount = (fromCurrency, toCurrency, fromNetwork, toNetwork, fromAmount) => {
+  return new Promise((resolve, reject) => {
+    swapClient
+      .get(
+        `/estimatedAmount?fromCurrency=${fromCurrency}&toCurrency=${toCurrency}&fromNetwork=${fromNetwork}&toNetwork=${toNetwork}&fromAmount=${fromAmount}`
+      )
+      .then(res => res.data)
+      .then(({ result }) => resolve(result))
+      .catch(err => reject(new Error(err.response?.data?.error || err.message)));
+  });
+};
+
+export const createSwap = (fromCurrency, toCurrency, fromNetwork, toNetwork, fromAAmount, address) => {
+  return new Promise((resolve, reject) => {
+    swapClient
+      .post('createExchange', {
+        fromCurrency,
+        toCurrency,
+        fromAAmount,
+        fromNetwork,
+        toNetwork,
+        address
+      })
       .then(res => res.data)
       .then(({ result }) => resolve(result))
       .catch(err => reject(new Error(err.response?.data?.error || err.message)));

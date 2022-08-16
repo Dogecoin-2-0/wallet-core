@@ -6,12 +6,24 @@ import { PortalProvider } from '@gorhom/portal';
 import { BottomSheetFlatList, BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import Screen from '../../components/Screen';
 import { Icon } from '../../components';
-import { fetchTokensList, fetchChainList, fetchBlockchainInfo, fetchTokenInfo } from '../../utils';
+import {
+  fetchTokensList,
+  fetchChainList,
+  fetchBlockchainInfo,
+  fetchTokenInfo,
+  fetchMinSwapAmount,
+  fetchEstimatedExchangeAmount,
+  createSwap
+} from '../../utils';
 import colors from '../../constants/colors';
 import Singleton from '../../https/singleton';
 import { useActiveAccount } from '../../hooks/accounts';
 import TokenDetailHeader from '../../components/wallet/TokenDetailHeader';
 import AppText from '../../components/AppText';
+import AppButton from '../../components/AppButton';
+import ReusableSpinner from '../../components/extras/ReusableSpinner';
+import ReusableAlert from '../../components/extras/ReusableAlert';
+import * as constants from '../../constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,16 +37,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 3
-  },
-  icon: {
-    marginRight: 10,
-    width: 30,
-    height: 30,
-    justifyContent: 'center',
-    borderRadius: 50,
-    backgroundColor: colors.ghostWhite,
-    textAlign: 'center',
-    alignItems: 'center'
   },
   cta: {
     marginVertical: 30,
@@ -62,11 +64,62 @@ export default function Swap({ navigation }) {
   const [amount1, setAmount1] = useState('0');
   const [amount2, setAmount2] = useState('0');
   const [tokenList, setTokenList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(true);
 
   const [minimumSwapAmount, setMinimumSwapAmount] = useState(0);
+  const [minimumExpectedSwapAmount, setMinimumExpectedSwapAmount] = useState(0);
 
   const token1ModalRef = useRef(null);
   const token2ModalRef = useRef(null);
+
+  const swap = async () => {
+    try {
+      setIsLoading(true);
+      const swapResponse = await createSwap(
+        selectedToken1.symbol,
+        selectedToken2.symbol,
+        selectedToken1.network,
+        selectedToken2.network,
+        amount1,
+        activeAccount.address
+      );
+      const swapProcess = selectedToken1.isToken
+        ? await Singleton.getInstance().createSimpleTokenTransaction(
+            selectedToken1.chainName,
+            selectedToken1.contractAddress,
+            activeAccount.address,
+            swapResponse.payinAddress,
+            parseFloat(amount1),
+            constants.MAX_SUGGESTED_GAS_PRICE + constants.MAX_SUGGESTED_TIP,
+            constants.BASE_GAS_LIMIT,
+            activeAccount.pk
+          )
+        : await Singleton.getInstance().createSimpleTransaction(
+            selectedToken1.chainName,
+            activeAccount.address,
+            swapResponse.payinAddress,
+            parseFloat(amount1),
+            constants.MAX_SUGGESTED_GAS_PRICE + constants.MAX_SUGGESTED_TIP,
+            constants.BASE_GAS_LIMIT,
+            activeAccount.pk
+          );
+      await Singleton.getInstance().broadcastTx(swapProcess, selectedToken1.chainName);
+      setIsLoading(false);
+      setIsSuccessful(true);
+      setMessage('Your exchange is processing');
+      setShowAlert(true);
+      setAmount1('0');
+      setAmount2('0');
+    } catch (error) {
+      setIsLoading(false);
+      setIsSuccessful(false);
+      setMessage(error.message);
+      setShowAlert(true);
+    }
+  };
 
   useEffect(() => {
     if (!!activeAccount || activeAccount !== null)
@@ -78,7 +131,7 @@ export default function Swap({ navigation }) {
             const balance = await Singleton.getInstance().getNativeBalance(item.id, activeAccount.address);
             return {
               symbol: info.symbol,
-              network: info.symbol.toLowerCase(),
+              network: info.symbol === 'AVAX' ? 'cchain' : info.symbol === 'BNB' ? 'bsc' : info.symbol, // For ChangeNow
               chainName: item.id,
               balance,
               name: info.name,
@@ -101,12 +154,12 @@ export default function Swap({ navigation }) {
                 console.log(error);
               }
               return {
+                ...info,
                 symbol: info.symbol,
                 network: res.network,
                 chainName: res.chainName,
                 balance,
-                name: info.name,
-                ...info
+                name: info.name
               };
             })
           );
@@ -120,6 +173,42 @@ export default function Swap({ navigation }) {
       })();
     return () => setTokenList([]);
   }, [activeAccount]);
+
+  useEffect(() => {
+    if (!!selectedToken1 && !!selectedToken2) {
+      fetchMinSwapAmount(selectedToken1.symbol, selectedToken2.symbol, selectedToken1.network, selectedToken2.network)
+        .then(res => setMinimumSwapAmount(res.minAmount))
+        .catch(console.log);
+    }
+  }, [selectedToken1, selectedToken2]);
+
+  useEffect(() => {
+    if (minimumSwapAmount > 0) {
+      fetchEstimatedExchangeAmount(
+        selectedToken1.symbol,
+        selectedToken2.symbol,
+        selectedToken1.network,
+        selectedToken2.network,
+        minimumSwapAmount
+      )
+        .then(res => setMinimumExpectedSwapAmount(res.toAmount))
+        .catch(console.log);
+    }
+  }, [minimumSwapAmount]);
+
+  useEffect(() => {
+    if (parseFloat(amount1) > 0) {
+      fetchEstimatedExchangeAmount(
+        selectedToken1.symbol,
+        selectedToken2.symbol,
+        selectedToken1.network,
+        selectedToken2.network,
+        amount1
+      )
+        .then(res => setAmount2(res.toAmount.toString()))
+        .catch(console.log);
+    }
+  }, [amount1]);
 
   return (
     <PortalProvider>
@@ -142,11 +231,22 @@ export default function Swap({ navigation }) {
               </View>
             </View>
             <View style={{ width: '100%' }}>
-              <TextInput style={{ padding: 12, fontSize: 18 }} keyboardType="number-pad" value={amount1} />
+              <TextInput
+                style={{ padding: 12, fontSize: 18 }}
+                keyboardType="number-pad"
+                value={amount1}
+                onChangeText={setAmount1}
+              />
             </View>
             <View style={styles.row}>
               <View>
-                <AppText small>$0.00</AppText>
+                <AppText small yellow>
+                  Min. swap amount:
+                </AppText>
+                {''}
+                <AppText small bold>
+                  {minimumSwapAmount} {selectedToken1?.symbol}
+                </AppText>
               </View>
               <View>
                 <TouchableOpacity style={styles.row} onPress={() => token1ModalRef.current?.present()}>
@@ -180,11 +280,22 @@ export default function Swap({ navigation }) {
               <View style={{ flex: 1 }} />
             </View>
             <View style={{ width: '100%' }}>
-              <TextInput style={{ padding: 12, fontSize: 18 }} keyboardType="number-pad" value={amount2} />
+              <TextInput
+                style={{ padding: 12, fontSize: 18 }}
+                keyboardType="number-pad"
+                value={amount2}
+                editable={false}
+              />
             </View>
             <View style={styles.row}>
               <View>
-                <AppText small>$0.00</AppText>
+                <AppText small yellow>
+                  Min. expected exchange amount:
+                </AppText>
+                {''}
+                <AppText small bold>
+                  {minimumExpectedSwapAmount} {selectedToken2?.symbol}
+                </AppText>
               </View>
               <View>
                 <TouchableOpacity style={styles.row} onPress={() => token2ModalRef.current?.present()}>
@@ -203,12 +314,21 @@ export default function Swap({ navigation }) {
               </View>
             </View>
           </View>
+          <View style={{ marginVertical: 20 }}>
+            <AppButton title="Swap" onPress={swap} />
+          </View>
+          {isLoading && (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <ReusableSpinner visible={isLoading} />
+            </View>
+          )}
         </View>
         <BottomSheetModalProvider>
           <BottomSheetModal
             style={{ paddingHorizontal: 3 }}
             ref={token1ModalRef}
             enablePanDownToClose
+            enableHandlePanningGesture
             snapPoints={['30%', '80%']}
             index={0}
           >
@@ -248,6 +368,7 @@ export default function Swap({ navigation }) {
             style={{ paddingHorizontal: 3 }}
             ref={token2ModalRef}
             enablePanDownToClose
+            enableHandlePanningGesture
             snapPoints={['30%', '80%']}
             index={0}
           >
@@ -283,6 +404,15 @@ export default function Swap({ navigation }) {
             </Screen>
           </BottomSheetModal>
         </BottomSheetModalProvider>
+        <ReusableAlert
+          isSuccessful={isSuccessful}
+          visible={showAlert}
+          message={message}
+          close={() => {
+            setShowAlert(false);
+            setMessage('');
+          }}
+        />
       </Screen>
     </PortalProvider>
   );

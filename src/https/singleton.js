@@ -37,6 +37,51 @@ export default class Singleton {
     }
   }
 
+  async createSimpleTransaction(network, from, to, value, gasPrice, gasLimit, pk) {
+    const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+
+    value = parseEther(value.toString()).toHexString();
+    gasLimit = numberToHex(gasLimit);
+    gasPrice = parseUnits(gasPrice.toString(), 'gwei').toHexString();
+
+    return Transaction.fromTxData(
+      {
+        to,
+        nonce,
+        value,
+        gasLimit,
+        gasPrice
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
+  }
+
+  async createSimpleTokenTransaction(network, token, from, to, value, gasPrice, gasLimit, pk) {
+    const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
+    const decimalFunctionEncoded = _getSigHash(erc20Abi, 'decimals');
+    const decimalsRes = await _jsonRpcRequest(network, 'eth_call', [
+      { to: token, data: decimalFunctionEncoded },
+      'latest'
+    ]);
+
+    value = parseUnits(value.toString(), decimalsRes).toHexString();
+    gasLimit = numberToHex(gasLimit);
+    gasPrice = parseUnits(gasPrice.toString(), 'gwei').toHexString();
+
+    const data = _encodeFunctionData(erc20Abi, 'transfer', [to, value]);
+    return Transaction.fromTxData(
+      {
+        nonce,
+        to: token,
+        value: '0x0',
+        gasLimit,
+        gasPrice,
+        data
+      },
+      { common: Common.custom({ chainId: chainIdMap[network], defaultHardfork: Hardfork.Istanbul }) }
+    ).sign(Buffer.from(pk.replace('0x', ''), 'hex'));
+  }
+
   async createNativeTransaction(network, from, to, value, gasPrice, gasLimit, pk) {
     const nonce = await _jsonRpcRequest(network, 'eth_getTransactionCount', [from, 'latest']);
 
