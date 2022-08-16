@@ -179,6 +179,16 @@ export default function Swap({ navigation }) {
       fetchMinSwapAmount(selectedToken1.symbol, selectedToken2.symbol, selectedToken1.network, selectedToken2.network)
         .then(res => setMinimumSwapAmount(res.minAmount))
         .catch(console.log);
+
+      fetchEstimatedExchangeAmount(
+        selectedToken1.symbol,
+        selectedToken2.symbol,
+        selectedToken1.network,
+        selectedToken2.network,
+        minimumSwapAmount
+      )
+        .then(res => setMinimumExpectedSwapAmount(res.toAmount))
+        .catch(console.log);
     }
   }, [selectedToken1, selectedToken2]);
 
