@@ -65,6 +65,9 @@ export default function Swap({ navigation }) {
 
   const [minimumSwapAmount, setMinimumSwapAmount] = useState(0);
 
+  const token1ModalRef = useRef(null);
+  const token2ModalRef = useRef(null);
+
   useEffect(() => {
     if (!!activeAccount || activeAccount !== null)
       (async () => {
@@ -146,7 +149,7 @@ export default function Swap({ navigation }) {
                 <AppText small>$0.00</AppText>
               </View>
               <View>
-                <TouchableOpacity style={styles.row}>
+                <TouchableOpacity style={styles.row} onPress={() => token1ModalRef.current?.present()}>
                   <View style={styles.avatar}>
                     <Image source={{ uri: selectedToken1?.image }} style={{ height: '100%', width: '100%' }} />
                   </View>
@@ -184,7 +187,7 @@ export default function Swap({ navigation }) {
                 <AppText small>$0.00</AppText>
               </View>
               <View>
-                <TouchableOpacity style={styles.row}>
+                <TouchableOpacity style={styles.row} onPress={() => token2ModalRef.current?.present()}>
                   <View style={styles.avatar}>
                     <Image source={{ uri: selectedToken2?.image }} style={{ height: '100%', width: '100%' }} />
                   </View>
@@ -201,6 +204,85 @@ export default function Swap({ navigation }) {
             </View>
           </View>
         </View>
+        <BottomSheetModalProvider>
+          <BottomSheetModal
+            style={{ paddingHorizontal: 3 }}
+            ref={token1ModalRef}
+            enablePanDownToClose
+            snapPoints={['30%', '80%']}
+            index={0}
+          >
+            <Screen>
+              <BottomSheetFlatList
+                data={tokenList}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    disabled={selectedToken2.name === item.name}
+                    style={styles.container}
+                    onPress={() => {
+                      setSelectedToken1(item);
+                      token1ModalRef.current?.close();
+                    }}
+                  >
+                    <View style={styles.row}>
+                      <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
+                        <View style={styles.avatar}>
+                          <Image source={{ uri: item.image }} style={{ height: '100%', width: '100%' }} />
+                        </View>
+                        <View style={{ paddingHorizontal: 4 }}>
+                          <AppText padded bold small grey={selectedToken1.name === item.name}>
+                            {item.name}
+                          </AppText>
+                        </View>
+                      </View>
+                      <View>{selectedToken1.name === item.name && <Icon name="check" color={colors.green} />}</View>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            </Screen>
+          </BottomSheetModal>
+
+          <BottomSheetModal
+            style={{ paddingHorizontal: 3 }}
+            ref={token2ModalRef}
+            enablePanDownToClose
+            snapPoints={['30%', '80%']}
+            index={0}
+          >
+            <Screen>
+              <BottomSheetFlatList
+                data={tokenList}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    disabled={selectedToken1.name === item.name}
+                    style={styles.container}
+                    onPress={() => {
+                      setSelectedToken2(item);
+                      token2ModalRef.current?.close();
+                    }}
+                  >
+                    <View style={styles.row}>
+                      <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
+                        <View style={styles.avatar}>
+                          <Image source={{ uri: item.image }} style={{ height: '100%', width: '100%' }} />
+                        </View>
+                        <View style={{ paddingHorizontal: 4 }}>
+                          <AppText padded bold small grey={selectedToken2.name === item.name}>
+                            {item.name}
+                          </AppText>
+                        </View>
+                      </View>
+                      <View>{selectedToken2.name === item.name && <Icon name="check" color={colors.green} />}</View>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            </Screen>
+          </BottomSheetModal>
+        </BottomSheetModalProvider>
       </Screen>
     </PortalProvider>
   );
