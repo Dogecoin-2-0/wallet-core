@@ -1,5 +1,5 @@
 export const assetProvidersMap = {
-  avalanche: 'https://rpc.ankr.com/avalanche_fuji',
+  avalanche: 'https://api.avax-test.network/ext/bc/C/rpc',
   binance: 'https://bsctestapi.terminet.io/rpc',
   ethereum: 'https://rpc.ankr.com/eth_ropsten',
   polygon: 'https://matic-mumbai.chainstacklabs.com'

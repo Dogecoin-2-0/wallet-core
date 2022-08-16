@@ -115,8 +115,8 @@ export default function LockedTransactions({ navigation }) {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      if (activeAccount) {
+    if (!!activeAccount || activeAccount !== null) {
+      (async () => {
         let res = await fetchLockedTransactions(activeAccount.walletId);
         res = await Promise.all(
           res.map(async item => {
@@ -135,8 +135,8 @@ export default function LockedTransactions({ navigation }) {
           })
         );
         setTxList(res);
-      }
-    })();
+      })();
+    }
   }, [activeAccount]);
 
   const renderEmpty = () => {

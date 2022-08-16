@@ -5,6 +5,7 @@ import Home from '../screens/app/Home';
 import { Icon } from '../components';
 import InnerSettings from '../screens/settings/InnerSettings';
 import LockedTransactions from '../screens/app/LockedTransactions';
+import Swap from '../screens/app/Swap';
 
 // import Home from '../screens/wallet/Home';
 
@@ -43,7 +44,7 @@ export default function Tabs() {
       />
       <Tab.Screen
         name="Swap"
-        component={InnerSettings}
+        component={Swap}
         options={{
           tabBarLabel: 'Swap',
           tabBarIcon: ({ color }) => <Icon name="swap-horizontal" color={color} size={24} />
