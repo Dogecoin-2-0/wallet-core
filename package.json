@@ -35,7 +35,7 @@
     "bip39": "^3.0.4",
     "eth-address": "^1.0.1",
     "ethers": "^5.5.2",
-    "expo": "^46.0.6",
+    "expo": "46.0.0",
     "expo-app-loading": "~2.1.0",
     "expo-barcode-scanner": "~11.4.0",
     "expo-blur": "~11.2.0",

@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-unused-styles */
 /* eslint-disable react/no-children-prop */
 /* eslint-disable react-native/no-inline-styles */
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Linking, Pressable } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import _ from 'lodash';
 import AppText from '../../components/AppText';
@@ -120,6 +120,18 @@ export default function ImportFromSeed() {
           </TouchableOpacity>
         </View> */}
           <ReusableSpinner visible={walletInitialized} />
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <AppText small>By proceeding, you agree to these</AppText>
+            <Pressable
+              onPress={() => {
+                Linking.openURL('https://www.dogecoin2.org/termsofservice/').then(console.log);
+              }}
+            >
+              <AppText underlined yellow small>
+                Terms Of Service
+              </AppText>
+            </Pressable>
+          </View>
           <AppButton
             disable={
               !pwMatch ||

@@ -28,15 +28,10 @@ export default function DoneWithSeedPhrase({ navigation }) {
           </AppText>
         </TouchableOpacity>
 
-        <AppText grey>Air cannot recover your wallet should you lose it. You can find your seedphrase in</AppText>
-        <AppText bold>{'Setting > Security & Privacy'}</AppText>
-
-        <TouchableOpacity style={styles.hintCta}>
-          <AppText underlined bold blue>
-            {' '}
-            Learn More
-          </AppText>
-        </TouchableOpacity>
+        <AppText grey>
+          The Dogecoin 2.0 Foundation cannot recover your wallet should you lose it. You can find your seedphrase in
+        </AppText>
+        <AppText bold>{'Settings'}</AppText>
       </View>
 
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', marginVertical: 10 }}>

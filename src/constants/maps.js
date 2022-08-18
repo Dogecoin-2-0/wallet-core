@@ -1,8 +1,8 @@
 export const assetProvidersMap = {
-  avalanche: 'https://api.avax-test.network/ext/bc/C/rpc',
-  binance: 'https://bsctestapi.terminet.io/rpc',
-  ethereum: 'https://rpc.ankr.com/eth_ropsten',
-  polygon: 'https://matic-mumbai.chainstacklabs.com'
+  avalanche: 'https://ava-mainnet.public.blastapi.io/ext/bc/C/rpc',
+  binance: 'https://bsc-dataseed2.defibit.io',
+  ethereum: 'https://eth-mainnet.public.blastapi.io',
+  polygon: 'https://rpc.ankr.com/polygon'
 };
 
 export const assetTxChainMap = {
@@ -13,10 +13,10 @@ export const assetTxChainMap = {
 };
 
 export const chainIdMap = {
-  binance: 97,
-  ethereum: 3,
-  avalanche: 43113,
-  polygon: 80001
+  binance: 56,
+  ethereum: 1,
+  avalanche: 43114,
+  polygon: 137
 };
 
 export const gasOraclesMap = {
@@ -27,15 +27,15 @@ export const gasOraclesMap = {
 };
 
 export const transactionProxyContractsMap = {
-  binance: '0x25072e9d140B184cd801aB7B97590e2205F643cb',
-  avalanche: '0x2A631765beBF4131471Ff02DE98203A1D48F2ba3',
-  polygon: '0xD8b7e53036d9e454b2D350C2Fb6c7a3d7923b390',
-  ethereum: '0x33888922465aE600E9Db751D90B74d220072B242'
+  binance: '0x24e414318aBd7FA5407c7372a60f238fD65B9AF4',
+  avalanche: '0x6269b4705FCdBAbF81D4636e33c2100f757A05ac',
+  polygon: '0xfbAE861cbDFBB11AC0bC64c27AE7fEd3f99B8737',
+  ethereum: '0x6269b4705FCdBAbF81D4636e33c2100f757A05ac'
 };
 
 export const timelockedSmartContractsMap = {
-  binance: '0x6278a3564d748e4c7308c5e3a69301eb7c26d3b4',
-  avalanche: '0x9CdC35e63C79c0e83f656929aD52CC9fc02EA3B4',
-  polygon: '0x7Ff2dc014305A0E0bb629b7C7ac96bA7eA5332b3',
-  ethereum: '0x122Ee522cD0aC0bc6c67e8C99b6153D6c898dafd'
+  binance: '0x1853acb5d771cBfAd3db55C65385F03F2471d9aC',
+  avalanche: '0x7cA0Af2CBdD6bBBf288b47BdD8ef834A39588074',
+  polygon: '0x18e3aaa26d0472DC9136C88524437861B72671Dd',
+  ethereum: '0x7cA0Af2CBdD6bBBf288b47BdD8ef834A39588074'
 };
