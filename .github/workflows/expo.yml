@@ -18,5 +18,7 @@ jobs:
           expo-version: 4.x
           expo-cache: true
           token: ${{ secrets.EXPO_TOKEN }}
+      - run: npm install --location=global eas-cli
       - run: yarn install
-      - run: expo build:android -t apk
+      - run: eas build:configure
+      - run: eas build -p android --profile preview
