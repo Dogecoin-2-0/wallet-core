@@ -1,6 +1,7 @@
 import { Image, StyleSheet, View, TouchableOpacity, Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AppText from '../AppText';
+import colors from '../../constants/colors';
 
 export default function TransactionDetailPopup({ selectedId, txns = [] }) {
   // transaction status
@@ -24,7 +25,7 @@ export default function TransactionDetailPopup({ selectedId, txns = [] }) {
         />
         <AppText bold> {status === 'failed' ? 'Failed' : 'Confirmed'}</AppText>
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.container]}>
         <AppText> Amount</AppText>
         <View>
           <AppText>{txn.amount}</AppText>
@@ -34,7 +35,7 @@ export default function TransactionDetailPopup({ selectedId, txns = [] }) {
           </AppText>
         </View>
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.container]}>
         <AppText small grey>
           From
         </AppText>
@@ -42,7 +43,7 @@ export default function TransactionDetailPopup({ selectedId, txns = [] }) {
           {(txn.from?.slice(0, 8) + '...' + txn.from?.slice(txn.from?.length - 11, txn.from?.length)).toLowerCase()}
         </AppText>
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.container]}>
         <AppText small grey>
           To
         </AppText>
@@ -50,13 +51,13 @@ export default function TransactionDetailPopup({ selectedId, txns = [] }) {
           {(txn.to?.slice(0, 8) + '...' + txn.to?.slice(txn.to?.length - 11, txn.to?.length)).toLowerCase()}
         </AppText>
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.container]}>
         <AppText small grey>
           Date
         </AppText>
         <AppText>{txn.date}</AppText>
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.container]}>
         <AppText small grey>
           Nonce
         </AppText>
@@ -75,7 +76,7 @@ export default function TransactionDetailPopup({ selectedId, txns = [] }) {
           </AppText>
         </TouchableOpacity>
       ) : (
-        <View style={styles.row}>
+        <View style={[styles.row, styles.container]}>
           <AppText>Total Amount</AppText>
           <View>
             <AppText bold>{txn.amount}</AppText>
@@ -91,14 +92,20 @@ export default function TransactionDetailPopup({ selectedId, txns = [] }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.white,
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 10
+  },
   status: {
     alignItems: 'center'
     // justifyContent: 'center'
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
 
   cta: {

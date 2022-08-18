@@ -12,6 +12,7 @@ import { PortalProvider } from '@gorhom/portal';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
 import ReusableAlert from '../../components/extras/ReusableAlert';
 import ReusableTabSwitch from '../../components/extras/ReusableTabSwitch';
+import PriceChartAndLegend from '../../components/PriceChartAndLegend';
 import SendToken from './SendToken';
 import RecieveAsset from '../../components/wallet/RecieveAsset';
 import AccountSwitcher from '../../components/home/AccountSwitcher';
@@ -27,6 +28,7 @@ export default function Home({ navigation }) {
   const modalRef = useRef(null);
   const sendModalRef = useRef(null);
   const receiveModalRef = useRef(null);
+  const chartModalRef = useRef(null);
   const [list, setList] = useState([]);
   const [erc20TokensList, setERC20List] = useState([]);
   const [bep20TokenList, setBEP20List] = useState([]);
@@ -41,10 +43,7 @@ export default function Home({ navigation }) {
   const activeAccount = useActiveAccount();
 
   useEffect(() => {
-    Alert.alert(
-      'Important Warning',
-      'DOGE2 DeFi Wallet is currently in Beta and using Testnet. Please do not send any Mainnet coins or tokens. Any Mainnet coins or tokens will be lost and not recoverable'
-    );
+    Alert.alert('Important Warning', 'DOGE2 DeFi wallet is currently in beta stage. Please use wisely!');
   }, []);
 
   const onOpen = () => {
@@ -57,6 +56,10 @@ export default function Home({ navigation }) {
 
   const openReceiveModal = () => {
     receiveModalRef.current?.open();
+  };
+
+  const openChartModal = () => {
+    chartModalRef.current?.open();
   };
 
   useFocusEffect(
@@ -87,11 +90,11 @@ export default function Home({ navigation }) {
       fetchItems();
 
       return () => {
-        setList([]);
-        setERC20List([]);
-        setBEP20List([]);
-        setAvaxTokenList([]);
-        setMaticTokenList([]);
+        // setList([]);
+        // setERC20List([]);
+        // setBEP20List([]);
+        // setAvaxTokenList([]);
+        // setMaticTokenList([]);
         BackHandler.removeEventListener('hardwareBackPress', backHandling);
       };
     }, [])
@@ -139,7 +142,11 @@ export default function Home({ navigation }) {
         type={priceParsed['binancecoin']?.rateType}
         balance={balance}
       />
-      <Actions onSendIconPress={openSendModal} onRecieveIconPress={openReceiveModal} />
+      <Actions
+        onSendIconPress={openSendModal}
+        onRecieveIconPress={openReceiveModal}
+        onChartIconPress={openChartModal}
+      />
     </>
   );
 
@@ -201,6 +208,12 @@ export default function Home({ navigation }) {
             address={activeAccount?.address ? activeAccount.address : '0x0'}
           />
         }
+      />
+      <ReusableBottomSheet
+        // height={520}
+        ratio={0.58}
+        modalRef={chartModalRef}
+        children={<PriceChartAndLegend info={info} />}
       />
       <Screen>
         <ReusableTabSwitch

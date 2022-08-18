@@ -27,7 +27,7 @@ export default function TransactionSuccessfulComponent({ explorer, hash, recipie
         }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-          <Icon size={100} name="file-check-outline" color={colors.green} style={{ marginVertical: 10 }} />
+          <Icon size={100} name="check-circle-outline" color={colors.green} style={{ marginVertical: 10 }} />
         </View>
         <View
           style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3 }}

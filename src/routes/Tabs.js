@@ -3,9 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../constants/colors';
 import Home from '../screens/app/Home';
 import { Icon } from '../components';
-import Settings from '../screens/settings/Settings';
-import TransactionHistory from '../screens/settings/TransactionHistory';
-import ScanBarcode from '../screens/app/ScanBarcode';
+import LockedTransactions from '../screens/app/LockedTransactions';
+import Swap from '../screens/app/Swap';
+import ExportSeed from '../screens/settings/ExportSeed';
+
 // import Home from '../screens/wallet/Home';
 
 const Tab = createBottomTabNavigator();
@@ -42,8 +43,24 @@ export default function Tabs() {
         }}
       />
       <Tab.Screen
+        name="Swap"
+        component={Swap}
+        options={{
+          tabBarLabel: 'Swap',
+          tabBarIcon: ({ color }) => <Icon name="swap-horizontal" color={color} size={24} />
+        }}
+      />
+      <Tab.Screen
+        name="Locked Transactions"
+        component={LockedTransactions}
+        options={{
+          tabBarLabel: 'Locked Txns',
+          tabBarIcon: ({ color }) => <Icon name="sort-variant-lock" color={color} size={24} />
+        }}
+      />
+      <Tab.Screen
         name="Settings"
-        component={Settings}
+        component={ExportSeed}
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({ color }) => <Icon name="cog-outline" color={color} size={24} />

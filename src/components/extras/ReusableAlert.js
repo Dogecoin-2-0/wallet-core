@@ -8,7 +8,7 @@ import colors from '../../constants/colors';
 import AppText from '../AppText';
 import AppButton from '../AppButton';
 
-const Alert = ({ visible, isSuccessful, message, close }) => {
+const ReusableAlert = ({ visible, isSuccessful, message, close }) => {
   return (
     <FancyAlert
       visible={visible}
@@ -36,11 +36,11 @@ const Alert = ({ visible, isSuccessful, message, close }) => {
   );
 };
 
-Alert.propTypes = {
+ReusableAlert.propTypes = {
   visible: PropTypes.bool.isRequired,
   isSuccessful: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
   close: PropTypes.func
 };
 
-export default Alert;
+export default ReusableAlert;

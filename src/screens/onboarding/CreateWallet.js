@@ -47,7 +47,7 @@ export default function CreateWallet({ navigation }) {
   }, [confirmPassword, password]);
 
   useEffect(() => {
-    Alert.alert('Warning', "If you forget your password you won't be able to test beta release until further notice.");
+    Alert.alert('Warning', "If you forget your password you won't be able to use the app.");
   }, []);
 
   return (

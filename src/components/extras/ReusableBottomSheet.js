@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     // height: modalHeight,
-    paddingHorizontal: 0,
+    paddingHorizontal: 8,
     paddingVertical: 32
   }
 });

@@ -82,32 +82,34 @@ export default function TokenDetails({ route, navigation }) {
     })();
   }, [activeAccount]);
 
-  useEffect(async () => {
-    try {
-      const mappedArr = await Promise.all(
-        txns
-          .filter(tx => {
-            if (route.params?.isToken) {
-              return (
-                tx.isERC20LikeSpec && tx.tokenAddress.toLowerCase() === route.params?.contractAddress.toLowerCase()
+  useEffect(() => {
+    (async () => {
+      try {
+        const mappedArr = await Promise.all(
+          txns
+            .filter(tx => {
+              if (route.params?.isToken) {
+                return (
+                  tx.isERC20LikeSpec && tx.tokenAddress.toLowerCase() === route.params?.contractAddress.toLowerCase()
+                );
+              } else {
+                return !tx.isERC20LikeSpec && tx.tokenName.toLowerCase().includes(route.params?.name.toLowerCase());
+              }
+            })
+            .map(tx => ({ ...tx, date: new Date(parseInt(tx.timeStamp)).toDateString(), price: tx.amount * p }))
+            .map(async tx => {
+              const nonce = await Singleton.getInstance().getTxNonce(
+                route.params.network === 'self' ? route.params.id : route.params.network,
+                tx.txId
               );
-            } else {
-              return !tx.isERC20LikeSpec && tx.tokenName.toLowerCase().includes(route.params?.name.toLowerCase());
-            }
-          })
-          .map(tx => ({ ...tx, date: new Date(parseInt(tx.timeStamp)).toUTCString(), price: tx.amount * p }))
-          .map(async tx => {
-            const nonce = await Singleton.getInstance().getTxNonce(
-              route.params.network === 'self' ? route.params.id : route.params.network,
-              tx.txId
-            );
-            return { ...tx, nonce };
-          })
-      );
-      setMappedTxns(mappedArr);
-    } catch (error) {
-      console.log(error.message);
-    }
+              return { ...tx, nonce };
+            })
+        );
+        setMappedTxns(mappedArr);
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
     return () => {
       setMappedTxns([]);
     };
@@ -207,8 +209,8 @@ export default function TokenDetails({ route, navigation }) {
           renderItem={({ item }) => (
             <TransactionCard
               onPress={() => {
-                setSelectedId(item.txId);
                 onOpen();
+                setSelectedId(item.txId);
               }}
               {...item}
               symbol={route.params?.symbol}
