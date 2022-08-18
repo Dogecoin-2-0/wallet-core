@@ -43,10 +43,7 @@ export default function Home({ navigation }) {
   const activeAccount = useActiveAccount();
 
   useEffect(() => {
-    Alert.alert(
-      'Important Warning',
-      'DOGE2 DeFi Wallet is currently in Beta and using Testnet. Please do not send any Mainnet coins or tokens. Any Mainnet coins or tokens will be lost and not recoverable'
-    );
+    Alert.alert('Important Warning', 'DOGE2 DeFi wallet is currently in beta stage. Please use wisely!');
   }, []);
 
   const onOpen = () => {
@@ -93,11 +90,11 @@ export default function Home({ navigation }) {
       fetchItems();
 
       return () => {
-        setList([]);
-        setERC20List([]);
-        setBEP20List([]);
-        setAvaxTokenList([]);
-        setMaticTokenList([]);
+        // setList([]);
+        // setERC20List([]);
+        // setBEP20List([]);
+        // setAvaxTokenList([]);
+        // setMaticTokenList([]);
         BackHandler.removeEventListener('hardwareBackPress', backHandling);
       };
     }, [])

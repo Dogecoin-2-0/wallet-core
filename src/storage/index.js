@@ -109,3 +109,25 @@ export const _getRecentTx = () => {
       .catch(reject);
   });
 };
+
+export const _updatePw = (id, newPw) => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem('accounts')
+      .then(accounts => {
+        if (accounts) {
+          const allAccounts = JSON.parse(accounts);
+          const accountFound = allAccounts.find(acc => acc.id === id);
+          const update = { ...accountFound, pw: newPw };
+          allAccounts.splice(
+            allAccounts.findIndex(acc => acc.id === id),
+            1,
+            update
+          );
+          AsyncStorage.setItem('accounts', JSON.stringify(allAccounts))
+            .then(() => resolve())
+            .catch(reject);
+        }
+      })
+      .catch(reject);
+  });
+};
