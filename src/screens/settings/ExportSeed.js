@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { PortalProvider } from '@gorhom/portal';
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, Linking } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Clipboard from 'expo-clipboard';
 import * as ScreenCapture from 'expo-screen-capture';
@@ -154,6 +154,26 @@ export default function ExportSeed({ navigation }) {
           </View>
           <View>
             <AppButton disable={!oldPwMatch || !newPwMatch} title="Change" onPress={changePw} />
+          </View>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity
+              onPress={() => {
+                Linking.openURL('https://www.dogecoin2.org/privacypolicy/').then(console.log);
+              }}
+            >
+              <AppText underlined yellow>
+                Privacy Policy
+              </AppText>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                Linking.openURL('https://www.dogecoin2.org/termsofservice/').then(console.log);
+              }}
+            >
+              <AppText underlined yellow>
+                Terms Of Service
+              </AppText>
+            </TouchableOpacity>
           </View>
         </View>
         <ReusableAlert
