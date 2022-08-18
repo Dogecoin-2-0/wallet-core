@@ -4,10 +4,11 @@ import { PortalProvider } from '@gorhom/portal';
 import { formatEthAddress } from 'eth-address';
 import { Interface } from '@ethersproject/abi';
 import { AddressZero } from '@ethersproject/constants';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { useFocusEffect } from '@react-navigation/native';
 import AppText from '../../components/AppText';
 import { Icon } from '../../components';
 import ReusableBottomSheet from '../../components/extras/ReusableBottomSheet';
@@ -109,10 +110,12 @@ export default function LockedTransactions({ navigation }) {
       });
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000);
-    return () => clearInterval(interval);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const interval = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000);
+      return () => clearInterval(interval);
+    }, [])
+  );
 
   useEffect(() => {
     if (!!activeAccount || activeAccount !== null) {

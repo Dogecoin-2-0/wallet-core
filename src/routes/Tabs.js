@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../constants/colors';
 import Home from '../screens/app/Home';
 import { Icon } from '../components';
-import InnerSettings from '../screens/settings/InnerSettings';
 import LockedTransactions from '../screens/app/LockedTransactions';
 import Swap from '../screens/app/Swap';
+import ExportSeed from '../screens/settings/ExportSeed';
 
 // import Home from '../screens/wallet/Home';
 
@@ -60,7 +60,7 @@ export default function Tabs() {
       />
       <Tab.Screen
         name="Settings"
-        component={InnerSettings}
+        component={ExportSeed}
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({ color }) => <Icon name="cog-outline" color={color} size={24} />

@@ -6422,6 +6422,11 @@ expo-pwa@0.0.123:
     commander "2.20.0"
     update-check "1.5.3"
 
+expo-screen-capture@~4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/expo-screen-capture/-/expo-screen-capture-4.3.0.tgz#b3f5190bc251ee3e58acf7d7131b36bca81a0d88"
+  integrity sha512-tRoBPrpFsjbDq70Qx1T4cqlsoqNyeEAagK6mpaR0h/UmFmMUXeF/C/3j6BHrQqYAeVOVA9TQNrsFiw8n7JONCg==
+
 expo-sharing@~10.3.0:
   version "10.3.0"
   resolved "https://registry.npmjs.org/expo-sharing/-/expo-sharing-10.3.0.tgz"

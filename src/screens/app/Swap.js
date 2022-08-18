@@ -171,7 +171,6 @@ export default function Swap({ navigation }) {
         setSelectedToken1(conc[0]);
         setSelectedToken2(conc[1]);
       })();
-    return () => setTokenList([]);
   }, [activeAccount]);
 
   useEffect(() => {
