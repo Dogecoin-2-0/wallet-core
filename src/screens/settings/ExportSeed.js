@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { PortalProvider } from '@gorhom/portal';
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, Linking } from 'react-native';
+import { View, StyleSheet, Dimensions, Linking, ScrollView } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Clipboard from 'expo-clipboard';
 import * as ScreenCapture from 'expo-screen-capture';
@@ -75,7 +75,7 @@ export default function ExportSeed({ navigation }) {
     <PortalProvider>
       <Screen>
         <TokenDetailHeader name="Settings" goBack={() => navigation.goBack()} />
-        <View style={{ justifyContent: 'center', marginVertical: 24 }}>
+        <ScrollView style={{ justifyContent: 'center', marginVertical: 24 }}>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <AppText bold small>
               Your Seed Phrase
@@ -175,7 +175,7 @@ export default function ExportSeed({ navigation }) {
               </AppText>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
         <ReusableAlert
           isSuccessful={true}
           message={alertMessage}
