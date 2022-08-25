@@ -90,11 +90,11 @@ export default function Home({ navigation }) {
       fetchItems();
 
       return () => {
-        // setList([]);
-        // setERC20List([]);
-        // setBEP20List([]);
-        // setAvaxTokenList([]);
-        // setMaticTokenList([]);
+        setList([]);
+        setERC20List([]);
+        setBEP20List([]);
+        setAvaxTokenList([]);
+        setMaticTokenList([]);
         BackHandler.removeEventListener('hardwareBackPress', backHandling);
       };
     }, [])

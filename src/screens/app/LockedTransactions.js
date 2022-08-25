@@ -113,7 +113,11 @@ export default function LockedTransactions({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       const interval = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000);
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval);
+        setTxList([]);
+        setSelectedTx(null);
+      };
     }, [])
   );
 
