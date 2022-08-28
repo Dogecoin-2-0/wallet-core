@@ -75,7 +75,12 @@ export default function ExportSeed({ navigation }) {
     <PortalProvider>
       <Screen>
         <TokenDetailHeader name="Settings" goBack={() => navigation.goBack()} />
-        <ScrollView style={{ justifyContent: 'center', marginVertical: 24 }}>
+        <ScrollView
+          style={{ justifyContent: 'center', marginVertical: 20, flex: 1 }}
+          contentContainerStyle={{ paddingVertical: 8 }}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <AppText bold small>
               Your Seed Phrase
