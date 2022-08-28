@@ -1,6 +1,6 @@
 export const assetProvidersMap = {
   avalanche:
-    'https://intensive-palpable-morning.avalanche-mainnet.quiknode.pro/763d9c35a497ce949aa3fb6e6ea208b1d48b2fc8',
+    'https://intensive-palpable-morning.avalanche-mainnet.quiknode.pro/763d9c35a497ce949aa3fb6e6ea208b1d48b2fc8/ext/bc/C/rpc',
   binance: 'https://misty-compatible-aura.bsc.quiknode.pro/6ad5f7b4996f4c7d703810996ef05d6a13ec70d8',
   ethereum: 'https://withered-fluent-wish.quiknode.pro/0b865355cc2c748d485b94d77fd7ae50c4460028',
   polygon: 'https://little-capable-pond.matic.quiknode.pro/4af529f888adbce40906e5287ead7fa2dbb1ad8e'
