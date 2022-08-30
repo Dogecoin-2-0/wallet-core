@@ -13,8 +13,7 @@
         "buildType": "apk"
       }
     },
-    "production": {},
-    "testing": {
+    "production": {
       "distribution": "store",
       "android": {
         "buildType": "app-bundle"

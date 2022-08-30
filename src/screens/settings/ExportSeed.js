@@ -76,7 +76,7 @@ export default function ExportSeed({ navigation }) {
       <Screen>
         <TokenDetailHeader name="Settings" goBack={() => navigation.goBack()} />
         <ScrollView
-          style={{ justifyContent: 'center', marginVertical: 20, flex: 1 }}
+          style={{ justifyContent: 'center', marginVertical: 15, flex: 1 }}
           contentContainerStyle={{ paddingVertical: 8 }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
